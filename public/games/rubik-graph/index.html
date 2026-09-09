@@ -2,386 +2,76 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>🧩 Rubik's Cube & Graph Theory Explorer (Cayley Graph State Space)</title>
-  <meta name="description" content="สำรวจโครงข่ายทฤษฎีกราฟและสถานะลูกบิดรูบิค (Cayley Graph & State-Space Network) แบบ 3D Real-time พร้อมระบบค้นหาเส้นทาง Shortest Path Solver">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <script type="importmap">
-  {
-    "imports": {
-      "three": "./src/lib/three.module.js",
-      "three/addons/": "./src/lib/"
-    }
-  }
-  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="title">Planar ⇄ 3D Rubik’s Cube · ผังระนาบเชื่อมโยงรูบิค 3 มิติ</title>
+  <meta name="description" content="ผังระนาบวงกลมตัดกันและรูบิค 3 มิติ เชื่อมโยงสถานะแบบ Equivalence หมุนฝั่งใดฝั่งหนึ่งจะซิงค์กันแบบ Real-time">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-  <!-- Top App Header -->
-  <header class="app-header">
-    <div class="brand">
-      <div class="brand-icon">🧩</div>
-      <h1>Rubik's <span>Graph Theory Explorer</span></h1>
+<div class="app">
+  <header>
+    <h1 data-i18n="h1">Planar Cube ⇄ 3D Cube · ผังระนาบเชื่อมโยงสถานะ</h1>
+    <div class="lang-switch">
+      <button type="button" class="lang-btn active" data-lang="th">ภาษาไทย</button>
+      <span class="lang-sep">|</span>
+      <button type="button" class="lang-btn" data-lang="en">English</button>
+      <span class="lang-sep">|</span>
+      <button type="button" class="lang-btn" data-lang="zh">中文</button>
     </div>
-
-    <div class="header-metrics">
-      <div class="metric-pill">
-        <span class="metric-label">Nodes Explored:</span>
-        <span id="metric-nodes" class="metric-val">1</span>
-      </div>
-      <div class="metric-pill">
-        <span class="metric-label">Edges (Moves):</span>
-        <span id="metric-edges" class="metric-val">0</span>
-      </div>
-      <div class="metric-pill">
-        <span class="metric-label">Distance to Solved:</span>
-        <span id="metric-distance" class="metric-val gold">0</span>
-      </div>
-    </div>
-
-    <div class="header-actions">
-      <button id="btn-scramble" class="hud-btn gold" title="Scramble Cube">
-        🎲 Scramble (5)
-      </button>
-      <button id="btn-solve" class="hud-btn primary" title="Auto Solve with Graph Path">
-        ⚡ Solve Path
-      </button>
-      <button id="btn-reset" class="hud-btn" title="Reset to Solved State">
-        🔄 Reset
-      </button>
-    </div>
+    <p data-i18n-html="desc">ผังระนาบวงกลมตัดกันทางซ้าย และรูบิค 3 มิติทางขวา คือสถานะเดียวกันแบบ Equivalence<br>
+       เมื่อหมุนฝั่งใดฝั่งหนึ่ง (ปุ่ม 3D หรือปุ่ม ↺ ↻ บนผัง 2D) ทั้งสองฝั่งจะ<b>หมุนเชื่อมโยงพร้อมกัน</b></p>
   </header>
 
-  <!-- Main Viewport: Dual Pane -->
-  <main class="main-viewport">
-    
-    <!-- Left Pane: 3D Rubik's Cube -->
-    <section class="pane-cube">
-      <div class="cube-hud">
-        <div class="cube-mode-selector">
-          <button id="btn-dim-2" class="mode-btn active" data-dim="2">2×2 Pocket</button>
-          <button id="btn-dim-3" class="mode-btn" data-dim="3">3×3 Classic</button>
-        </div>
-      </div>
-
-      <div id="cube3d-container"></div>
-
-      <!-- 3D Cube Move Controls HUD -->
-      <div class="move-buttons-bar">
-        <button class="move-btn" data-move="U" title="Up Face (Clockwise)">U</button>
-        <button class="move-btn" data-move="U'" title="Up Face (Counter-Clockwise)">U'</button>
-        <button class="move-btn" data-move="R" title="Right Face (Clockwise)">R</button>
-        <button class="move-btn" data-move="R'" title="Right Face (Counter-Clockwise)">R'</button>
-        <button class="move-btn" data-move="F" title="Front Face (Clockwise)">F</button>
-        <button class="move-btn" data-move="F'" title="Front Face (Counter-Clockwise)">F'</button>
-        <button class="move-btn" data-move="D" title="Down Face (Clockwise)">D</button>
-        <button class="move-btn" data-move="L" title="Left Face (Clockwise)">L</button>
-        <button class="move-btn" data-move="B" title="Back Face (Clockwise)">B</button>
-      </div>
-    </section>
-
-    <!-- Right Pane: Real-time Graph Space Visualizer -->
-    <section class="pane-graph">
-      <div class="graph-hud">
-        <button id="btn-expand-all" class="hud-btn" title="Expand Neighbors (Branching)">
-          🌿 Expand State
-        </button>
-        <button id="btn-recenter" class="hud-btn" title="Center View on Current State">
-          🎯 Recenter
-        </button>
-      </div>
-
-      <canvas id="graph-canvas"></canvas>
-
-      <!-- Graph Legend -->
-      <div class="graph-legend">
-        <div class="legend-item">
-          <div class="legend-dot" style="background: #F59E0B; box-shadow: 0 0 8px #F59E0B;"></div>
-          <span>Solved Root State (Target)</span>
-        </div>
-        <div class="legend-item">
-          <div class="legend-dot" style="background: #00F2FE; box-shadow: 0 0 8px #00F2FE;"></div>
-          <span>Active State (Current Node)</span>
-        </div>
-        <div class="legend-item">
-          <div class="legend-dot" style="background: #38BDF8;"></div>
-          <span>Explored Neighbor States</span>
-        </div>
-        <div class="legend-item">
-          <div class="legend-dot" style="background: #FBBF24; box-shadow: 0 0 8px #F59E0B;"></div>
-          <span>Shortest Path (God's Trace)</span>
-        </div>
-      </div>
-
-      <!-- Bottom Move History Tape -->
-      <div class="history-tape">
-        <span class="history-label">Move Tape:</span>
-        <div id="history-list" class="history-list">
-          <span class="history-chip" style="color: #94a3b8;">Start [Solved]</span>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- Floating Hover Tooltip -->
-  <div id="node-tooltip" class="node-tooltip">
-    <div id="tooltip-title" class="tooltip-title">Node State</div>
-    <div id="tooltip-desc" class="tooltip-desc">Distance: 0 moves</div>
+  <div class="top-actions">
+    <button class="btn primary" id="scrambleBtn" data-i18n="btn_scramble">🔀 สุ่มสลับ (Scramble)</button>
+    <button class="btn" id="resetBtn" data-i18n="btn_reset">↺ ย้อนกลับ 1 ก้าว</button>
   </div>
 
-  <!-- Main Logic Script -->
-  <script type="module">
-    import { Cube2x2, Cube3x3, MOVES_2X2, MOVES_3X3, invertMove } from './src/cube-core.js';
-    import { CubeView3D } from './src/cube-view3d.js';
-    import { GraphVisualizer } from './src/graph-engine.js';
-    import { solve2x2, solve3x3, estimateDistance } from './src/solver.js';
+  <div class="grid">
+    <!-- ============ 2D PANEL ============ -->
+    <div class="panel">
+      <h2 data-i18n="panel2d_h2">ผังระนาบวงกลมตัดกัน (Planar View)</h2>
+      <div class="sub" data-i18n="panel2d_sub">วงกลมซ้อน 3 ชุดตัดกันสองต่อสอง → 54 จุดตัด = 54 สติ๊กเกอร์; คลิก ↺ / ↻ หรือคลิกที่กลุ่มสีเพื่อหมุนตามทิศทาง</div>
+      <div class="diagram-wrap">
+        <div class="diagram-inner">
+          <svg id="planarSvg" viewBox="-340 -340 680 680"></svg>
+          <div id="faceLabels"></div>
+        </div>
+      </div>
+    </div>
 
-    // Application State
-    let currentDim = 2;
-    let cube = new Cube2x2();
-    let moveHistory = [];
-    let isSolving = false;
+    <!-- ============ 3D PANEL ============ -->
+    <div class="panel">
+      <h2 data-i18n="panel3d_h2">รูบิค 3 มิติ (3D Cube)</h2>
+      <div class="sub" data-i18n="panel3d_sub">ลากเมาส์เพื่อหมุนมุมมอง 3 มิติ</div>
+      <div class="scene-wrap">
+        <div class="scene" id="scene">
+          <div class="originGroup" id="cubeGroup"></div>
+          <div class="originGroup" id="sliceGroup"></div>
+        </div>
+        <div class="sceneHit" id="sceneHit"></div>
+      </div>
+      <!-- ============ Controls below 3D cube ============ -->
+      <div class="controls" id="controls"></div>
+    </div>
+  </div>
 
-    // DOM Elements
-    const cubeContainer = document.getElementById('cube3d-container');
-    const graphCanvas = document.getElementById('graph-canvas');
-    const metricNodes = document.getElementById('metric-nodes');
-    const metricEdges = document.getElementById('metric-edges');
-    const metricDistance = document.getElementById('metric-distance');
-    const historyList = document.getElementById('history-list');
-    const tooltip = document.getElementById('node-tooltip');
-    const tooltipTitle = document.getElementById('tooltip-title');
-    const tooltipDesc = document.getElementById('tooltip-desc');
+  <div class="hint">
+    <span data-i18n="hint_prefix">คีย์ลัดบนแป้นพิมพ์: </span>
+    <select id="keyScheme">
+      <option value="color" data-i18n="opt_color">ตามสี (Color keys)</option>
+      <option value="standard" data-i18n="opt_standard">มาตรฐาน (U/D/F/B/L/R)</option>
+    </select>
+    <span id="keyHintText"><b>Y</b> / <b>W</b> / <b>G</b> / <b>B</b> / <b>R</b> / <b>O</b></span>
+    <span data-i18n-html="hint_suffix">, <b>Shift</b>+ตัวอักษร = หมุนทวนเข็ม</span>
+  </div>
 
-    // Initialize 3D View
-    const cubeView = new CubeView3D(cubeContainer, {
-      dim: currentDim,
-      onMoveApplied: (move) => handleMove(move, true)
-    });
+  <footer>
+    <span data-i18n="footer">การคำนวณ Rubik Group บนเว็บบราวเซอร์ 100% เชื่อมโยงสเตทระหว่าง 2D และ 3D อย่างสมบูรณ์</span>
+  </footer>
+</div>
 
-    // Initialize Graph Visualizer
-    const graphView = new GraphVisualizer(graphCanvas, {
-      onNodeClick: (node) => {
-        if (isSolving) return;
-        jumpToState(node);
-      },
-      onNodeHover: (node, sx, sy) => {
-        if (!node) {
-          tooltip.style.display = 'none';
-          return;
-        }
-        tooltip.style.display = 'flex';
-        tooltip.style.left = (sx + 15) + 'px';
-        tooltip.style.top = (sy + 15) + 'px';
-        tooltipTitle.textContent = node.isSolved ? '👑 Solved State (Root)' : `State #${node.hash.slice(0, 8)}`;
-        const dist = estimateDistance(node.cube, currentDim === 2);
-        tooltipDesc.textContent = `Estimated Distance to Solved: ${dist} moves`;
-      }
-    });
-
-    // Start Animation Loop for Graph Physics & Rendering
-    function graphLoop() {
-      graphView.updatePhysics();
-      graphView.render();
-      requestAnimationFrame(graphLoop);
-    }
-    requestAnimationFrame(graphLoop);
-
-    // Initial Setup
-    function initGame() {
-      cube = currentDim === 2 ? new Cube2x2() : new Cube3x3();
-      moveHistory = [];
-      cubeView.setDimension(currentDim);
-      cubeView.updateFromState(cube);
-
-      graphView.reset();
-      const solvedHash = cube.getHash();
-      graphView.addNode(solvedHash, cube, true, 0);
-      graphView.setActive(solvedHash);
-      graphView.centerOnNode(solvedHash);
-
-      updateMetrics();
-      renderHistoryTape();
-    }
-
-    initGame();
-
-    // Apply Move to Cube & Graph
-    async function handleMove(move, animate3D = true) {
-      if (isSolving && animate3D) return;
-
-      const prevHash = cube.getHash();
-      cube.applyMove(move);
-      const nextHash = cube.getHash();
-      moveHistory.push(move);
-
-      // Add to graph
-      const isSolved = cube.isSolved();
-      graphView.addNode(nextHash, cube, isSolved);
-      graphView.addEdge(prevHash, nextHash, move);
-      graphView.setActive(nextHash);
-
-      if (animate3D) {
-        await cubeView.animateMove(move);
-        cubeView.updateFromState(cube);
-      } else {
-        cubeView.updateFromState(cube);
-      }
-
-      updateMetrics();
-      renderHistoryTape();
-    }
-
-    // Jump Directly to a Node in Graph
-    function jumpToState(node) {
-      cube = node.cube.clone();
-      cubeView.updateFromState(cube);
-      graphView.setActive(node.hash);
-      updateMetrics();
-    }
-
-    // Expand 1-ply Neighbor States
-    function expandNeighbors() {
-      const moves = currentDim === 2 ? MOVES_2X2 : ['U', "U'", 'R', "R'", 'F', "F'", 'D', "D'", 'L', "L'", 'B', "B'"];
-      const currentHash = cube.getHash();
-
-      for (const m of moves) {
-        const branchCube = cube.clone().applyMove(m);
-        const branchHash = branchCube.getHash();
-        graphView.addNode(branchHash, branchCube, branchCube.isSolved());
-        graphView.addEdge(currentHash, branchHash, m);
-      }
-      updateMetrics();
-    }
-
-    // Solve with Graph Animation
-    async function solveWithGraph() {
-      if (isSolving || cube.isSolved()) return;
-      isSolving = true;
-
-      const solveBtn = document.getElementById('btn-solve');
-      solveBtn.textContent = '⏳ Pathfinding...';
-      solveBtn.style.opacity = '0.7';
-
-      // Find path
-      let path = null;
-      if (currentDim === 2) {
-        path = solve2x2(cube);
-      } else {
-        path = solve3x3(cube);
-      }
-
-      if (!path || path.length === 0) {
-        // Fallback: If 3x3 deep scramble, solve by reversing move history
-        path = moveHistory.slice().reverse().map(invertMove);
-      }
-
-      // Build path hashes for glowing highlight
-      const pathHashes = [cube.getHash()];
-      let simCube = cube.clone();
-      for (const m of path) {
-        const prevH = simCube.getHash();
-        simCube.applyMove(m);
-        const nextH = simCube.getHash();
-        graphView.addNode(nextH, simCube, simCube.isSolved());
-        graphView.addEdge(prevH, nextH, m);
-        pathHashes.push(nextH);
-      }
-
-      graphView.setHighlightPath(pathHashes);
-      solveBtn.textContent = `🚀 Solving (${path.length} moves)...`;
-
-      // Animate traversal step by step
-      for (let i = 0; i < path.length; i++) {
-        const move = path[i];
-        const nextHash = pathHashes[i + 1];
-        cube.applyMove(move);
-        graphView.setActive(nextHash);
-        graphView.centerOnNode(nextHash);
-
-        await cubeView.animateMove(move, 200);
-        cubeView.updateFromState(cube);
-        updateMetrics();
-      }
-
-      graphView.setHighlightPath([]);
-      isSolving = false;
-      solveBtn.textContent = '⚡ Solve Path';
-      solveBtn.style.opacity = '1';
-      moveHistory = [];
-      renderHistoryTape();
-    }
-
-    // Scramble Generator
-    async function scrambleCube(count = 5) {
-      if (isSolving) return;
-      const moves = currentDim === 2 ? MOVES_2X2 : MOVES_3X3;
-      for (let i = 0; i < count; i++) {
-        const randomMove = moves[Math.floor(Math.random() * moves.length)];
-        await handleMove(randomMove, true);
-      }
-    }
-
-    function updateMetrics() {
-      metricNodes.textContent = graphView.nodes.size;
-      metricEdges.textContent = graphView.edges.length;
-      const dist = estimateDistance(cube, currentDim === 2);
-      metricDistance.textContent = cube.isSolved() ? '0 (SOLVED)' : dist;
-    }
-
-    function renderHistoryTape() {
-      historyList.innerHTML = '';
-      if (moveHistory.length === 0) {
-        historyList.innerHTML = '<span class="history-chip" style="color: #94a3b8;">Start [Solved]</span>';
-        return;
-      }
-      moveHistory.slice(-12).forEach((m, idx) => {
-        const chip = document.createElement('span');
-        chip.className = 'history-chip';
-        chip.textContent = `${idx + 1}. ${m}`;
-        historyList.appendChild(chip);
-      });
-      historyList.scrollLeft = historyList.scrollWidth;
-    }
-
-    // UI Event Listeners
-    document.querySelectorAll('.move-btn').forEach(btn => {
-      btn.addEventListener('click', () => handleMove(btn.dataset.move));
-    });
-
-    document.getElementById('btn-dim-2').addEventListener('click', () => {
-      currentDim = 2;
-      document.getElementById('btn-dim-2').classList.add('active');
-      document.getElementById('btn-dim-3').classList.remove('active');
-      initGame();
-    });
-
-    document.getElementById('btn-dim-3').addEventListener('click', () => {
-      currentDim = 3;
-      document.getElementById('btn-dim-3').classList.add('active');
-      document.getElementById('btn-dim-2').classList.remove('active');
-      initGame();
-    });
-
-    document.getElementById('btn-scramble').addEventListener('click', () => scrambleCube(currentDim === 2 ? 6 : 8));
-    document.getElementById('btn-solve').addEventListener('click', solveWithGraph);
-    document.getElementById('btn-reset').addEventListener('click', initGame);
-    document.getElementById('btn-expand-all').addEventListener('click', expandNeighbors);
-    document.getElementById('btn-recenter').addEventListener('click', () => graphView.centerOnNode(cube.getHash()));
-
-    // Keyboard Shortcuts
-    window.addEventListener('keydown', (e) => {
-      if (isSolving) return;
-      const key = e.key.toUpperCase();
-      if (['U', 'D', 'L', 'R', 'F', 'B'].includes(key)) {
-        const move = e.shiftKey ? `${key}'` : key;
-        handleMove(move);
-      }
-    });
-  </script>
+<script src="i18n.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

@@ -2,7 +2,7 @@
  * Interactive Force-Directed Graph Engine for Rubik's State Space (Cayley Graph)
  * Renders nodes (Cube States) and edges (Move Transitions) on HTML5 2D Canvas with 60FPS physics.
  */
-import { MOVE_COLORS, COLOR_MAP } from './cube-core.js';
+import { MOVE_COLORS, COLOR_MAP, invertMove } from './cube-core.js';
 
 export class GraphVisualizer {
   constructor(canvas, options = {}) {
@@ -527,4 +527,56 @@ export class GraphVisualizer {
     }
     return false;
   }
+
+  /**
+   * Ultra-fast BFS search over the ALREADY VISIBLE graph nodes and edges (0.01 ms).
+   * Finds the exact trail from fromHash back to toHash (Root Solved State).
+   */
+  findShortestPathInGraph(fromHash, toHash) {
+    if (fromHash === toHash) return { moves: [], hashes: [fromHash] };
+    if (!this.nodes.has(fromHash) || !this.nodes.has(toHash)) return null;
+
+    const queue = [fromHash];
+    const visited = new Map();
+    visited.set(fromHash, { prevHash: null, move: null });
+
+    while (queue.length > 0) {
+      const curr = queue.shift();
+      if (curr === toHash) break;
+
+      for (const edge of this.edges) {
+        let neighbor = null;
+        let move = null;
+
+        if (edge.fromHash === curr) {
+          neighbor = edge.toHash;
+          move = edge.move;
+        } else if (edge.toHash === curr) {
+          neighbor = edge.fromHash;
+          move = invertMove(edge.move);
+        }
+
+        if (neighbor && !visited.has(neighbor)) {
+          visited.set(neighbor, { prevHash: curr, move });
+          queue.push(neighbor);
+        }
+      }
+    }
+
+    if (!visited.has(toHash)) return null;
+
+    const moves = [];
+    const hashes = [toHash];
+    let curr = toHash;
+    while (curr !== fromHash) {
+      const info = visited.get(curr);
+      if (!info || !info.prevHash) break;
+      moves.unshift(info.move);
+      hashes.unshift(info.prevHash);
+      curr = info.prevHash;
+    }
+
+    return { moves, hashes };
+  }
 }
+
