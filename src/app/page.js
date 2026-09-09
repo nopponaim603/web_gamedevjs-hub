@@ -374,6 +374,14 @@ const initialGames = [
     url: "/games/whistlevale/index.html",
     image: "/games/whistlevale/thumbnail.jpg",
     gradient: "linear-gradient(135deg, #142525 0%, #D9B878 100%)"
+  },
+  {
+    id: "rubik-graph",
+    title: "🧩 Rubik's Graph Theory (Cayley State Space)",
+    category: "Three.js 3D Engine",
+    url: "/games/rubik-graph/index.html",
+    image: "/games/rubik-graph/thumbnail.jpg",
+    gradient: "linear-gradient(135deg, #090D16 0%, #00F2FE 100%)"
   }
 ];
 
