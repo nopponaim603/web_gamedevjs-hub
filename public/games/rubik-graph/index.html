@@ -9,32 +9,109 @@
 </head>
 <body>
 <div class="app">
-  <header>
-    <h1 data-i18n="h1">Planar Cube ⇄ 3D Cube · ผังระนาบเชื่อมโยงสถานะ</h1>
-    <div class="lang-switch">
-      <button type="button" class="lang-btn active" data-lang="th">ภาษาไทย</button>
-      <span class="lang-sep">|</span>
-      <button type="button" class="lang-btn" data-lang="en">English</button>
-      <span class="lang-sep">|</span>
-      <button type="button" class="lang-btn" data-lang="zh">中文</button>
+  <!-- ============ TOP NAVBAR / MENU SETTING BAR ============ -->
+  <header class="top-nav-bar">
+    <div class="nav-left">
+      <div class="brand-logo">🧊</div>
+      <div class="brand-titles">
+        <h1 data-i18n="h1">Planar Cube ⇄ 3D Cube · ผังระนาบเชื่อมโยงสถานะ</h1>
+        <div class="brand-badge-row">
+          <span class="badge" id="currentOrderBadge">3×3 Classic</span>
+          <button type="button" class="guide-toggle-btn" id="guideToggleBtn" data-i18n="btn_guide">ℹ️ คำแนะนำ (Guide)</button>
+        </div>
+      </div>
     </div>
-    <p data-i18n-html="desc">ผังระนาบวงกลมตัดกันทางซ้าย และรูบิค 3 มิติทางขวา คือสถานะเดียวกันแบบ Equivalence<br>
-       เมื่อหมุนฝั่งใดฝั่งหนึ่ง (ปุ่ม 3D หรือปุ่ม ↺ ↻ บนผัง 2D) ทั้งสองฝั่งจะ<b>หมุนเชื่อมโยงพร้อมกัน</b></p>
+
+    <!-- Quick Action Hub -->
+    <div class="nav-actions">
+      <button class="btn primary" id="scrambleBtn" data-i18n="btn_scramble">🔀 สุ่มสลับ (Scramble)</button>
+      <button class="btn primary" id="solveBtn" data-i18n="btn_solve">⚡ แก้รูบิคอัตโนมัติ (Auto-Solve)</button>
+      <button class="btn" id="resetBtn" data-i18n="btn_reset">↺ ย้อนกลับ 1 ก้าว</button>
+    </div>
+
+    <!-- Menu Setting Controls -->
+    <div class="nav-menu">
+      <div class="menu-control-group">
+        <div class="order-switch">
+          <button type="button" class="order-btn" data-order="2">2×2</button>
+          <button type="button" class="order-btn active" data-order="3">3×3</button>
+          <button type="button" class="order-btn" data-order="4">4×4</button>
+          <button type="button" class="order-btn" data-order="5">5×5</button>
+          <button type="button" class="order-btn" data-order="6">6×6</button>
+        </div>
+      </div>
+
+      <div class="lang-switch">
+        <button type="button" class="lang-btn active" data-lang="th">TH</button>
+        <button type="button" class="lang-btn" data-lang="en">EN</button>
+        <button type="button" class="lang-btn" data-lang="zh">ZH</button>
+      </div>
+
+      <button type="button" class="btn settings-btn" id="settingsToggleBtn" data-i18n="btn_settings">⚙️ ตั้งค่า (Settings)</button>
+    </div>
   </header>
 
-  <div class="order-switch">
-    <button type="button" class="order-btn" data-order="2">2×2 (Pocket)</button>
-    <button type="button" class="order-btn active" data-order="3">3×3 (Classic)</button>
-    <button type="button" class="order-btn" data-order="4">4×4 (Master)</button>
-    <button type="button" class="order-btn" data-order="5">5×5 (Professor)</button>
-    <button type="button" class="order-btn" data-order="6">6×6 (Elite)</button>
+  <!-- Collapsible Guide Banner -->
+  <div class="guide-banner" id="guideBanner">
+    <div class="guide-banner-content">
+      <p data-i18n-html="desc">ผังระนาบวงกลมตัดกันทางซ้าย และรูบิค 3 มิติทางขวา คือสถานะเดียวกันแบบ Equivalence<br>
+         เมื่อหมุนฝั่งใดฝั่งหนึ่ง (ปุ่ม 3D หรือปุ่ม ↺ ↻ บนผัง 2D) ทั้งสองฝั่งจะ<b>หมุนเชื่อมโยงพร้อมกัน</b></p>
+    </div>
+    <button type="button" class="guide-banner-close" id="guideCloseBtn" title="ปิด">✕</button>
   </div>
 
-  <div class="top-actions">
-    <button class="btn primary" id="scrambleBtn" data-i18n="btn_scramble">🔀 สุ่มสลับ (Scramble)</button>
-    <button class="btn primary" id="solveBtn" data-i18n="btn_solve">⚡ แก้รูบิคอัตโนมัติ (Auto-Solve)</button>
-    <button class="btn" id="resetBtn" data-i18n="btn_reset">↺ ย้อนกลับ 1 ก้าว</button>
+  <!-- Settings Modal Backdrop -->
+  <div class="settings-backdrop" id="settingsBackdrop" style="display:none;">
+    <div class="settings-modal" role="dialog" aria-modal="true">
+      <div class="settings-modal-header">
+        <h3 data-i18n="settings_modal_title">⚙️ การตั้งค่าระบบรูบิค (Settings)</h3>
+        <button type="button" class="settings-modal-close" id="settingsCloseBtn">✕</button>
+      </div>
+      <div class="settings-modal-body">
+        <div class="setting-item">
+          <div class="setting-label" data-i18n="setting_cube_size">ขนาดของรูบิค (Cube Size)</div>
+          <div class="order-switch modal-orders">
+            <button type="button" class="order-btn" data-order="2">2×2 (Pocket)</button>
+            <button type="button" class="order-btn active" data-order="3">3×3 (Classic)</button>
+            <button type="button" class="order-btn" data-order="4">4×4 (Master)</button>
+            <button type="button" class="order-btn" data-order="5">5×5 (Professor)</button>
+            <button type="button" class="order-btn" data-order="6">6×6 (Elite)</button>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-label" data-i18n="setting_shortcuts">รูปแบบคีย์ลัดแป้นพิมพ์ (Shortcuts)</div>
+          <div class="setting-control-row">
+            <select id="keyScheme">
+              <option value="color" data-i18n="opt_color">ตามสี (Color keys)</option>
+              <option value="standard" data-i18n="opt_standard">มาตรฐาน (U/D/F/B/L/R)</option>
+            </select>
+            <div class="setting-hint-text">
+              <span id="keyHintText"><b>Y</b> / <b>W</b> / <b>G</b> / <b>B</b> / <b>R</b> / <b>O</b></span>
+              <span data-i18n-html="hint_suffix">, <b>Shift</b>+ตัวอักษร = หมุนทวนเข็ม</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-label" data-i18n="setting_camera">การควบคุมมุมมอง (Camera)</div>
+          <button type="button" class="btn" id="resetCamBtn" data-i18n="btn_reset_camera">↺ รีเซ็ตมุมมอง 3D เป็นค่าเริ่มต้น</button>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-label" data-i18n="setting_about">หลักการทำงาน (Concept)</div>
+          <div class="setting-desc-box" data-i18n-html="desc">
+            ผังระนาบวงกลมตัดกันทางซ้าย และรูบิค 3 มิติทางขวา คือสถานะเดียวกันแบบ Equivalence<br>
+            เมื่อหมุนฝั่งใดฝั่งหนึ่ง (ปุ่ม 3D หรือปุ่ม ↺ ↻ บนผัง 2D) ทั้งสองฝั่งจะ<b>หมุนเชื่อมโยงพร้อมกัน</b>
+          </div>
+        </div>
+      </div>
+      <div class="settings-modal-footer">
+        <button type="button" class="btn primary" id="settingsConfirmBtn" data-i18n="close">ปิด (Close)</button>
+      </div>
+    </div>
   </div>
+
 
   <div class="grid">
     <!-- ============ 2D PANEL ============ -->
@@ -67,11 +144,7 @@
 
   <div class="hint">
     <span data-i18n="hint_prefix">คีย์ลัดบนแป้นพิมพ์: </span>
-    <select id="keyScheme">
-      <option value="color" data-i18n="opt_color">ตามสี (Color keys)</option>
-      <option value="standard" data-i18n="opt_standard">มาตรฐาน (U/D/F/B/L/R)</option>
-    </select>
-    <span id="keyHintText"><b>Y</b> / <b>W</b> / <b>G</b> / <b>B</b> / <b>R</b> / <b>O</b></span>
+    <span id="bottomKeyHint"><b>Y</b> / <b>W</b> / <b>G</b> / <b>B</b> / <b>R</b> / <b>O</b></span>
     <span data-i18n-html="hint_suffix">, <b>Shift</b>+ตัวอักษร = หมุนทวนเข็ม</span>
   </div>
 

@@ -827,9 +827,10 @@
   }
 
   /* ============================================================
-     7. Controls UI & Combo formulas (Adaptive per Order N)
+     7. Controls UI: Mode Tab Switcher (Single Moves vs Combo Moves)
      ============================================================ */
   const controlsRoot = document.getElementById('controls');
+  let activeControlMode = 'single'; // 'single' | 'combo'
   const comboState = { top:'U', face:'F', hand:'right', count:1 };
 
   function buildComboSeq(top, face, hand){
@@ -840,194 +841,236 @@
   function buildControls(){
     controlsRoot.innerHTML = '';
 
-    // Left Column: Adaptive Single Moves
-    const leftCol = document.createElement('div');
-    leftCol.className = 'ctrl-col';
-    const lTitle = document.createElement('h3');
-    lTitle.textContent = window.t('single_turn') + ` (${ORDER}×${ORDER})`;
-    leftCol.appendChild(lTitle);
+    // Mode Switcher Header Bar
+    const modeBar = document.createElement('div');
+    modeBar.className = 'ctrl-mode-bar';
 
-    const layerGroupsContainer = document.createElement('div');
-    layerGroupsContainer.className = 'layer-groups-container';
-
-    const axisConfigs = getLayersForOrder(ORDER);
-
-    axisConfigs.forEach(ax => {
-      const section = document.createElement('div');
-      section.className = 'axis-section';
-
-      const header = document.createElement('div');
-      header.className = 'axis-header';
-      header.innerHTML = `<span>${window.t(ax.titleKey)}</span><span class="axis-tag">${ax.axisKey}</span>`;
-      section.appendChild(header);
-
-      const cardsGrid = document.createElement('div');
-      cardsGrid.className = 'layer-cards-grid';
-
-      ax.layers.forEach(layer => {
-        const card = document.createElement('div');
-        card.className = 'layer-card';
-
-        const badge = document.createElement('span');
-        badge.className = 'layer-badge';
-        badge.textContent = layer.name;
-        badge.style.backgroundColor = layer.color;
-        card.appendChild(badge);
-
-        const cwBtn = document.createElement('button');
-        cwBtn.className = 'layer-turn-btn';
-        cwBtn.textContent = '↻';
-        cwBtn.title = layer.name + window.t('cw_title_suffix');
-        cwBtn.addEventListener('click', () => doMove(layer, false, { record: true }));
-        card.appendChild(cwBtn);
-
-        const ccwBtn = document.createElement('button');
-        ccwBtn.className = 'layer-turn-btn prime';
-        ccwBtn.textContent = '↺';
-        ccwBtn.title = layer.name + window.t('ccw_title_suffix');
-        ccwBtn.addEventListener('click', () => doMove(layer, true, { record: true }));
-        card.appendChild(ccwBtn);
-
-        cardsGrid.appendChild(card);
-      });
-
-      section.appendChild(cardsGrid);
-      layerGroupsContainer.appendChild(section);
-    });
-
-    leftCol.appendChild(layerGroupsContainer);
-
-    // Right column: Combo formulas
-    const rightCol = document.createElement('div');
-    rightCol.className = 'ctrl-col';
-    const rTitle = document.createElement('h3');
-    rTitle.textContent = window.t('combo_op');
-    rightCol.appendChild(rTitle);
-
-    const panel = document.createElement('div');
-    panel.className = 'combo-panel';
-
-    const topGroup = document.createElement('div');
-    topGroup.className = 'combo-opt-group';
-    topGroup.innerHTML = `<span class="combo-opt-title">${window.t('grp_top')}</span>`;
-    const topRow = document.createElement('div');
-    topRow.className = 'combo-opt-row';
-
-    FACES.forEach(f => {
-      const b = document.createElement('button');
-      b.className = 'opt-btn' + (f === comboState.top ? ' active' : '');
-      b.textContent = faceColorName(f);
-      b.style.borderColor = COLOR[f];
-      b.addEventListener('click', () => {
-        comboState.top = f;
-        topRow.querySelectorAll('.opt-btn').forEach((btn, i) => btn.classList.toggle('active', FACES[i] === f));
-        updateComboDesc();
-      });
-      topRow.appendChild(b);
-    });
-    topGroup.appendChild(topRow);
-    panel.appendChild(topGroup);
-
-    // Turning Face
-    const faceGroup = document.createElement('div');
-    faceGroup.className = 'combo-opt-group';
-    faceGroup.innerHTML = `<span class="combo-opt-title">${window.t('grp_face')}</span>`;
-    const faceRow = document.createElement('div');
-    faceRow.className = 'combo-opt-row';
-
-    FACES.forEach(f => {
-      const b = document.createElement('button');
-      b.className = 'opt-btn' + (f === comboState.face ? ' active' : '');
-      b.textContent = faceColorName(f);
-      b.style.borderColor = COLOR[f];
-      b.addEventListener('click', () => {
-        comboState.face = f;
-        faceRow.querySelectorAll('.opt-btn').forEach((btn, i) => btn.classList.toggle('active', FACES[i] === f));
-        updateComboDesc();
-      });
-      faceRow.appendChild(b);
-    });
-    faceGroup.appendChild(faceRow);
-    panel.appendChild(faceGroup);
-
-    // Hand direction
-    const handGroup = document.createElement('div');
-    handGroup.className = 'combo-opt-group';
-    handGroup.innerHTML = `<span class="combo-opt-title">${window.t('grp_hand')}</span>`;
-    const handRow = document.createElement('div');
-    handRow.className = 'combo-opt-row';
-    ['left', 'right'].forEach(h => {
-      const b = document.createElement('button');
-      b.className = 'opt-btn' + (h === comboState.hand ? ' active' : '');
-      b.textContent = window.t('opt_' + h);
-      b.addEventListener('click', () => {
-        comboState.hand = h;
-        handRow.querySelectorAll('.opt-btn').forEach(btn => btn.classList.remove('active'));
-        b.classList.add('active');
-        updateComboDesc();
-      });
-      handRow.appendChild(b);
-    });
-    handGroup.appendChild(handRow);
-    panel.appendChild(handGroup);
-
-    // Count
-    const countGroup = document.createElement('div');
-    countGroup.className = 'combo-opt-group';
-    countGroup.innerHTML = `<span class="combo-opt-title">${window.t('grp_count')}</span>`;
-    const countRow = document.createElement('div');
-    countRow.className = 'combo-opt-row';
-    [1,2,3,4,5,6].forEach(n => {
-      const b = document.createElement('button');
-      b.className = 'opt-btn' + (n === comboState.count ? ' active' : '');
-      b.textContent = n;
-      b.addEventListener('click', () => {
-        comboState.count = n;
-        countRow.querySelectorAll('.opt-btn').forEach(btn => btn.classList.remove('active'));
-        b.classList.add('active');
-        updateComboDesc();
-      });
-      countRow.appendChild(b);
-    });
-    countGroup.appendChild(countRow);
-    panel.appendChild(countGroup);
-
-    // Combo Description
-    const descEl = document.createElement('div');
-    descEl.className = 'combo-desc';
-    panel.appendChild(descEl);
-
-    // Exec button
-    const execBtn = document.createElement('button');
-    execBtn.className = 'combo-exec';
-    execBtn.textContent = window.t('exec_btn');
-    execBtn.addEventListener('click', () => {
-      if(animating) return;
-      if(comboState.top === comboState.face) return;
-      const baseSeq = buildComboSeq(comboState.top, comboState.face, comboState.hand);
-      let fullSeq = [];
-      for(let i=0; i<comboState.count; i++) fullSeq = fullSeq.concat(baseSeq);
-      runSequence(fullSeq, { record: true });
-    });
-    panel.appendChild(execBtn);
-
-    function updateComboDesc(){
-      const {top, face, hand, count} = comboState;
-      const same = (top === face);
-      execBtn.disabled = same;
-      if(same){
-        descEl.textContent = window.t('combo_same');
-        return;
+    const singleTabBtn = document.createElement('button');
+    singleTabBtn.type = 'button';
+    singleTabBtn.className = 'ctrl-mode-tab' + (activeControlMode === 'single' ? ' active' : '');
+    singleTabBtn.textContent = window.t('tab_single_turn');
+    singleTabBtn.addEventListener('click', () => {
+      if (activeControlMode !== 'single') {
+        activeControlMode = 'single';
+        buildControls();
       }
-      const seq = buildComboSeq(top, face, hand);
-      const oneRound = seq.map(([f,p]) => faceColorName(f) + (p ? "'" : '')).join(' → ');
-      descEl.textContent = (hand==='right'? window.t('combo_hand_right') : window.t('combo_hand_left')) + window.t('combo_sep') + oneRound + (count > 1 ? '  ×' + count : '');
-    }
-    updateComboDesc();
+    });
 
-    rightCol.appendChild(panel);
-    controlsRoot.appendChild(leftCol);
-    controlsRoot.appendChild(rightCol);
+    const comboTabBtn = document.createElement('button');
+    comboTabBtn.type = 'button';
+    comboTabBtn.className = 'ctrl-mode-tab' + (activeControlMode === 'combo' ? ' active' : '');
+    comboTabBtn.textContent = window.t('tab_combo_mode');
+    comboTabBtn.addEventListener('click', () => {
+      if (activeControlMode !== 'combo') {
+        activeControlMode = 'combo';
+        buildControls();
+      }
+    });
+
+    modeBar.appendChild(singleTabBtn);
+    modeBar.appendChild(comboTabBtn);
+    controlsRoot.appendChild(modeBar);
+
+    if (activeControlMode === 'single') {
+      // Build Single Moves Panel
+      const singlePanel = document.createElement('div');
+      singlePanel.className = 'ctrl-single-panel';
+
+      const layerGroupsContainer = document.createElement('div');
+      layerGroupsContainer.className = 'layer-groups-container';
+
+      const axisConfigs = getLayersForOrder(ORDER);
+
+      axisConfigs.forEach(ax => {
+        const section = document.createElement('div');
+        section.className = 'axis-section';
+
+        const header = document.createElement('div');
+        header.className = 'axis-header';
+        header.innerHTML = `<span>${window.t(ax.titleKey)}</span><span class="axis-tag">${ax.axisKey}</span>`;
+        section.appendChild(header);
+
+        const cardsGrid = document.createElement('div');
+        cardsGrid.className = 'layer-cards-grid';
+
+        ax.layers.forEach(layer => {
+          const card = document.createElement('div');
+          card.className = 'layer-card';
+
+          const badge = document.createElement('span');
+          badge.className = 'layer-badge';
+          badge.textContent = layer.name;
+          badge.style.backgroundColor = layer.color;
+          card.appendChild(badge);
+
+          const cwBtn = document.createElement('button');
+          cwBtn.className = 'layer-turn-btn';
+          cwBtn.textContent = '↻';
+          cwBtn.title = layer.name + window.t('cw_title_suffix');
+          cwBtn.addEventListener('click', () => doMove(layer, false, { record: true }));
+          card.appendChild(cwBtn);
+
+          const ccwBtn = document.createElement('button');
+          ccwBtn.className = 'layer-turn-btn prime';
+          ccwBtn.textContent = '↺';
+          ccwBtn.title = layer.name + window.t('ccw_title_suffix');
+          ccwBtn.addEventListener('click', () => doMove(layer, true, { record: true }));
+          card.appendChild(ccwBtn);
+
+          cardsGrid.appendChild(card);
+        });
+
+        section.appendChild(cardsGrid);
+        layerGroupsContainer.appendChild(section);
+      });
+
+      singlePanel.appendChild(layerGroupsContainer);
+      controlsRoot.appendChild(singlePanel);
+    } else {
+      // Build Combo Moves Dedicated Panel
+      const comboContainer = document.createElement('div');
+      comboContainer.className = 'ctrl-combo-panel';
+
+      const helpText = document.createElement('div');
+      helpText.className = 'combo-help-text';
+      helpText.textContent = window.t('combo_help');
+      comboContainer.appendChild(helpText);
+
+      const panel = document.createElement('div');
+      panel.className = 'combo-builder-card';
+
+      // 1. Top Face
+      const topGroup = document.createElement('div');
+      topGroup.className = 'combo-opt-group';
+      topGroup.innerHTML = `<span class="combo-opt-title">${window.t('grp_top')}</span>`;
+      const topRow = document.createElement('div');
+      topRow.className = 'combo-opt-row';
+
+      FACES.forEach(f => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'combo-opt-chip' + (f === comboState.top ? ' active' : '');
+        b.textContent = faceColorName(f);
+        b.style.borderColor = COLOR[f];
+        b.addEventListener('click', () => {
+          comboState.top = f;
+          topRow.querySelectorAll('.combo-opt-chip').forEach((btn, i) => btn.classList.toggle('active', FACES[i] === f));
+          updateComboDesc();
+        });
+        topRow.appendChild(b);
+      });
+      topGroup.appendChild(topRow);
+      panel.appendChild(topGroup);
+
+      // 2. Turning Face
+      const faceGroup = document.createElement('div');
+      faceGroup.className = 'combo-opt-group';
+      faceGroup.innerHTML = `<span class="combo-opt-title">${window.t('grp_face')}</span>`;
+      const faceRow = document.createElement('div');
+      faceRow.className = 'combo-opt-row';
+
+      FACES.forEach(f => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'combo-opt-chip' + (f === comboState.face ? ' active' : '');
+        b.textContent = faceColorName(f);
+        b.style.borderColor = COLOR[f];
+        b.addEventListener('click', () => {
+          comboState.face = f;
+          faceRow.querySelectorAll('.combo-opt-chip').forEach((btn, i) => btn.classList.toggle('active', FACES[i] === f));
+          updateComboDesc();
+        });
+        faceRow.appendChild(b);
+      });
+      faceGroup.appendChild(faceRow);
+      panel.appendChild(faceGroup);
+
+      // 3. Formula Direction
+      const handGroup = document.createElement('div');
+      handGroup.className = 'combo-opt-group';
+      handGroup.innerHTML = `<span class="combo-opt-title">${window.t('grp_hand')}</span>`;
+      const handRow = document.createElement('div');
+      handRow.className = 'combo-opt-row';
+      ['left', 'right'].forEach(h => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'combo-opt-chip' + (h === comboState.hand ? ' active' : '');
+        b.textContent = window.t('opt_' + h);
+        b.title = window.t('opt_' + h + '_title');
+        b.addEventListener('click', () => {
+          comboState.hand = h;
+          handRow.querySelectorAll('.combo-opt-chip').forEach(btn => btn.classList.remove('active'));
+          b.classList.add('active');
+          updateComboDesc();
+        });
+        handRow.appendChild(b);
+      });
+      handGroup.appendChild(handRow);
+      panel.appendChild(handGroup);
+
+      // 4. Repeat Count
+      const countGroup = document.createElement('div');
+      countGroup.className = 'combo-opt-group';
+      countGroup.innerHTML = `<span class="combo-opt-title">${window.t('grp_count')}</span>`;
+      const countRow = document.createElement('div');
+      countRow.className = 'combo-opt-row';
+      [1,2,3,4,5,6].forEach(n => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'combo-opt-chip' + (n === comboState.count ? ' active' : '');
+        b.textContent = n + ' ×';
+        b.addEventListener('click', () => {
+          comboState.count = n;
+          countRow.querySelectorAll('.combo-opt-chip').forEach(btn => btn.classList.remove('active'));
+          b.classList.add('active');
+          updateComboDesc();
+        });
+        countRow.appendChild(b);
+      });
+      countGroup.appendChild(countRow);
+      panel.appendChild(countGroup);
+
+      // Formula Preview Box
+      const previewBox = document.createElement('div');
+      previewBox.className = 'combo-preview-box';
+      panel.appendChild(previewBox);
+
+      // Exec Button
+      const execBtn = document.createElement('button');
+      execBtn.type = 'button';
+      execBtn.className = 'btn primary combo-exec-btn';
+      execBtn.innerHTML = `⚡ ${window.t('exec_btn')}`;
+      execBtn.addEventListener('click', () => {
+        if(animating) return;
+        if(comboState.top === comboState.face) return;
+        const baseSeq = buildComboSeq(comboState.top, comboState.face, comboState.hand);
+        let fullSeq = [];
+        for(let i=0; i<comboState.count; i++) fullSeq = fullSeq.concat(baseSeq);
+        runSequence(fullSeq, { record: true });
+      });
+      panel.appendChild(execBtn);
+
+      function updateComboDesc(){
+        const {top, face, hand, count} = comboState;
+        const same = (top === face);
+        execBtn.disabled = same;
+        if(same){
+          previewBox.innerHTML = `<span class="combo-warning">${window.t('combo_same')}</span>`;
+          return;
+        }
+        const seq = buildComboSeq(top, face, hand);
+        const stepsHtml = seq.map(([f,p]) => `<span class="combo-step-chip" style="border-color:${COLOR[f]}">${faceColorName(f)}${p ? "'" : ''}</span>`).join('<span class="combo-arrow">➔</span>');
+        const handLabel = hand==='right'? window.t('combo_hand_right') : window.t('combo_hand_left');
+        previewBox.innerHTML = `
+          <div class="combo-meta-line"><b>${handLabel}</b> (ทำซ้ำ ${count} รอบ)</div>
+          <div class="combo-steps-row">${stepsHtml}</div>
+        `;
+      }
+      updateComboDesc();
+
+      comboContainer.appendChild(panel);
+      controlsRoot.appendChild(comboContainer);
+    }
   }
 
   /* ============================================================
@@ -1136,10 +1179,25 @@
   }
 
   // Order Switcher Buttons (2x2, 3x3, 4x4, 5x5, 6x6)
+  // Order Switcher Buttons (2x2, 3x3, 4x4, 5x5, 6x6)
+  const ORDER_NAMES = {
+    2: '2×2 Pocket',
+    3: '3×3 Classic',
+    4: '4×4 Master',
+    5: '5×5 Professor',
+    6: '6×6 Elite'
+  };
+
+  const currentOrderBadge = document.getElementById('currentOrderBadge');
+
   function setOrder(order){
     if(ORDER === order || animating) return;
     ORDER = order;
     moveHistory = [];
+
+    if(currentOrderBadge) {
+      currentOrderBadge.textContent = ORDER_NAMES[order] || `${order}×${order}`;
+    }
 
     document.querySelectorAll('.order-btn').forEach(btn => {
       btn.classList.toggle('active', parseInt(btn.dataset.order) === order);
@@ -1161,12 +1219,25 @@
   });
 
   /* ============================================================
-     9. 3D Camera Orbit Controls
+     9. 3D Camera Orbit Controls & Reset
      ============================================================ */
   let dragging=false, lastX=0, lastY=0, yaw=-35, pitch=-24, rafPending=false;
   function setSceneTransform(){
     sceneEl.style.transform = `rotateX(${pitch}deg) rotateY(${yaw}deg)`;
   }
+  function resetCameraAngle(){
+    yaw = -35;
+    pitch = -24;
+    setSceneTransform();
+  }
+
+  const resetCamBtn = document.getElementById('resetCamBtn');
+  if(resetCamBtn){
+    resetCamBtn.addEventListener('click', () => {
+      resetCameraAngle();
+    });
+  }
+
   sceneHitEl.addEventListener('pointerdown', e => {
     e.preventDefault();
     dragging=true; lastX=e.clientX; lastY=e.clientY;
@@ -1190,7 +1261,48 @@
   });
 
   /* ============================================================
-     10. Keyboard Shortcuts & Initial Init
+     10. Settings Modal & Guide Banner Controls
+     ============================================================ */
+  const settingsToggleBtn = document.getElementById('settingsToggleBtn');
+  const settingsBackdrop = document.getElementById('settingsBackdrop');
+  const settingsCloseBtn = document.getElementById('settingsCloseBtn');
+  const settingsConfirmBtn = document.getElementById('settingsConfirmBtn');
+
+  function openSettingsModal(){
+    if(settingsBackdrop) settingsBackdrop.style.display = 'flex';
+  }
+  function closeSettingsModal(){
+    if(settingsBackdrop) settingsBackdrop.style.display = 'none';
+  }
+
+  if(settingsToggleBtn) settingsToggleBtn.addEventListener('click', openSettingsModal);
+  if(settingsCloseBtn) settingsCloseBtn.addEventListener('click', closeSettingsModal);
+  if(settingsConfirmBtn) settingsConfirmBtn.addEventListener('click', closeSettingsModal);
+  if(settingsBackdrop){
+    settingsBackdrop.addEventListener('click', (e) => {
+      if(e.target === settingsBackdrop) closeSettingsModal();
+    });
+  }
+
+  // Guide banner toggle
+  const guideToggleBtn = document.getElementById('guideToggleBtn');
+  const guideBanner = document.getElementById('guideBanner');
+  const guideCloseBtn = document.getElementById('guideCloseBtn');
+
+  if(guideToggleBtn && guideBanner){
+    guideToggleBtn.addEventListener('click', () => {
+      const isHidden = guideBanner.style.display === 'none';
+      guideBanner.style.display = isHidden ? 'flex' : 'none';
+    });
+  }
+  if(guideCloseBtn && guideBanner){
+    guideCloseBtn.addEventListener('click', () => {
+      guideBanner.style.display = 'none';
+    });
+  }
+
+  /* ============================================================
+     11. Keyboard Shortcuts & Initial Init
      ============================================================ */
   const KEY_MAPS = {
     color: {
@@ -1213,15 +1325,25 @@
   let activeKeyMap = KEY_MAPS.color;
   const keySchemeSel = document.getElementById('keyScheme');
   const keyHintSpan = document.getElementById('keyHintText');
+  const bottomKeyHint = document.getElementById('bottomKeyHint');
 
-  keySchemeSel.addEventListener('change', () => {
-    activeKeyMap = KEY_MAPS[keySchemeSel.value];
-    keyHintSpan.innerHTML = window.t('hint_' + keySchemeSel.value);
-  });
+  function updateKeyHints(){
+    const html = window.t('hint_' + (keySchemeSel ? keySchemeSel.value : 'color'));
+    if(keyHintSpan) keyHintSpan.innerHTML = html;
+    if(bottomKeyHint) bottomKeyHint.innerHTML = html;
+  }
+
+  if(keySchemeSel){
+    keySchemeSel.addEventListener('change', () => {
+      activeKeyMap = KEY_MAPS[keySchemeSel.value];
+      updateKeyHints();
+    });
+  }
 
   document.addEventListener('keydown', e => {
     if(animating) return;
     if(e.repeat) return;
+    if(e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA')) return;
     const move = activeKeyMap[e.key];
     if(move){
       e.preventDefault();
@@ -1238,6 +1360,7 @@
     render3D();
     render2D();
     buildControls();
+    updateKeyHints();
   }
 
   init();
@@ -1249,6 +1372,10 @@
       if(ccwBtns[f]) ccwBtns[f].title = faceColorName(f) + window.t('ccw_title_suffix');
       if(cwBtns[f]) cwBtns[f].title = faceColorName(f) + window.t('cw_title_suffix');
     });
-    if(keyHintSpan && keySchemeSel) keyHintSpan.innerHTML = window.t('hint_' + keySchemeSel.value);
+    buildControls();
+    updateKeyHints();
+    if(currentOrderBadge) {
+      currentOrderBadge.textContent = ORDER_NAMES[ORDER] || `${ORDER}×${ORDER}`;
+    }
   };
 })();

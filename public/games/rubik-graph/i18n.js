@@ -34,10 +34,13 @@
       hover_cw: ': ตามเข็มนาฬิกา ↻',
 
       single_turn: 'หมุนเดี่ยว (Single Moves)',
+      tab_single_turn: '🔄 หมุนเดี่ยว (Single Moves)',
       axis_X: 'แกน X (ซ้าย ⇄ ขวา)',
       axis_Y: 'แกน Y (บน ⇄ ล่าง)',
       axis_Z: 'แกน Z (หน้า ⇄ หลัง)',
       combo_op: 'สูตรคอมโบ (Combo Moves)',
+      tab_combo_mode: '⚡ สูตรคอมโบ (Combo Moves)',
+      combo_help: 'เลือกหน้าบนและหน้าที่หมุนเพื่อสร้างและรันสูตรหมุนอัตโนมัติ',
       grp_top: '1. เลือกหน้าบน (Top)',
       grp_face: '2. เลือกหน้าที่หมุน (Face)',
       grp_hand: '3. สูตรการหมุน',
@@ -55,7 +58,17 @@
       combo_sep: ': ',
 
       hint_color: '<b>Y</b> / <b>W</b> / <b>G</b> / <b>B</b> / <b>R</b> / <b>O</b>',
-      hint_standard: '<b>U</b>บน / <b>D</b>ล่าง / <b>F</b>หน้า / <b>B</b>หลัง / <b>R</b>ขวา / <b>L</b>ซ้าย'
+      hint_standard: '<b>U</b>บน / <b>D</b>ล่าง / <b>F</b>หน้า / <b>B</b>หลัง / <b>R</b>ขวา / <b>L</b>ซ้าย',
+
+      btn_settings: '⚙️ ตั้งค่า (Settings)',
+      btn_guide: 'ℹ️ คำแนะนำ (Guide)',
+      settings_modal_title: '⚙️ การตั้งค่าระบบรูบิค (Settings)',
+      setting_cube_size: 'ขนาดของรูบิค (Cube Size)',
+      setting_shortcuts: 'รูปแบบคีย์ลัดแป้นพิมพ์ (Shortcuts)',
+      setting_camera: 'การควบคุมมุมมอง (Camera)',
+      btn_reset_camera: '↺ รีเซ็ตมุมมอง 3D เป็นค่าเริ่มต้น',
+      setting_about: 'หลักการทำงาน (Concept)',
+      close: 'ปิด (Close)'
     },
 
     en: {
@@ -85,10 +98,13 @@
       hover_cw: ': CW ↻ (click this side)',
 
       single_turn: 'Single Moves',
+      tab_single_turn: '🔄 Single Moves',
       axis_X: 'X-Axis (Left ⇄ Right)',
       axis_Y: 'Y-Axis (Up ⇄ Down)',
       axis_Z: 'Z-Axis (Front ⇄ Back)',
       combo_op: 'Combo Moves',
+      tab_combo_mode: '⚡ Combo Moves',
+      combo_help: 'Select top face and turning face to build and execute formula sequences',
       grp_top: '1. Choose top face',
       grp_face: '2. Choose turning face',
       grp_hand: '3. Operation',
@@ -106,7 +122,17 @@
       combo_sep: ': ',
 
       hint_color: '<b>Y</b> / <b>W</b> / <b>G</b> / <b>B</b> / <b>R</b> / <b>O</b>',
-      hint_standard: '<b>U</b>Up / <b>D</b>Down / <b>F</b>Front / <b>B</b>Back / <b>R</b>Right / <b>L</b>Left'
+      hint_standard: '<b>U</b>Up / <b>D</b>Down / <b>F</b>Front / <b>B</b>Back / <b>R</b>Right / <b>L</b>Left',
+
+      btn_settings: '⚙️ Settings',
+      btn_guide: 'ℹ️ Guide',
+      settings_modal_title: '⚙️ Settings',
+      setting_cube_size: 'Cube Dimension',
+      setting_shortcuts: 'Keyboard Shortcuts',
+      setting_camera: 'Camera Controls',
+      btn_reset_camera: '↺ Reset 3D Camera Angle',
+      setting_about: 'Concept',
+      close: 'Close'
     },
 
     zh: {
@@ -136,10 +162,13 @@
       hover_cw: '：顺时针 ↻（点这一侧）',
 
       single_turn: '单步转动',
+      tab_single_turn: '🔄 单步转动 (Single Moves)',
       axis_X: 'X轴 (左 ⇄ 右)',
       axis_Y: 'Y轴 (上 ⇄ 下)',
       axis_Z: 'Z轴 (前 ⇄ 后)',
       combo_op: '复合操作',
+      tab_combo_mode: '⚡ 复合公式 (Combo Moves)',
+      combo_help: '选择顶面与旋转面，自动生成并执行公式序列',
       grp_top: '1. 以什么为顶面',
       grp_face: '2. 选择旋转面',
       grp_hand: '3. 执行操作',
@@ -157,7 +186,17 @@
       combo_sep: '：',
 
       hint_color: '<b>Y</b> / <b>W</b> / <b>G</b> / <b>B</b> / <b>R</b> / <b>O</b>',
-      hint_standard: '<b>U</b>上 / <b>D</b>下 / <b>F</b>前 / <b>B</b>后 / <b>R</b>右 / <b>L</b>左'
+      hint_standard: '<b>U</b>上 / <b>D</b>下 / <b>F</b>前 / <b>B</b>后 / <b>R</b>右 / <b>L</b>左',
+
+      btn_settings: '⚙️ 设置',
+      btn_guide: 'ℹ️ 说明',
+      settings_modal_title: '⚙️ 设置',
+      setting_cube_size: '魔方阶数',
+      setting_shortcuts: '键盘快捷键',
+      setting_camera: '视角控制',
+      btn_reset_camera: '↺ 重置 3D 视角',
+      setting_about: '原理说明',
+      close: '关闭'
     }
   };
 
