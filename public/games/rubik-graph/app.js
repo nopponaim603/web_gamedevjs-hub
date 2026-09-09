@@ -918,6 +918,63 @@
   controlsRoot.appendChild(rightCol);
   }
 
+  function isSolved(){
+    for(const f of FACES){
+      const grid = getFaceGrid(f);
+      const center = grid[1][1];
+      for(let r=0; r<3; r++){
+        for(let c=0; c<3; c++){
+          if(grid[r][c] !== center) return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  function simplifySequence(seq){
+    const res = [];
+    for(const [f, p] of seq){
+      if(res.length > 0 && res[res.length-1][0] === f){
+        const last = res.pop();
+        if(last[1] !== p){
+          continue;
+        } else {
+          res.push([f, !p]);
+          continue;
+        }
+      }
+      res.push([f, p]);
+    }
+    return res;
+  }
+
+  const solveBtn = document.getElementById('solveBtn');
+  if(solveBtn){
+    solveBtn.addEventListener('click', ()=>{
+      if(animating) return;
+      if(isSolved()) return;
+
+      let solveSeq = [];
+      for(let i = moveHistory.length - 1; i >= 0; i--){
+        const step = moveHistory[i];
+        for(let j = step.length - 1; j >= 0; j--){
+          solveSeq.push([step[j][0], !step[j][1]]);
+        }
+      }
+
+      solveSeq = simplifySequence(solveSeq);
+
+      if(solveSeq.length > 0){
+        moveHistory.length = 0;
+        runSequence(solveSeq, {fast:true, record:false});
+      } else {
+        buildSolved();
+        render3D();
+        render2D();
+      }
+    });
+  }
+
   document.getElementById('resetBtn').addEventListener('click', ()=>{
     if(animating) return;
     if(moveHistory.length===0) return;
