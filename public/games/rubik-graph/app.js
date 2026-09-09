@@ -508,27 +508,199 @@
     return rotMatrix3dOrient(M);
   }
 
+  function getLayersForOrder(N){
+    const axes = [
+      {
+        axis: 0,
+        axisKey: 'X',
+        titleKey: 'axis_X',
+        layers: []
+      },
+      {
+        axis: 1,
+        axisKey: 'Y',
+        titleKey: 'axis_Y',
+        layers: []
+      },
+      {
+        axis: 2,
+        axisKey: 'Z',
+        titleKey: 'axis_Z',
+        layers: []
+      }
+    ];
+
+    if(N === 2){
+      axes[0].layers = [
+        { name: 'L', label: 'L', refFace: 'L', axis: 0, layerIndex: 0, color: COLOR.L },
+        { name: 'R', label: 'R', refFace: 'R', axis: 0, layerIndex: 1, color: COLOR.R },
+      ];
+      axes[1].layers = [
+        { name: 'D', label: 'D', refFace: 'D', axis: 1, layerIndex: 0, color: '#888888' },
+        { name: 'U', label: 'U', refFace: 'U', axis: 1, layerIndex: 1, color: '#d4af37' },
+      ];
+      axes[2].layers = [
+        { name: 'B', label: 'B', refFace: 'B', axis: 2, layerIndex: 0, color: COLOR.B },
+        { name: 'F', label: 'F', refFace: 'F', axis: 2, layerIndex: 1, color: COLOR.F },
+      ];
+    } else if(N === 3){
+      axes[0].layers = [
+        { name: 'L', label: 'L', refFace: 'L', axis: 0, layerIndex: 0, color: COLOR.L },
+        { name: 'M', label: 'M', refFace: 'L', axis: 0, layerIndex: 1, color: '#8e24aa' },
+        { name: 'R', label: 'R', refFace: 'R', axis: 0, layerIndex: 2, color: COLOR.R },
+      ];
+      axes[1].layers = [
+        { name: 'D', label: 'D', refFace: 'D', axis: 1, layerIndex: 0, color: '#888888' },
+        { name: 'E', label: 'E', refFace: 'D', axis: 1, layerIndex: 1, color: '#8e24aa' },
+        { name: 'U', label: 'U', refFace: 'U', axis: 1, layerIndex: 2, color: '#d4af37' },
+      ];
+      axes[2].layers = [
+        { name: 'B', label: 'B', refFace: 'B', axis: 2, layerIndex: 0, color: COLOR.B },
+        { name: 'S', label: 'S', refFace: 'F', axis: 2, layerIndex: 1, color: '#8e24aa' },
+        { name: 'F', label: 'F', refFace: 'F', axis: 2, layerIndex: 2, color: COLOR.F },
+      ];
+    } else if(N === 4){
+      axes[0].layers = [
+        { name: 'L', label: 'L', refFace: 'L', axis: 0, layerIndex: 0, color: COLOR.L },
+        { name: '2L', label: '2L', refFace: 'L', axis: 0, layerIndex: 1, color: '#f57c00' },
+        { name: '2R', label: '2R', refFace: 'R', axis: 0, layerIndex: 2, color: '#c2185b' },
+        { name: 'R', label: 'R', refFace: 'R', axis: 0, layerIndex: 3, color: COLOR.R },
+      ];
+      axes[1].layers = [
+        { name: 'D', label: 'D', refFace: 'D', axis: 1, layerIndex: 0, color: '#888888' },
+        { name: '2D', label: '2D', refFace: 'D', axis: 1, layerIndex: 1, color: '#78909c' },
+        { name: '2U', label: '2U', refFace: 'U', axis: 1, layerIndex: 2, color: '#fbc02d' },
+        { name: 'U', label: 'U', refFace: 'U', axis: 1, layerIndex: 3, color: '#d4af37' },
+      ];
+      axes[2].layers = [
+        { name: 'B', label: 'B', refFace: 'B', axis: 2, layerIndex: 0, color: COLOR.B },
+        { name: '2B', label: '2B', refFace: 'B', axis: 2, layerIndex: 1, color: '#388e3c' },
+        { name: '2F', label: '2F', refFace: 'F', axis: 2, layerIndex: 2, color: '#0288d1' },
+        { name: 'F', label: 'F', refFace: 'F', axis: 2, layerIndex: 3, color: COLOR.F },
+      ];
+    } else if(N === 5){
+      axes[0].layers = [
+        { name: 'L', label: 'L', refFace: 'L', axis: 0, layerIndex: 0, color: COLOR.L },
+        { name: '2L', label: '2L', refFace: 'L', axis: 0, layerIndex: 1, color: '#f57c00' },
+        { name: 'M', label: 'M', refFace: 'L', axis: 0, layerIndex: 2, color: '#8e24aa' },
+        { name: '2R', label: '2R', refFace: 'R', axis: 0, layerIndex: 3, color: '#c2185b' },
+        { name: 'R', label: 'R', refFace: 'R', axis: 0, layerIndex: 4, color: COLOR.R },
+      ];
+      axes[1].layers = [
+        { name: 'D', label: 'D', refFace: 'D', axis: 1, layerIndex: 0, color: '#888888' },
+        { name: '2D', label: '2D', refFace: 'D', axis: 1, layerIndex: 1, color: '#78909c' },
+        { name: 'E', label: 'E', refFace: 'D', axis: 1, layerIndex: 2, color: '#8e24aa' },
+        { name: '2U', label: '2U', refFace: 'U', axis: 1, layerIndex: 3, color: '#fbc02d' },
+        { name: 'U', label: 'U', refFace: 'U', axis: 1, layerIndex: 4, color: '#d4af37' },
+      ];
+      axes[2].layers = [
+        { name: 'B', label: 'B', refFace: 'B', axis: 2, layerIndex: 0, color: COLOR.B },
+        { name: '2B', label: '2B', refFace: 'B', axis: 2, layerIndex: 1, color: '#388e3c' },
+        { name: 'S', label: 'S', refFace: 'F', axis: 2, layerIndex: 2, color: '#8e24aa' },
+        { name: '2F', label: '2F', refFace: 'F', axis: 2, layerIndex: 3, color: '#0288d1' },
+        { name: 'F', label: 'F', refFace: 'F', axis: 2, layerIndex: 4, color: COLOR.F },
+      ];
+    } else if(N === 6){
+      axes[0].layers = [
+        { name: 'L', label: 'L', refFace: 'L', axis: 0, layerIndex: 0, color: COLOR.L },
+        { name: '2L', label: '2L', refFace: 'L', axis: 0, layerIndex: 1, color: '#f57c00' },
+        { name: '3L', label: '3L', refFace: 'L', axis: 0, layerIndex: 2, color: '#ffa726' },
+        { name: '3R', label: '3R', refFace: 'R', axis: 0, layerIndex: 3, color: '#ec407a' },
+        { name: '2R', label: '2R', refFace: 'R', axis: 0, layerIndex: 4, color: '#c2185b' },
+        { name: 'R', label: 'R', refFace: 'R', axis: 0, layerIndex: 5, color: COLOR.R },
+      ];
+      axes[1].layers = [
+        { name: 'D', label: 'D', refFace: 'D', axis: 1, layerIndex: 0, color: '#888888' },
+        { name: '2D', label: '2D', refFace: 'D', axis: 1, layerIndex: 1, color: '#78909c' },
+        { name: '3D', label: '3D', refFace: 'D', axis: 1, layerIndex: 2, color: '#90a4ae' },
+        { name: '3U', label: '3U', refFace: 'U', axis: 1, layerIndex: 3, color: '#ffee58' },
+        { name: '2U', label: '2U', refFace: 'U', axis: 1, layerIndex: 4, color: '#fbc02d' },
+        { name: 'U', label: 'U', refFace: 'U', axis: 1, layerIndex: 5, color: '#d4af37' },
+      ];
+      axes[2].layers = [
+        { name: 'B', label: 'B', refFace: 'B', axis: 2, layerIndex: 0, color: COLOR.B },
+        { name: '2B', label: '2B', refFace: 'B', axis: 2, layerIndex: 1, color: '#388e3c' },
+        { name: '3B', label: '3B', refFace: 'B', axis: 2, layerIndex: 2, color: '#66bb6a' },
+        { name: '3F', label: '3F', refFace: 'F', axis: 2, layerIndex: 3, color: '#29b6f6' },
+        { name: '2F', label: '2F', refFace: 'F', axis: 2, layerIndex: 4, color: '#0288d1' },
+        { name: 'F', label: 'F', refFace: 'F', axis: 2, layerIndex: 5, color: COLOR.F },
+      ];
+    }
+    return axes;
+  }
+
+  function normalizeMove(m){
+    if(typeof m === 'string'){
+      const info = faceInfo[m];
+      return {
+        name: m,
+        axis: info.axis,
+        layerIndex: info.val,
+        refFace: m,
+        color: COLOR[m] || '#888888'
+      };
+    }
+    return m;
+  }
+
+  function applyLayerMoveState(axis, layerIndex, refFace, prime){
+    let M = baseMatrix[refFace];
+    if(prime) M = transpose(M);
+
+    const N = ORDER;
+    const mid = (N - 1) / 2;
+
+    for(const c of cubies){
+      if(c.pos[axis] === layerIndex){
+        const centered = [c.pos[0] - mid, c.pos[1] - mid, c.pos[2] - mid];
+        const rot = matVec(M, centered);
+        c.pos = [Math.round(rot[0] + mid), Math.round(rot[1] + mid), Math.round(rot[2] + mid)];
+        c.orient = matMul(M, c.orient);
+      }
+    }
+  }
+
+  function planarFlightPathForLayer(fromPt, toPt, sign, axisKey, refFace, fromSlot, toSlot){
+    const sameFace = (fromSlot.face === toSlot.face);
+    let pivot;
+    if(sameFace && (refFace === fromSlot.face)){
+      pivot = faceCenterPoint(refFace);
+    } else {
+      pivot = bundleCenters[axisKey];
+    }
+
+    const a1 = Math.atan2(fromPt[1]-pivot[1], fromPt[0]-pivot[0]);
+    const a2 = Math.atan2(toPt[1]-pivot[1], toPt[0]-pivot[0]);
+    let da = a2 - a1;
+    if(sign > 0 && da <= 0) da += 2*Math.PI;
+    if(sign < 0 && da >= 0) da -= 2*Math.PI;
+
+    return { center: pivot, da, trackRadius: ptDist(fromPt, pivot) };
+  }
+
   /* ============================================================
      6. Move Execution & Synchronized Animations
      ============================================================ */
-  function doMove(face, prime, opts={}, onDone){
+  function doMove(moveInput, prime, opts={}, onDone){
     if(animating && !opts.force) return;
     animating = true;
     setControlsDisabled(true);
 
+    const m = normalizeMove(moveInput);
+    const { axis, layerIndex, refFace, name, color } = m;
+    const isPrime = !!prime;
+
     if(opts.record !== false){
-      moveHistory.push([face, !!prime]);
+      moveHistory.push([{ axis, layerIndex, refFace, name, color }, isPrime]);
     }
 
-    const info = faceInfo[face];
-    const axis = axisOf[face];
-    const desiredSign = prime ? -1 : 1;
+    const desiredSign = isPrime ? -1 : 1;
     const sign2d = desiredSign;
-    const sign3d = -signOf[face] * desiredSign;
+    const sign3d = -signOf[refFace] * desiredSign;
 
     const movingIdx = [];
     cubies.forEach((c, idx) => {
-      if(c.pos[info.axis] === info.val) movingIdx.push(idx);
+      if(c.pos[axis] === layerIndex) movingIdx.push(idx);
     });
 
     const beforeList = [];
@@ -545,18 +717,20 @@
     movingEls.forEach(el => sliceGroup.appendChild(el));
 
     // Update state
-    applyMoveState(face, prime);
+    applyLayerMoveState(axis, layerIndex, refFace, isPrime);
 
     // 2D flight arcs
     const flights = [];
     const N = ORDER;
+    const axisKey = AXES3[axis];
+
     beforeList.forEach(({ idx, key, slot }) => {
       const newSlot = getStickerSlot(cubies[idx], key);
       if(newSlot.face !== slot.face || newSlot.row !== slot.row || newSlot.col !== slot.col){
         const from = faceCoord[slot.face][slot.row][slot.col];
         const to = faceCoord[newSlot.face][newSlot.row][newSlot.col];
         if(from && to){
-          const piv = planarFlightPath(from, to, sign2d, face, slot, newSlot);
+          const piv = planarFlightPathForLayer(from, to, sign2d, axisKey, refFace, slot, newSlot);
           flights.push({
             idx, key, slot, newSlot,
             from, to,
@@ -641,18 +815,19 @@
         if(onAllDone) onAllDone();
         return;
       }
-      const [f, p] = seq[i++];
-      doMove(f, p, moveOpts, step);
+      const item = seq[i++];
+      const [m, p] = item;
+      doMove(m, p, moveOpts, step);
     })();
   }
 
   function setControlsDisabled(disabled){
-    const btns = document.querySelectorAll('.mini-btn, .face-btn, .btn, .order-btn');
+    const btns = document.querySelectorAll('.mini-btn, .face-btn, .btn, .order-btn, .layer-turn-btn');
     btns.forEach(b => { if(b) b.disabled = disabled; });
   }
 
   /* ============================================================
-     7. Controls UI & Combo formulas
+     7. Controls UI & Combo formulas (Adaptive per Order N)
      ============================================================ */
   const controlsRoot = document.getElementById('controls');
   const comboState = { top:'U', face:'F', hand:'right', count:1 };
@@ -665,30 +840,62 @@
   function buildControls(){
     controlsRoot.innerHTML = '';
 
+    // Left Column: Adaptive Single Moves
     const leftCol = document.createElement('div');
     leftCol.className = 'ctrl-col';
     const lTitle = document.createElement('h3');
-    lTitle.textContent = window.t('single_turn');
+    lTitle.textContent = window.t('single_turn') + ` (${ORDER}×${ORDER})`;
     leftCol.appendChild(lTitle);
 
-    const faceGrid = document.createElement('div');
-    faceGrid.className = 'face-btns-grid';
-    FACES.forEach(f => {
-      const cw = document.createElement('button');
-      cw.className = 'face-btn';
-      cw.textContent = faceColorName(f);
-      cw.style.borderColor = COLOR[f];
-      cw.addEventListener('click', () => doMove(f, false, { record: true }));
-      faceGrid.appendChild(cw);
+    const layerGroupsContainer = document.createElement('div');
+    layerGroupsContainer.className = 'layer-groups-container';
 
-      const ccw = document.createElement('button');
-      ccw.className = 'face-btn prime';
-      ccw.textContent = faceColorName(f) + "'";
-      ccw.style.borderColor = COLOR[f];
-      ccw.addEventListener('click', () => doMove(f, true, { record: true }));
-      faceGrid.appendChild(ccw);
+    const axisConfigs = getLayersForOrder(ORDER);
+
+    axisConfigs.forEach(ax => {
+      const section = document.createElement('div');
+      section.className = 'axis-section';
+
+      const header = document.createElement('div');
+      header.className = 'axis-header';
+      header.innerHTML = `<span>${window.t(ax.titleKey)}</span><span class="axis-tag">${ax.axisKey}</span>`;
+      section.appendChild(header);
+
+      const cardsGrid = document.createElement('div');
+      cardsGrid.className = 'layer-cards-grid';
+
+      ax.layers.forEach(layer => {
+        const card = document.createElement('div');
+        card.className = 'layer-card';
+
+        const badge = document.createElement('span');
+        badge.className = 'layer-badge';
+        badge.textContent = layer.name;
+        badge.style.backgroundColor = layer.color;
+        card.appendChild(badge);
+
+        const cwBtn = document.createElement('button');
+        cwBtn.className = 'layer-turn-btn';
+        cwBtn.textContent = '↻';
+        cwBtn.title = layer.name + window.t('cw_title_suffix');
+        cwBtn.addEventListener('click', () => doMove(layer, false, { record: true }));
+        card.appendChild(cwBtn);
+
+        const ccwBtn = document.createElement('button');
+        ccwBtn.className = 'layer-turn-btn prime';
+        ccwBtn.textContent = '↺';
+        ccwBtn.title = layer.name + window.t('ccw_title_suffix');
+        ccwBtn.addEventListener('click', () => doMove(layer, true, { record: true }));
+        card.appendChild(ccwBtn);
+
+        cardsGrid.appendChild(card);
+      });
+
+      section.appendChild(cardsGrid);
+      layerGroupsContainer.appendChild(section);
     });
-    leftCol.appendChild(faceGrid);
+
+    leftCol.appendChild(layerGroupsContainer);
 
     // Right column: Combo formulas
     const rightCol = document.createElement('div');
@@ -831,31 +1038,33 @@
     const reduced = [];
     for(const item of seq){
       if(!item || !item[0]) continue;
-      const f = item[0];
+      const m = normalizeMove(item[0]);
       const count = item[1] ? 3 : 1;
 
-      if(reduced.length > 0 && reduced[reduced.length - 1].face === f){
+      if(reduced.length > 0){
         const last = reduced[reduced.length - 1];
-        const newCount = (last.count + count) % 4;
-        if(newCount === 0){
-          reduced.pop();
-        } else {
-          last.count = newCount;
+        if(last.move.axis === m.axis && last.move.layerIndex === m.layerIndex){
+          const newCount = (last.count + count) % 4;
+          if(newCount === 0){
+            reduced.pop();
+          } else {
+            last.count = newCount;
+          }
+          continue;
         }
-      } else {
-        reduced.push({ face: f, count });
       }
+      reduced.push({ move: m, count });
     }
 
     const res = [];
     for(const item of reduced){
       if(item.count === 1){
-        res.push([item.face, false]);
+        res.push([item.move, false]);
       } else if(item.count === 2){
-        res.push([item.face, false]);
-        res.push([item.face, false]);
+        res.push([item.move, false]);
+        res.push([item.move, false]);
       } else if(item.count === 3){
-        res.push([item.face, true]);
+        res.push([item.move, true]);
       }
     }
     return res;
@@ -863,14 +1072,20 @@
 
   document.getElementById('scrambleBtn').addEventListener('click', () => {
     if(animating) return;
+    const allAxes = getLayersForOrder(ORDER);
+    const availableLayers = [];
+    allAxes.forEach(ax => ax.layers.forEach(l => availableLayers.push(l)));
+
     const seq = [];
-    let last = null;
-    const count = ORDER === 2 ? 8 : (ORDER === 3 ? 14 : 18);
+    let lastKey = null;
+    const count = ORDER === 2 ? 8 : (ORDER === 3 ? 14 : 18 + (ORDER - 3) * 4);
     for(let i=0; i<count; i++){
-      let f;
-      do { f = FACES[Math.floor(Math.random() * FACES.length)]; } while(f === last);
-      last = f;
-      seq.push([f, Math.random() < 0.5]);
+      let layer;
+      do {
+        layer = availableLayers[Math.floor(Math.random() * availableLayers.length)];
+      } while(layer.name === lastKey);
+      lastKey = layer.name;
+      seq.push([layer, Math.random() < 0.5]);
     }
     runSequence(seq, { fast: true, record: true });
   });

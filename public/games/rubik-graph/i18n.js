@@ -34,6 +34,9 @@
       hover_cw: ': ตามเข็มนาฬิกา ↻',
 
       single_turn: 'หมุนเดี่ยว (Single Moves)',
+      axis_X: 'แกน X (ซ้าย ⇄ ขวา)',
+      axis_Y: 'แกน Y (บน ⇄ ล่าง)',
+      axis_Z: 'แกน Z (หน้า ⇄ หลัง)',
       combo_op: 'สูตรคอมโบ (Combo Moves)',
       grp_top: '1. เลือกหน้าบน (Top)',
       grp_face: '2. เลือกหน้าที่หมุน (Face)',
@@ -82,6 +85,9 @@
       hover_cw: ': CW ↻ (click this side)',
 
       single_turn: 'Single Moves',
+      axis_X: 'X-Axis (Left ⇄ Right)',
+      axis_Y: 'Y-Axis (Up ⇄ Down)',
+      axis_Z: 'Z-Axis (Front ⇄ Back)',
       combo_op: 'Combo Moves',
       grp_top: '1. Choose top face',
       grp_face: '2. Choose turning face',
@@ -130,6 +136,9 @@
       hover_cw: '：顺时针 ↻（点这一侧）',
 
       single_turn: '单步转动',
+      axis_X: 'X轴 (左 ⇄ 右)',
+      axis_Y: 'Y轴 (上 ⇄ 下)',
+      axis_Z: 'Z轴 (前 ⇄ 后)',
       combo_op: '复合操作',
       grp_top: '1. 以什么为顶面',
       grp_face: '2. 选择旋转面',
