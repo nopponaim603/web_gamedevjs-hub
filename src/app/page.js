@@ -366,6 +366,14 @@ const initialGames = [
     url: "/games/k8sgames/index.html",
     image: "/games/k8sgames/thumbnail.png",
     gradient: "linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%)"
+  },
+  {
+    id: "whistlevale",
+    title: "🚂 Whistlevale (A house of little worlds)",
+    category: "Three.js 3D Engine",
+    url: "/games/whistlevale/index.html",
+    image: "/games/whistlevale/thumbnail.jpg",
+    gradient: "linear-gradient(135deg, #142525 0%, #D9B878 100%)"
   }
 ];
 
