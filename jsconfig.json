@@ -1,7 +1,27 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
-  }
+    },
+    "jsx": "preserve"
+  },
+  "include": [
+    "next.config.js",
+    "server.js",
+    "src/**/*",
+    "public/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    ".next",
+    ".vercel",
+    ".idx",
+    ".agents",
+    ".claude",
+    ".obsidian",
+    "engines_backup",
+    "scratch",
+    "docs"
+  ]
 }
