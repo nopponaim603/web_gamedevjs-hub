@@ -1,1 +1,1475 @@
-export const UPGRADES=Object.freeze([{'id':'sunsteel','name':'Sunsteel\x20Tip','description':'Every\x20third\x20lance\x20strike\x20deals\x20+1\x20damage.','nameZh':'日钢枪尖','descriptionZh':'每第三次钩枪撞击额外造成\x201\x20点伤害。'},{'id':'windspun','name':'Windspun\x20Thread','description':'Reel\x2028%\x20faster\x20and\x20deflect\x20bolts\x20from\x20farther\x20away.','nameZh':'风织钩索','descriptionZh':'收索速度提升\x2028%，反弹弹幕范围扩大。'},{'id':'heartwood','name':'Heartwood\x20Plating','description':'Gain\x202\x20maximum\x20hull\x20and\x20repair\x202\x20hull.','nameZh':'心木甲片','descriptionZh':'最大耐久增加\x202\x20点，并修复\x202\x20点耐久。'},{'id':'stormglass','name':'Stormglass\x20Coil','description':'Earn\x2035%\x20more\x20storm\x20charge.\x20Burst\x20deals\x20+1\x20damage.','nameZh':'风暴琉璃','descriptionZh':'风暴充能增加\x2035%，爆发额外造成\x201\x20点伤害。'},{'id':'cloudstep','name':'Cloudstep\x20Mantle','description':'After\x20taking\x20a\x20hit,\x20stay\x20protected\x20half\x20a\x20second\x20longer.','nameZh':'踏云披风','descriptionZh':'受伤后的无敌保护延长半秒。'},{'id':'echobell','name':'Echo\x20Bell','description':'Reflected\x20bolts\x20deal\x20double\x20damage\x20to\x20weakpoints.','nameZh':'回声之铃','descriptionZh':'反弹的弹幕对弱点造成双倍伤害。'},{'id':'redcomet','name':'Red\x20Comet','description':'At\x20a\x20combo\x20of\x206\x20or\x20more,\x20lance\x20strikes\x20deal\x20+1\x20damage.','nameZh':'赤色彗星','descriptionZh':'连击达到\x206\x20次后，钩枪撞击额外造成\x201\x20点伤害。'},{'id':'wardens','name':'Warden\x27s\x20Charm','description':'Every\x20seventh\x20lance\x20strike\x20repairs\x201\x20hull.','nameZh':'守护者符咒','descriptionZh':'每第七次钩枪撞击修复\x201\x20点耐久。'},{'id':'longthread','name':'Longthread\x20Compass','description':'Aim\x20snaps\x20to\x20weakpoints\x20from\x2050%\x20farther\x20away.','nameZh':'长索罗盘','descriptionZh':'瞄准吸附弱点的范围增加\x2050%。'},{'id':'afterglow','name':'Afterglow\x20Veil','description':'Storm\x20Burst\x20protects\x20you\x20for\x202.2\x20seconds.','nameZh':'余晖纱幕','descriptionZh':'风暴爆发的无敌保护延长至\x202.2\x20秒。'},{'id':'overdrive','name':'Overdrive\x20Dynamo','description':'Burst\x20refunds\x203\x20charge\x20per\x20cleared\x20bolt,\x20up\x20to\x2036.','nameZh':'超载发电机','descriptionZh':'爆发每清除一枚弹幕返还\x203\x20点充能，最多\x2036\x20点。'},{'id':'secondwind','name':'Second\x20Wind','description':'Once\x20per\x20run,\x20survive\x20a\x20fatal\x20hit\x20with\x202\x20hull\x20and\x202\x20seconds\x20of\x20protection.','nameZh':'再起之风','descriptionZh':'每局一次，承受致命伤后恢复至\x202\x20点耐久，获得\x202\x20秒无敌。'}]);const FIXED_DT=1/120,TAU=Math.PI*2,BOSSES=[{'name':'The\x20Bellkeeper','nameZh':'守钟巨兽','hp':2,'core':12,'reformHp':1,'kind':'bell','offsets':[[-225,65],[-85,135],[85,135],[225,65]]},{'name':'The\x20Glasswing','nameZh':'琉璃之翼','hp':3,'core':12,'reformHp':2,'kind':'engine','offsets':[[-285,-15],[-205,60],[-115,100],[115,100],[205,60],[285,-15]]},{'name':'The\x20Crown\x20Engine','nameZh':'王冠天机','hp':3,'core':12,'reformHp':2,'kind':'shield','offsets':Array.from({'length':6},(K,g)=>[Math.cos(g*TAU/6)*170,Math.sin(g*TAU/6)*125])},{'name':'The\x20Tide\x20Serpent','nameZh':'潮汐长蛇','hp':3,'core':12,'reformHp':2,'kind':'coil','mechanic':'wake-mines','offsets':[[-280,0],[-190,0],[-100,0],[-10,0],[80,0],[170,0]]},{'name':'The\x20Thunder\x20Loom','nameZh':'雷霆织机','hp':3,'core':12,'reformHp':2,'kind':'spindle','mechanic':'cut-tethers','offsets':[[-250,-80],[-120,-150],[160,-140],[270,50],[115,165],[-150,140]]},{'name':'The\x20Eclipse\x20Ark','nameZh':'蚀日方舟','hp':4,'core':12,'reformHp':3,'kind':'reactor','mechanic':'alternating-shields','offsets':[[-285,-40],[-225,35],[-165,100],[-90,145],[90,145],[165,100],[225,35],[285,-40]]}];export const BOSS_COUNT=BOSSES.length;export const BOSS_NAMES=Object.freeze(BOSSES.map(({name:K,nameZh:g})=>Object.freeze({'name':K,'nameZh':g})));const CORE_SHIFTS=[[[0,0],[-65,18],[70,-15],[0,30]],[[0,12],[-92,10],[85,-20],[30,35]],[[0,0],[-52,28],[45,-32],[52,32]],[[245,0],[175,-55],[250,45],[155,50]],[[0,0],[-60,30],[65,-35],[0,55]],[[0,25],[-75,5],[75,5],[0,65]]],BOLT_KINDS=['brass','glass','ember','glass','ember','brass'],clamp=(K,g,D)=>Math.max(g,Math.min(D,K)),length=(K,g)=>Math.hypot(K,g),finite=(K,g)=>Number.isFinite(K)?K:g;function seededRandom(K){let g=K>>>0;return()=>{g+=0x6d2b79f5;let D=g;return D=Math.imul(D^D>>>15,D|1),D^=D+Math.imul(D^D>>>7,D|61),((D^D>>>14)>>>0)/0x100000000;};}function segmentDistance(K,g,D,l,c,Y){const r=c-D,p=Y-l,R=clamp(((K-D)*r+(g-l)*p)/(r*r+p*p||1),0,1);return length(K-D-r*R,g-l-p*R);}export function createGame({width:width=0x3e8,height:height=700,seed:seed=1}={}){width=clamp(finite(width,0x3e8),320,0x960),height=clamp(finite(height,700),400,0x960);const K=finite(seed,1)>>>0;let g=seededRandom(K),D,l=[],c=0,Y={'x':0,'y':0},r=0,p=0,R=0,Z=0,s=0,q=0,U=![],A=0;const t=K2=>D.upgrades.includes(K2),H=(K2,K3={})=>l.push({'type':K2,...K3}),V=()=>Math.min(D.width/(D.height>D.width?850:0x3e8),1,D.boss?.kind===4?(D.height-150)/430:1),F=()=>D.boss.parts.filter(K2=>K2.active&&K2.exposed&&K2.hp>0);function Q(K2,K3=2.5){D.message=K2,D.messageTime=K3;}function x(K2){const K3=D.boss,K4=K3.scale=V(),K5=K3.age,K6=K3.kind===1||K3.kind===3||K3.kind===5,K7=K6?Math.max(0,Math.min((K3.kind===1?80:32)*K4,D.width*0.5-380*K4-8)):24*K4;K3.x=D.width*0.5+Math.sin(K5*(K3.kind===1?0.52:0.31))*K7,K3.y=D.height*(D.height>D.width?0.32:0.34)+Math.sin(K5*0.67)*12*K4+(K3.kind===2?30*K4:0);if(K3.kind===4)K3.y=Math.max(K3.y,220*K4+80);for(let K8=0;K8<K3.parts.length;K8++){const K9=K3.parts[K8];K9.cooldown=Math.max(0,K9.cooldown-K2);if(K9.kind==='core'){const KK=CORE_SHIFTS[K3.kind],[Kg,KD]=KK[K3.coreOpen?K3.coreShift%KK.length:0],Kl=Kg+Math.sin(K5*1.1)*(K3.kind===1&&K3.coreOpen?28:0),Kc=KD+(K3.kind===3?Math.sin(K5*1.05+5.4)*35:0),KY=K2>0?Math.min(1,K2*8):1;K9.lx+=(Kl-K9.lx)*KY,K9.ly+=(Kc-K9.ly)*KY,K9.angle=K5*0.3;}else{if(K3.kind===2)K9.angle=K8*TAU/6+K5*(K3.coreOpen?0.28:0.17),K9.lx=Math.cos(K9.angle)*170,K9.ly=Math.sin(K9.angle)*125;else{if(K3.kind===3)K9.lx=K9.baseLx+Math.sin(K5*0.65+K8*0.6)*8,K9.ly=Math.sin(K5*1.05+K8*0.8)*52,K9.angle=Math.cos(K5*1.05+K8*0.8)*0.36;else{if(K3.kind===4)K9.lx=K9.baseLx+Math.sin(K5*0.8+K8)*12,K9.ly=K9.baseLy+Math.cos(K5*0.9+K8)*16,K9.angle=Math.atan2(K9.ly,K9.lx);else K3.kind===5?(K9.lx=K9.baseLx+Math.sin(K5*0.7+K8)*4,K9.ly=K9.baseLy+Math.sin(K5*1.2+K8*0.65)*8,K9.angle=K9.side===0?-0.2:0.2):(K9.lx=K9.baseLx+Math.sin(K5*1.2+K8*1.9)*(K3.kind===1?7:5),K9.ly=K9.baseLy+Math.sin(K5*1.55+K8*1.7)*(K3.kind===1?14:9),K9.angle=Math.sin(K5*0.8+K8)*0.13);}}}K9.x=K3.x+K9.lx*K4,K9.y=K3.y+K9.ly*K4,K9.r=(K9.kind==='core'?38:K3.kind===2?25:28)*K4;}if(K3.kind===5)n(K2);}function n(K2){const K3=D.boss;if(K3.kind!==5||K3.coreOpen)return;const K4=K3.parts.filter(K8=>K8.kind!=='core'&&K8.active&&K8.hp>0),K5=K4.some(K8=>K8.side===0),K6=K4.some(K8=>K8.side===1),K7=K3.polarity;if(K5&&K6){K3.polarityAge+=K2;const K8=D.player.hook&&K4.find(K9=>K9.id===D.player.hook.targetId);K3.polarityAge>=4.2&&!(K8?.side===K3.polarity)&&(K3.polarity=1-K3.polarity,K3.polarityAge=0);}else(K5||K6)&&(K3.polarity=K5?0:1,K3.polarityAge=0);for(const K9 of K4)K9.exposed=K9.side===K3.polarity;if(K7!==K3.polarity)H('polarity',{'x':K3.x,'y':K3.y,'polarity':K3.polarity,'act':D.act});}function d(K2){const K3=BOSSES[K2],K4=K3.offsets.map(([K7,K8],K9)=>({'id':K2+'-part-'+K9,'x':0,'y':0,'lx':K7,'ly':K8,'baseLx':K7,'baseLy':K8,'r':28,'hp':K3.hp,'maxHp':K3.hp,'active':!![],'exposed':!![],'cooldown':0,'kind':K3.kind,'angle':0,'side':K7<0?0:1}));K4.push({'id':K2+'-core','x':0,'y':0,'lx':0,'ly':0,'baseLx':0,'baseLy':0,'r':38,'hp':K3.core,'maxHp':K3.core,'active':![],'exposed':![],'cooldown':0,'kind':'core','angle':0});const K5=K3.offsets.length*K3.reformHp*2,K6=K3.offsets.length*K3.hp+K3.core+K5;D.boss={'x':0,'y':0,'kind':K2,'name':K3.name,'nameZh':K3.nameZh,'hp':K6,'maxHp':K6,'coreOpen':![],'phase':'armored','age':0,'deathTime':0,'scale':V(),'cycle':0,'cycles':3,'reserveHp':K5,'coreShift':0,'polarity':0,'polarityAge':0,'mechanic':K3.mechanic??null,'parts':K4},x(0),r=3.2,p=0,D.bullets=[],D.hazards=[],H('boss_start',{'act':K2,'name':K3.name,'x':D.boss.x,'y':D.boss.y});}function E(){g=seededRandom(K),l=[],c=0,Y={'x':0,'y':0},r=0,p=0,R=0,Z=0,s=0,q=0,U=![],A=0,D={'width':width,'height':height,'time':0,'realTime':0,'phase':'playing','act':0,'totalActs':BOSS_COUNT,'focus':![],'paused':![],'started':![],'player':{'x':width*0.5,'y':height*0.79,'vx':0,'vy':-24,'r':12,'hp':5,'maxHp':5,'invuln':0,'hook':null,'angle':-Math.PI/2},'boss':null,'bullets':[],'hazards':[],'effects':[],'score':0,'combo':0,'bestCombo':0,'kills':0,'deflections':0,'burstCharge':0,'upgrades':[],'choices':[],'aim':{'x':width*0.5,'y':height*0.4,'targetId':null},'message':'HOLD\x20·\x20AIM\x20AT\x20GOLD\x20·\x20RELEASE','messageTime':6,'victoryTime':0,'stats':{'strikes':0,'damageTaken':0,'bossesDefeated':0,'bursts':0,'rescues':0}},d(0);}function G(){!D.started&&(D.started=!![],D.messageTime=Math.min(D.messageTime,2.5));}function m(K2,K3,K4=![]){let K5=null,K6=Infinity;const K7=Math.max(110,180*V())*(t('longthread')?1.5:1);for(const K8 of F()){const K9=length(K8.x-K2,K8.y-K3),KK=K9+(K8.cooldown>0.2?14*V():0);KK<K6&&(K4||K9<=K7+K8.r)&&(K5=K8,K6=KK);}return K5;}function O(){const K2=m(D.aim.x,D.aim.y);D.aim.targetId=K2?.id??null;}function S(K2,K3,K4){if(D.paused||D.phase!=='playing')return![];D.aim.x=clamp(finite(K2,D.aim.x),0,D.width),D.aim.y=clamp(finite(K3,D.aim.y),0,D.height),D.focus=Boolean(K4);if(K4)G();return O(),!![];}function y(K2,K3){if(D.paused||D.phase!=='playing')return![];G(),D.focus=![];const K4=!Number.isFinite(K2)||!Number.isFinite(K3);D.aim.x=clamp(finite(K2,D.aim.x),0,D.width),D.aim.y=clamp(finite(K3,D.aim.y),0,D.height);const K5=m(D.aim.x,D.aim.y,K4);D.aim.targetId=K5?.id??null;const K6=D.player;if(K6.hook&&K6.hook.age<0.1)return![];if(K5)K6.hook={'targetId':K5.id,'age':0,'startX':K6.x,'startY':K6.y,'side':++A%2?1:-1},s=0,q=0,H('hook',{'x':K6.x,'y':K6.y,'targetX':K5.x,'targetY':K5.y,'targetId':K5.id});else{if(s>0)return![];let K7=D.aim.x-K6.x,K8=D.aim.y-K6.y;const K9=length(K7,K8);K9<1&&(K7=0,K8=-1);const KK=K9<1?1:K9;K6.hook=null,K6.vx=K7/KK*520*Math.max(0.8,V()),K6.vy=K8/KK*520*Math.max(0.8,V()),K6.invuln=Math.max(K6.invuln,0.2),s=0.28,H('hook',{'x':K6.x,'y':K6.y,'targetX':D.aim.x,'targetY':D.aim.y,'miss':!![]});}return!![];}function J(K2){const K3=D.burstCharge;D.burstCharge=Math.min(100,D.burstCharge+K2*(t('stormglass')?1.35:1));if(K3<100&&D.burstCharge>=100)H('burst_ready',{'x':D.player.x,'y':D.player.y});}function N(K2){D.score+=Math.round(K2*(1+Math.min(D.combo,20)*0.065));}function w(K2){if(U)return;U=!![],D.phase=K2?'won':'lost',D.focus=![],D.player.hook=null,D.hazards=[],D.bullets=[],K2?(D.score+=0xbb8+D.player.hp*500+Math.max(0,0x960-Math.floor(D.realTime*6)),D.victoryTime=0,Q('THE\x20STORM\x20IS\x20SILENT',100)):Q('Aim\x20for\x20gold.\x20Chain\x20your\x20hooks\x20to\x20deflect\x20fire.',100),H(K2?'win':'lose',{'x':D.player.x,'y':D.player.y,'score':D.score,'act':D.act,'combo':D.bestCombo,'kills':D.kills,'deflections':D.deflections,'time':D.realTime});}function L(){if(D.phase!=='playing')return;D.boss.hp=0,D.boss.deathTime=0,D.phase='dying',D.focus=![],D.player.hook=null,D.player.invuln=3,D.player.vx*=0.35,D.player.vy=-80,D.hazards=[],D.bullets=[],D.stats.bossesDefeated++,D.score+=0x708+D.act*800,H('boss_defeat',{'x':D.boss.x,'y':D.boss.y,'act':D.act,'name':D.boss.name}),Q(D.act===BOSS_COUNT-1?'THE\x20ECLIPSE\x20BREAKS':'FORTRESS\x20BROKEN',2.4);}function B(){const K2=D.boss;K2.hp=Math.max(0,K2.parts.reduce((K3,K4)=>K3+Math.max(0,K4.hp),K2.reserveHp));if(!K2.coreOpen&&K2.parts.every(K3=>K3.kind==='core'||K3.hp<=0)){K2.coreOpen=!![],K2.phase='core';const K3=K2.parts.find(K4=>K4.kind==='core');K3.active=!![],K3.exposed=!![],r=Math.max(r,1.4),D.hazards=[],D.bullets=D.bullets.filter(K4=>K4.friendly),Q('CORE\x20EXPOSED\x20—\x20STRIKE\x20THE\x20HEART',2.2),H('core_open',{'x':K3.x,'y':K3.y,'act':D.act});}if((K2.kind===2||K2.kind===5)&&K2.coreOpen){const K4=K2.parts[K2.parts.length-1];K4.hp<=K4.maxHp*0.5&&K2.phase!=='enraged'&&(K2.phase='enraged',Q(K2.kind===5?'THE\x20LAST\x20SUN\x20UNBOUND':'THE\x20CROWN\x20UNBOUND',2),H('enrage',{'x':K2.x,'y':K2.y}));}if(K2.hp<=0)L();}function T(){const K2=D.boss,K3=D.player;K2.cycle++,K2.coreOpen=![],K2.phase='armored',K2.polarity=K2.cycle%2,K2.polarityAge=0;const K4=BOSSES[K2.kind].reformHp;for(const K5 of K2.parts){K5.kind==='core'?(K5.active=![],K5.exposed=![]):(K5.hp=K4,K5.maxHp=K4,K5.active=!![],K5.exposed=!![],K5.cooldown=0.8);}K2.reserveHp=Math.max(0,K2.reserveHp-BOSSES[K2.kind].offsets.length*K4),D.hazards=[],D.bullets=[],K3.invuln=Math.max(K3.invuln,1.1),K3.hp<K3.maxHp&&(K3.hp++,H('heal',{'x':K3.x,'y':K3.y,'amount':1})),D.score+=650,r=1.9,Q(K2.cycle===1?'HEART\x20CRACKED\x20·\x20SECOND\x20GUARD':'LAST\x20GUARD\x20·\x20FINISH\x20THE\x20HEART',2.2),H('armor_reform',{'x':K2.x,'y':K2.y,'act':D.act,'cycle':K2.cycle}),n(0),B();}function f(K2,K3,K4){if(D.phase!=='playing'||!K2?.active||!K2.exposed||K2.hp<=0)return![];const K5=K2.kind==='core'?Math.max(0,K2.maxHp-(D.boss.cycle+1)*4):0,K6=Math.min(K2.hp-K5,Math.max(0,K3));K2.hp=Math.max(0,Math.round((K2.hp-K6)*0x3e8)/0x3e8),N(K6*(K4==='strike'?140:80));K2.hp<=0&&(K2.active=![],K2.exposed=![],D.hazards=D.hazards.filter(K7=>K7.fromId!==K2.id&&K7.toId!==K2.id),D.kills++,N(K2.kind==='core'?700:450),J(6),H('break',{'x':K2.x,'y':K2.y,'kind':K2.kind,'partId':K2.id,'act':D.act}));B(),n(0);if(K2.kind==='core'&&K2.hp<=K5&&K5>0)T();return!![];}function k(K2){const K3=D.player;K3.hook=null;const K4=K3.x-D.boss.x,K5=K3.y-D.boss.y,K6=length(K4,K5)||1;K2.kind==='core'?(K3.vx=(Math.abs(K4)<12?(R%2?1:-1)*0.65:K4/K6)*390*Math.max(0.8,V()),K3.vy=Math.abs(K5/K6)*370+190,q=0.6):(K3.vx=K4/K6*290*Math.max(0.8,V()),K3.vy=K5/K6*260*Math.max(0.8,V())-120);if(K2.cooldown>0){H('strike',{'x':K2.x,'y':K2.y,'partId':K2.id,'damage':0,'armored':!![],'angle':K3.angle});return;}K3.invuln=Math.max(K3.invuln,0.24),D.combo++,D.bestCombo=Math.max(D.bestCombo,D.combo),Z=4.2,R++,D.stats.strikes++;const K7=1+(t('sunsteel')&&R%3===0?1:0)+(t('redcomet')&&D.combo>=6?1:0);K2.cooldown=K2.kind==='core'?1.2:1.05,J(10),H('strike',{'x':K2.x,'y':K2.y,'partId':K2.id,'damage':K7,'combo':D.combo,'angle':K3.angle,'core':K2.kind==='core'});t('wardens')&&R%7===0&&K3.hp<K3.maxHp&&(K3.hp++,H('heal',{'x':K3.x,'y':K3.y,'amount':1}));f(K2,K7,'strike');if(K2.kind==='core')D.boss.coreShift++;}function z(K2=1){const K3=D.player;K2=Math.max(0,finite(K2,1));if(K2===0)return![];if(!D.started||D.paused||D.phase!=='playing'||K3.invuln>0)return![];K3.hp=Math.max(0,K3.hp-K2),K3.invuln=1.25+(t('cloudstep')?0.5:0),K3.hook=null,K3.vx*=-0.45,K3.vy=-155,D.combo=0,Z=0,D.stats.damageTaken++,J(14),H('hurt',{'x':K3.x,'y':K3.y,'hp':K3.hp});if(K3.hp<=0&&t('secondwind')&&D.stats.rescues===0)K3.hp=2,K3.invuln=2,D.stats.rescues++,Q('SECOND\x20WIND\x20·\x20RISE\x20AGAIN',2.5),H('rescue',{'x':K3.x,'y':K3.y,'hp':K3.hp});else{if(K3.hp<=0)w(![]);}return!![];}function M(){if(D.paused||D.phase!=='playing'||D.burstCharge<100)return![];G();const K2=D.player;D.burstCharge=0,D.focus=![],D.stats.bursts++,K2.invuln=Math.max(K2.invuln,t('afterglow')?2.2:0.9);const K3=310*Math.max(0.8,V()),K4=F(),K5=K4.filter(K7=>length(K7.x-K2.x,K7.y-K2.y)<=K3+K7.r);if(!K5.length&&K4.length)K5.push(K4.reduce((K7,K8)=>length(K7.x-K2.x,K7.y-K2.y)<length(K8.x-K2.x,K8.y-K2.y)?K7:K8));const K6=D.bullets.filter(K7=>!K7.friendly).length;D.bullets=D.bullets.filter(K7=>K7.friendly),D.hazards=[],N(K6*20),H('burst',{'x':K2.x,'y':K2.y,'radius':K3,'count':K6});if(t('overdrive'))D.burstCharge=Math.min(100,D.burstCharge+Math.min(36,K6*3));for(const K7 of K5)f(K7,(K7.kind==='core'?2:1)+(t('stormglass')?1:0),'burst');return!![];}function I(K2,K3,K4,K5,K6,K7,K8,K9,KK={}){D.hazards.push({'kind':K2,'x':K3,'y':K4,'x2':K5,'y2':K6,'width':K7,'timer':0,'warn':K8,'duration':K9,'activated':![],...KK});}function i(K2,K3,K4,K5=22,K6=1.12,K7=0.3,K8='beam'){const K9=length(D.width,D.height)*1.4;I(K8,K2,K3,K2+Math.cos(K4)*K9,K3+Math.sin(K4)*K9,K5*Math.max(0.8,V()),K6,K7);}function X(K2,K3=3,K4=0.3,K5=180,K6=0.82){const K7=Math.atan2(D.player.y-K2.y,D.player.x-K2.x);I('volley',K2.x,K2.y,K2.x+Math.cos(K7)*160,K2.y+Math.sin(K7)*160,12,K6,0.08,{'angle':K7,'count':K3,'spread':K4,'speed':K5,'spiral':![]});}function o(K2,K3,K4,K5=1.2){I('nova',K2,K3,K2,K3,0,K5,0.3,{'radius':K4*Math.max(0.8,V())});}function h(K2,K3,K4=1.15){if(!K2||!K3||K2.id===K3.id)return;I('tether',K2.x,K2.y,K3.x,K3.y,21*Math.max(0.8,V()),K4,2.8,{'fromId':K2.id,'toId':K3.id});}function C(){const K2=D.boss,K3=D.player,K4=F();if(!K4.length)return;const K5=K4[p%K4.length],K6=Math.atan2(K3.y-K2.y,K3.x-K2.x);if(K2.kind===0){if(p%3===1)i(K2.x,K2.y+12*V(),K6,23,1.15,0.28);else{X(K5,K2.coreOpen?5:3,0.27,K2.coreOpen?195:170);if(p%5===4&&K4.length>1)X(K4[(p+2)%K4.length],3,0.3,155);}}else{if(K2.kind===1){if(p%3===0){const K7=K2.coreOpen?5:4,K8=D.width/(K7+1),K9=(g()-0.5)*K8*0.6;for(let KK=0;KK<K7;KK++){const Kg=K8*(KK+1)+K9;I('rain',Kg,0,Kg,D.height,22*Math.max(0.8,V()),1.25+KK*0.1,0.3);}}else{if(p%3===1){const KD=p%2?1:-1;i(K2.x+KD*230*V(),K2.y,Math.PI/2+KD*0.55,31,1.2,0.42,'sweep'),i(K2.x-KD*180*V(),K2.y+40*V(),Math.PI/2-KD*0.33,23,1.5,0.3,'sweep');}else X(K5,5,0.22,200);}}else{if(K2.kind===2){if(p%3===0)I('volley',K2.x,K2.y,K2.x+Math.cos(K6)*120,K2.y+Math.sin(K6)*120,16,0.95,0.1,{'angle':K2.age*0.47,'count':K2.phase==='enraged'?14:10,'spread':TAU/(K2.phase==='enraged'?14:10),'speed':K2.phase==='enraged'?205:175,'spiral':!![]});else{if(p%3===1){i(K2.x,K2.y,K6-0.25,25,1.1,0.36),i(K2.x,K2.y,K6+0.25,25,1.1,0.36);if(K2.phase==='enraged')i(K2.x,K2.y,K6,18,1.55,0.23);}else{X(K5,5,0.22,220);if(K4.length>1)X(K4[(p+3)%K4.length],4,0.3,170);}}}else{if(K2.kind===3){if(p%3===0)o(K3.x,K3.y,112,1.2),X(K5,3,0.28,185,0.95);else{if(p%3===1){o(K3.x,K3.y,122,1.3);const Kl=clamp(K3.x-K3.vx*0.4,45,D.width-45),Kc=clamp(K3.y-K3.vy*0.4,85,D.height-55);o(Kl,Kc,95,1.7);}else{const KY=K2.parts[K2.parts.length-1];I('volley',KY.x,KY.y,KY.x+Math.cos(K6)*120,KY.y+Math.sin(K6)*120,16,1.05,0.1,{'angle':K2.age*0.31,'count':10,'spread':TAU/10,'speed':195,'spiral':!![]});if(K2.coreOpen)o(K3.x,K3.y,105,1.4);}}}else{if(K2.kind===4){if(!K2.coreOpen&&K4.length>=2){const Kr=K4[p%K4.length],Kp=K4[(p+Math.max(1,Math.floor(K4.length/2)))%K4.length];h(Kr,Kp);if(K4.length>=4)h(K4[(p+1)%K4.length],K4[(p+3)%K4.length],1.45);if(p%2===1)X(K5,3,0.23,190,1.05);}else p%2===0?(i(K2.x,K2.y,K6-0.31,22,1.15,0.35),i(K2.x,K2.y,K6+0.31,22,1.15,0.35)):(o(K3.x,K3.y,105,1.3),X(K5,5,0.24,195,1.1));}else{if(K2.kind===5){if(p%3===0){const KR=K2.x-210*V(),KZ=K2.x+210*V(),Ks=K2.y-25*V();i(KR,Ks,Math.atan2(K3.y-Ks,K3.x-KR)-0.12,24,1.2,0.32,'sweep'),i(KZ,Ks,Math.atan2(K3.y-Ks,K3.x-KZ)+0.12,24,1.55,0.32,'sweep');}else{if(p%3===1){X(K5,5,0.22,205,0.95);if(K4.length>1)X(K4[(p+2)%K4.length],4,0.28,185,1.35);}else o(K2.x,K2.y+25*V(),172,1.35),o(K3.x,K3.y,105,1.8),K2.phase==='enraged'&&I('volley',K2.x,K2.y,K2.x+Math.cos(K6)*120,K2.y+Math.sin(K6)*120,16,1,0.1,{'angle':K2.age*0.21,'count':12,'spread':TAU/12,'speed':185,'spiral':!![]});}}}}}}}p++,r=K2.kind===0?K2.coreOpen?2.25:2.8:K2.kind===1?K2.coreOpen?2.35:2.7:K2.kind===2?K2.phase==='enraged'?1.9:2.4:K2.kind===3?K2.coreOpen?2.35:2.7:K2.kind===4?K2.coreOpen?2.4:3.1:K2.phase==='enraged'?1.95:K2.coreOpen?2.3:2.8;}function u(K2){const K3=D.player;for(const K4 of D.hazards){if(K4.kind==='tether'){const K5=D.boss.parts.find(K7=>K7.id===K4.fromId&&K7.active&&K7.hp>0),K6=D.boss.parts.find(K7=>K7.id===K4.toId&&K7.active&&K7.hp>0);if(!K5||!K6){K4.timer=K4.warn+K4.duration;continue;}K4.x=K5.x,K4.y=K5.y,K4.x2=K6.x,K4.y2=K6.y;}K4.timer+=K2;if(K4.timer>=K4.warn&&!K4.activated){K4.activated=!![];if(K4.kind==='volley'){for(let K7=0;K7<K4.count;K7++){const K8=K4.angle+(K4.spiral?K7:K7-(K4.count-1)*0.5)*K4.spread;D.bullets.push({'x':K4.x,'y':K4.y,'vx':Math.cos(K8)*K4.speed,'vy':Math.sin(K8)*K4.speed,'r':5.5*Math.max(0.8,V()),'kind':BOLT_KINDS[D.act],'friendly':![],'life':8});}H('volley',{'x':K4.x,'y':K4.y,'act':D.act});}else H(K4.kind==='nova'||K4.kind==='tether'?K4.kind:'beam',{'x':K4.x,'y':K4.y,'kind':K4.kind,'act':D.act});}if(K4.kind!=='volley'&&K4.timer>=K4.warn&&K4.timer<K4.warn+K4.duration){const K9=K4.kind==='nova'?!K3.hook&&length(K3.x-K4.x,K3.y-K4.y)<K4.radius+K3.r:segmentDistance(K3.x,K3.y,K4.x,K4.y,K4.x2,K4.y2)<K3.r+K4.width*0.5;if(K9)z();}if(D.phase!=='playing')return;}D.hazards=D.hazards.filter(KK=>KK.timer<KK.warn+KK.duration);}function W(K2,K3,K4,K5){const K6=D.player,K7=F(),K8=(t('windspun')?57:43)*Math.max(0.8,V());for(const K9 of D.bullets){if(K9.life<=0)continue;K9.life-=K2;const KK=K9.x,Kg=K9.y;if(K9.friendly){let KD=K7.find(Kl=>Kl.id===K9.targetId&&Kl.active);if(!KD)KD=K7.find(Kl=>Kl.active);if(KD){K9.targetId=KD.id;const Kl=KD.x-K9.x,Kc=KD.y-K9.y,KY=length(Kl,Kc)||1,Kr=Math.min(1,K2*11);K9.vx+=(Kl/KY*620-K9.vx)*Kr,K9.vy+=(Kc/KY*620-K9.vy)*Kr;}}K9.x+=K9.vx*K2,K9.y+=K9.vy*K2;if(K9.friendly)for(const Kp of K7){if(Kp.active&&segmentDistance(Kp.x,Kp.y,KK,Kg,K9.x,K9.y)<=Kp.r+K9.r){K9.life=0,H('reflect_hit',{'x':Kp.x,'y':Kp.y,'partId':Kp.id}),f(Kp,t('echobell')?0.8:0.4,'deflect');break;}}else{const KR=segmentDistance(0,0,KK-K3,Kg-K4,K9.x-K6.x,K9.y-K6.y);if((K6.hook||K5)&&KR<=K8+K9.r){K9.friendly=!![],K9.kind='reflected',K9.life=2.5;const KZ=m(K9.x,K9.y,!![]),Ks=(KZ?.x??D.boss.x)-K9.x,Kq=(KZ?.y??D.boss.y)-K9.y,KU=length(Ks,Kq)||1;K9.vx=Ks/KU*620,K9.vy=Kq/KU*620,K9.targetId=KZ?.id??null,D.deflections++,N(80),J(3),H('deflect',{'x':K9.x,'y':K9.y});}else KR<K6.r+K9.r&&(K9.life=0,z());}if(D.phase!=='playing')return;}D.bullets=D.bullets.filter(KA=>KA.life>0&&KA.x>-100&&KA.x<D.width+100&&KA.y>-100&&KA.y<D.height+100);}function P(K2){const K3=D.player;K3.invuln=Math.max(0,K3.invuln-K2),s=Math.max(0,s-K2),q=Math.max(0,q-K2);if(K3.hook){const K7=D.boss.parts.find(K8=>K8.id===K3.hook.targetId&&K8.active&&K8.exposed);if(!K7)K3.hook=null;else{K3.hook.age+=K2;const K8=K7.x-K3.x,K9=K7.y-K3.y,KK=length(K8,K9)||1,Kg=Math.min(0x672,500+K3.hook.age*0x73a)*Math.max(0.82,V())*(t('windspun')?1.28:1);K3.angle=Math.atan2(K9,K8);const KD=K3.hook.side*Math.min(0.24,KK/0x708)*Math.max(0,1-K3.hook.age);K3.vx=(K8/KK-K9/KK*KD)*Kg,K3.vy=(K9/KK+K8/KK*KD)*Kg,KK<=Kg*K2+K7.r+K3.r*0.5?(K3.x=K7.x-K8/KK*(K7.r+K3.r*0.5),K3.y=K7.y-K9/KK*(K7.r+K3.r*0.5),k(K7)):(K3.x+=K3.vx*K2,K3.y+=K3.vy*K2);}}else{const Kl=Math.exp(-K2*(s>0||q>0?0.8:1.5));K3.vx=K3.vx*Kl+Y.x*690*K2,K3.vy=K3.vy*Kl+(Y.y*690+48)*K2;const Kc=length(K3.vx,K3.vy);Kc>490&&s<=0&&q<=0&&(K3.vx*=490/Kc,K3.vy*=490/Kc);K3.x+=K3.vx*K2,K3.y+=K3.vy*K2;if(Kc>35)K3.angle=Math.atan2(K3.vy,K3.vx);}const K4=28,K5=75,K6=D.height-50;K3.x<K4&&(K3.x=K4,K3.vx=Math.abs(K3.vx)*0.7),K3.x>D.width-K4&&(K3.x=D.width-K4,K3.vx=-Math.abs(K3.vx)*0.7),K3.y<K5&&(K3.y=K5,K3.vy=Math.abs(K3.vy)*0.7),K3.y>K6&&(K3.y=K6,K3.vy=-Math.abs(K3.vy)*0.7-20);}function e(){const K2=UPGRADES.filter(K3=>!t(K3.id)).map(K3=>K3.id);for(let K3=K2.length-1;K3>0;K3--){const K4=Math.floor(g()*(K3+1));[K2[K3],K2[K4]]=[K2[K4],K2[K3]];}D.choices=K2.slice(0,3),D.phase='upgrade',D.player.hp=Math.min(D.player.maxHp,D.player.hp+2),D.combo=0,Z=0,Q('CHOOSE\x20A\x20RELIC\x20·\x20HULL\x20REPAIRED',100);}function j(K2){if(D.phase!=='upgrade'||!D.choices.includes(K2))return![];return D.upgrades.push(K2),D.choices=[],K2==='heartwood'&&(D.player.maxHp+=2,D.player.hp=Math.min(D.player.maxHp,D.player.hp+2)),D.act++,D.phase='playing',D.player.x=D.width*0.5,D.player.y=D.height*0.79,D.player.vx=0,D.player.vy=-25,D.player.hook=null,D.player.invuln=1.2,D.focus=![],Y={'x':0,'y':0},d(D.act),Q(BOSSES[D.act].name.toUpperCase(),3),H('upgrade',{'id':K2,'act':D.act,'x':D.player.x,'y':D.player.y}),!![];}function a(K2){if(D.phase==='won'){D.victoryTime+=K2,D.time+=K2;return;}if(D.phase==='lost'||D.phase==='upgrade')return;if(D.started)D.realTime+=K2;const K3=K2*(D.focus?0.24:1);D.time+=K3,D.messageTime=Math.max(0,D.messageTime-K2);if(D.phase==='dying'){D.boss.deathTime+=K2,D.player.x+=D.player.vx*K3,D.player.y+=D.player.vy*K3,D.player.vx*=Math.exp(-K3*2),D.player.vy*=Math.exp(-K3*2);if(D.boss.deathTime>=2.6){if(D.act===BOSS_COUNT-1)w(!![]);else e();}return;}D.boss.age+=K3,x(K3);const K4=D.player.x,K5=D.player.y,K6=Boolean(D.player.hook);P(K3);if(D.phase!=='playing')return;if(D.started){r-=K3;if(r<=0)C();u(K3);if(D.phase!=='playing')return;W(K3,K4,K5,K6);if(Z>0){Z-=K3;if(Z<=0)D.combo=0;}}O();}function v(K2){if(D.paused)return;c+=clamp(finite(K2,0),0,0.25);while(c+1e-10>=FIXED_DT){a(FIXED_DT),c=Math.max(0,c-FIXED_DT);}}function b(K2,K3){if(D.paused||D.phase!=='playing')return;K2=clamp(finite(K2,0),-1,1),K3=clamp(finite(K3,0),-1,1);const K4=Math.max(1,length(K2,K3));Y={'x':K2/K4,'y':K3/K4};if(K2||K3)G();}function K0(K2){D.paused=Boolean(K2),D.focus=![],Y={'x':0,'y':0},c=0;}function K1(K2,K3){const K4=clamp(finite(K2,D.width),320,0x960),K5=clamp(finite(K3,D.height),400,0x960),K6=K4/D.width,K7=K5/D.height;D.player.x*=K6,D.player.y*=K7,D.aim.x*=K6,D.aim.y*=K7;for(const K8 of D.bullets){K8.x*=K6,K8.y*=K7;}for(const K9 of D.hazards){K9.x*=K6,K9.x2*=K6,K9.y*=K7,K9.y2*=K7;}width=D.width=K4,height=D.height=K5,x(0),O();}return E(),{get 'state'(){return D;},'update':v,'aim':S,'release':y,'move':b,'burst':M,'chooseUpgrade':j,'restart':E,'setPaused':K0,'resizeWorld':K1,'drainEvents'(){const K2=l;return l=[],K2;},'debug':{'damagePlayer':z,'breakPart'(K2){return G(),f(D.boss.parts.find(K3=>K3.id===K2),0x3e8,'debug');},'winBoss'(){G(),D.boss.cycle=2,D.boss.reserveHp=0;for(const K2 of D.boss.parts){K2.active=!![],K2.exposed=!![],f(K2,0x3e8,'debug');}},'forceEnd'(K2=![]){G(),w(Boolean(K2));}}};}
+export const UPGRADES = Object.freeze([
+  {
+    id: "sunsteel",
+    name: "Sunsteel\x20Tip",
+    description: "Every\x20third\x20lance\x20strike\x20deals\x20+1\x20damage.",
+    nameZh: "日钢枪尖",
+    descriptionZh: "每第三次钩枪撞击额外造成\x201\x20点伤害。",
+  },
+  {
+    id: "windspun",
+    name: "Windspun\x20Thread",
+    description:
+      "Reel\x2028%\x20faster\x20and\x20deflect\x20bolts\x20from\x20farther\x20away.",
+    nameZh: "风织钩索",
+    descriptionZh: "收索速度提升\x2028%，反弹弹幕范围扩大。",
+  },
+  {
+    id: "heartwood",
+    name: "Heartwood\x20Plating",
+    description: "Gain\x202\x20maximum\x20hull\x20and\x20repair\x202\x20hull.",
+    nameZh: "心木甲片",
+    descriptionZh: "最大耐久增加\x202\x20点，并修复\x202\x20点耐久。",
+  },
+  {
+    id: "stormglass",
+    name: "Stormglass\x20Coil",
+    description:
+      "Earn\x2035%\x20more\x20storm\x20charge.\x20Burst\x20deals\x20+1\x20damage.",
+    nameZh: "风暴琉璃",
+    descriptionZh: "风暴充能增加\x2035%，爆发额外造成\x201\x20点伤害。",
+  },
+  {
+    id: "cloudstep",
+    name: "Cloudstep\x20Mantle",
+    description:
+      "After\x20taking\x20a\x20hit,\x20stay\x20protected\x20half\x20a\x20second\x20longer.",
+    nameZh: "踏云披风",
+    descriptionZh: "受伤后的无敌保护延长半秒。",
+  },
+  {
+    id: "echobell",
+    name: "Echo\x20Bell",
+    description:
+      "Reflected\x20bolts\x20deal\x20double\x20damage\x20to\x20weakpoints.",
+    nameZh: "回声之铃",
+    descriptionZh: "反弹的弹幕对弱点造成双倍伤害。",
+  },
+  {
+    id: "redcomet",
+    name: "Red\x20Comet",
+    description:
+      "At\x20a\x20combo\x20of\x206\x20or\x20more,\x20lance\x20strikes\x20deal\x20+1\x20damage.",
+    nameZh: "赤色彗星",
+    descriptionZh: "连击达到\x206\x20次后，钩枪撞击额外造成\x201\x20点伤害。",
+  },
+  {
+    id: "wardens",
+    name: "Warden\x27s\x20Charm",
+    description: "Every\x20seventh\x20lance\x20strike\x20repairs\x201\x20hull.",
+    nameZh: "守护者符咒",
+    descriptionZh: "每第七次钩枪撞击修复\x201\x20点耐久。",
+  },
+  {
+    id: "longthread",
+    name: "Longthread\x20Compass",
+    description:
+      "Aim\x20snaps\x20to\x20weakpoints\x20from\x2050%\x20farther\x20away.",
+    nameZh: "长索罗盘",
+    descriptionZh: "瞄准吸附弱点的范围增加\x2050%。",
+  },
+  {
+    id: "afterglow",
+    name: "Afterglow\x20Veil",
+    description: "Storm\x20Burst\x20protects\x20you\x20for\x202.2\x20seconds.",
+    nameZh: "余晖纱幕",
+    descriptionZh: "风暴爆发的无敌保护延长至\x202.2\x20秒。",
+  },
+  {
+    id: "overdrive",
+    name: "Overdrive\x20Dynamo",
+    description:
+      "Burst\x20refunds\x203\x20charge\x20per\x20cleared\x20bolt,\x20up\x20to\x2036.",
+    nameZh: "超载发电机",
+    descriptionZh: "爆发每清除一枚弹幕返还\x203\x20点充能，最多\x2036\x20点。",
+  },
+  {
+    id: "secondwind",
+    name: "Second\x20Wind",
+    description:
+      "Once\x20per\x20run,\x20survive\x20a\x20fatal\x20hit\x20with\x202\x20hull\x20and\x202\x20seconds\x20of\x20protection.",
+    nameZh: "再起之风",
+    descriptionZh:
+      "每局一次，承受致命伤后恢复至\x202\x20点耐久，获得\x202\x20秒无敌。",
+  },
+]);
+const FIXED_DT = 1 / 120,
+  TAU = Math.PI * 2,
+  BOSSES = [
+    {
+      name: "The\x20Bellkeeper",
+      nameZh: "守钟巨兽",
+      hp: 2,
+      core: 12,
+      reformHp: 1,
+      kind: "bell",
+      offsets: [
+        [-225, 65],
+        [-85, 135],
+        [85, 135],
+        [225, 65],
+      ],
+    },
+    {
+      name: "The\x20Glasswing",
+      nameZh: "琉璃之翼",
+      hp: 3,
+      core: 12,
+      reformHp: 2,
+      kind: "engine",
+      offsets: [
+        [-285, -15],
+        [-205, 60],
+        [-115, 100],
+        [115, 100],
+        [205, 60],
+        [285, -15],
+      ],
+    },
+    {
+      name: "The\x20Crown\x20Engine",
+      nameZh: "王冠天机",
+      hp: 3,
+      core: 12,
+      reformHp: 2,
+      kind: "shield",
+      offsets: Array.from({ length: 6 }, (K, g) => [
+        Math.cos((g * TAU) / 6) * 170,
+        Math.sin((g * TAU) / 6) * 125,
+      ]),
+    },
+    {
+      name: "The\x20Tide\x20Serpent",
+      nameZh: "潮汐长蛇",
+      hp: 3,
+      core: 12,
+      reformHp: 2,
+      kind: "coil",
+      mechanic: "wake-mines",
+      offsets: [
+        [-280, 0],
+        [-190, 0],
+        [-100, 0],
+        [-10, 0],
+        [80, 0],
+        [170, 0],
+      ],
+    },
+    {
+      name: "The\x20Thunder\x20Loom",
+      nameZh: "雷霆织机",
+      hp: 3,
+      core: 12,
+      reformHp: 2,
+      kind: "spindle",
+      mechanic: "cut-tethers",
+      offsets: [
+        [-250, -80],
+        [-120, -150],
+        [160, -140],
+        [270, 50],
+        [115, 165],
+        [-150, 140],
+      ],
+    },
+    {
+      name: "The\x20Eclipse\x20Ark",
+      nameZh: "蚀日方舟",
+      hp: 4,
+      core: 12,
+      reformHp: 3,
+      kind: "reactor",
+      mechanic: "alternating-shields",
+      offsets: [
+        [-285, -40],
+        [-225, 35],
+        [-165, 100],
+        [-90, 145],
+        [90, 145],
+        [165, 100],
+        [225, 35],
+        [285, -40],
+      ],
+    },
+  ];
+export const BOSS_COUNT = BOSSES.length;
+export const BOSS_NAMES = Object.freeze(
+  BOSSES.map(({ name: K, nameZh: g }) => Object.freeze({ name: K, nameZh: g })),
+);
+const CORE_SHIFTS = [
+    [
+      [0, 0],
+      [-65, 18],
+      [70, -15],
+      [0, 30],
+    ],
+    [
+      [0, 12],
+      [-92, 10],
+      [85, -20],
+      [30, 35],
+    ],
+    [
+      [0, 0],
+      [-52, 28],
+      [45, -32],
+      [52, 32],
+    ],
+    [
+      [245, 0],
+      [175, -55],
+      [250, 45],
+      [155, 50],
+    ],
+    [
+      [0, 0],
+      [-60, 30],
+      [65, -35],
+      [0, 55],
+    ],
+    [
+      [0, 25],
+      [-75, 5],
+      [75, 5],
+      [0, 65],
+    ],
+  ],
+  BOLT_KINDS = ["brass", "glass", "ember", "glass", "ember", "brass"],
+  clamp = (K, g, D) => Math.max(g, Math.min(D, K)),
+  length = (K, g) => Math.hypot(K, g),
+  finite = (K, g) => (Number.isFinite(K) ? K : g);
+function seededRandom(K) {
+  let g = K >>> 0;
+  return () => {
+    g += 0x6d2b79f5;
+    let D = g;
+    return (
+      (D = Math.imul(D ^ (D >>> 15), D | 1)),
+      (D ^= D + Math.imul(D ^ (D >>> 7), D | 61)),
+      ((D ^ (D >>> 14)) >>> 0) / 0x100000000
+    );
+  };
+}
+function segmentDistance(K, g, D, l, c, Y) {
+  const r = c - D,
+    p = Y - l,
+    R = clamp(((K - D) * r + (g - l) * p) / (r * r + p * p || 1), 0, 1);
+  return length(K - D - r * R, g - l - p * R);
+}
+export function createGame({
+  width: width = 0x3e8,
+  height: height = 700,
+  seed: seed = 1,
+} = {}) {
+  ((width = clamp(finite(width, 0x3e8), 320, 0x960)),
+    (height = clamp(finite(height, 700), 400, 0x960)));
+  const K = finite(seed, 1) >>> 0;
+  let g = seededRandom(K),
+    D,
+    l = [],
+    c = 0,
+    Y = { x: 0, y: 0 },
+    r = 0,
+    p = 0,
+    R = 0,
+    Z = 0,
+    s = 0,
+    q = 0,
+    U = ![],
+    A = 0;
+  const t = (K2) => D.upgrades.includes(K2),
+    H = (K2, K3 = {}) => l.push({ type: K2, ...K3 }),
+    V = () =>
+      Math.min(
+        D.width / (D.height > D.width ? 850 : 0x3e8),
+        1,
+        D.boss?.kind === 4 ? (D.height - 150) / 430 : 1,
+      ),
+    F = () => D.boss.parts.filter((K2) => K2.active && K2.exposed && K2.hp > 0);
+  function Q(K2, K3 = 2.5) {
+    ((D.message = K2), (D.messageTime = K3));
+  }
+  function x(K2) {
+    const K3 = D.boss,
+      K4 = (K3.scale = V()),
+      K5 = K3.age,
+      K6 = K3.kind === 1 || K3.kind === 3 || K3.kind === 5,
+      K7 = K6
+        ? Math.max(
+            0,
+            Math.min(
+              (K3.kind === 1 ? 80 : 32) * K4,
+              D.width * 0.5 - 380 * K4 - 8,
+            ),
+          )
+        : 24 * K4;
+    ((K3.x = D.width * 0.5 + Math.sin(K5 * (K3.kind === 1 ? 0.52 : 0.31)) * K7),
+      (K3.y =
+        D.height * (D.height > D.width ? 0.32 : 0.34) +
+        Math.sin(K5 * 0.67) * 12 * K4 +
+        (K3.kind === 2 ? 30 * K4 : 0)));
+    if (K3.kind === 4) K3.y = Math.max(K3.y, 220 * K4 + 80);
+    for (let K8 = 0; K8 < K3.parts.length; K8++) {
+      const K9 = K3.parts[K8];
+      K9.cooldown = Math.max(0, K9.cooldown - K2);
+      if (K9.kind === "core") {
+        const KK = CORE_SHIFTS[K3.kind],
+          [Kg, KD] = KK[K3.coreOpen ? K3.coreShift % KK.length : 0],
+          Kl =
+            Kg + Math.sin(K5 * 1.1) * (K3.kind === 1 && K3.coreOpen ? 28 : 0),
+          Kc = KD + (K3.kind === 3 ? Math.sin(K5 * 1.05 + 5.4) * 35 : 0),
+          KY = K2 > 0 ? Math.min(1, K2 * 8) : 1;
+        ((K9.lx += (Kl - K9.lx) * KY),
+          (K9.ly += (Kc - K9.ly) * KY),
+          (K9.angle = K5 * 0.3));
+      } else {
+        if (K3.kind === 2)
+          ((K9.angle = (K8 * TAU) / 6 + K5 * (K3.coreOpen ? 0.28 : 0.17)),
+            (K9.lx = Math.cos(K9.angle) * 170),
+            (K9.ly = Math.sin(K9.angle) * 125));
+        else {
+          if (K3.kind === 3)
+            ((K9.lx = K9.baseLx + Math.sin(K5 * 0.65 + K8 * 0.6) * 8),
+              (K9.ly = Math.sin(K5 * 1.05 + K8 * 0.8) * 52),
+              (K9.angle = Math.cos(K5 * 1.05 + K8 * 0.8) * 0.36));
+          else {
+            if (K3.kind === 4)
+              ((K9.lx = K9.baseLx + Math.sin(K5 * 0.8 + K8) * 12),
+                (K9.ly = K9.baseLy + Math.cos(K5 * 0.9 + K8) * 16),
+                (K9.angle = Math.atan2(K9.ly, K9.lx)));
+            else
+              K3.kind === 5
+                ? ((K9.lx = K9.baseLx + Math.sin(K5 * 0.7 + K8) * 4),
+                  (K9.ly = K9.baseLy + Math.sin(K5 * 1.2 + K8 * 0.65) * 8),
+                  (K9.angle = K9.side === 0 ? -0.2 : 0.2))
+                : ((K9.lx =
+                    K9.baseLx +
+                    Math.sin(K5 * 1.2 + K8 * 1.9) * (K3.kind === 1 ? 7 : 5)),
+                  (K9.ly =
+                    K9.baseLy +
+                    Math.sin(K5 * 1.55 + K8 * 1.7) * (K3.kind === 1 ? 14 : 9)),
+                  (K9.angle = Math.sin(K5 * 0.8 + K8) * 0.13));
+          }
+        }
+      }
+      ((K9.x = K3.x + K9.lx * K4),
+        (K9.y = K3.y + K9.ly * K4),
+        (K9.r = (K9.kind === "core" ? 38 : K3.kind === 2 ? 25 : 28) * K4));
+    }
+    if (K3.kind === 5) n(K2);
+  }
+  function n(K2) {
+    const K3 = D.boss;
+    if (K3.kind !== 5 || K3.coreOpen) return;
+    const K4 = K3.parts.filter(
+        (K8) => K8.kind !== "core" && K8.active && K8.hp > 0,
+      ),
+      K5 = K4.some((K8) => K8.side === 0),
+      K6 = K4.some((K8) => K8.side === 1),
+      K7 = K3.polarity;
+    if (K5 && K6) {
+      K3.polarityAge += K2;
+      const K8 =
+        D.player.hook && K4.find((K9) => K9.id === D.player.hook.targetId);
+      K3.polarityAge >= 4.2 &&
+        !(K8?.side === K3.polarity) &&
+        ((K3.polarity = 1 - K3.polarity), (K3.polarityAge = 0));
+    } else (K5 || K6) && ((K3.polarity = K5 ? 0 : 1), (K3.polarityAge = 0));
+    for (const K9 of K4) K9.exposed = K9.side === K3.polarity;
+    if (K7 !== K3.polarity)
+      H("polarity", { x: K3.x, y: K3.y, polarity: K3.polarity, act: D.act });
+  }
+  function d(K2) {
+    const K3 = BOSSES[K2],
+      K4 = K3.offsets.map(([K7, K8], K9) => ({
+        id: K2 + "-part-" + K9,
+        x: 0,
+        y: 0,
+        lx: K7,
+        ly: K8,
+        baseLx: K7,
+        baseLy: K8,
+        r: 28,
+        hp: K3.hp,
+        maxHp: K3.hp,
+        active: !![],
+        exposed: !![],
+        cooldown: 0,
+        kind: K3.kind,
+        angle: 0,
+        side: K7 < 0 ? 0 : 1,
+      }));
+    K4.push({
+      id: K2 + "-core",
+      x: 0,
+      y: 0,
+      lx: 0,
+      ly: 0,
+      baseLx: 0,
+      baseLy: 0,
+      r: 38,
+      hp: K3.core,
+      maxHp: K3.core,
+      active: ![],
+      exposed: ![],
+      cooldown: 0,
+      kind: "core",
+      angle: 0,
+    });
+    const K5 = K3.offsets.length * K3.reformHp * 2,
+      K6 = K3.offsets.length * K3.hp + K3.core + K5;
+    ((D.boss = {
+      x: 0,
+      y: 0,
+      kind: K2,
+      name: K3.name,
+      nameZh: K3.nameZh,
+      hp: K6,
+      maxHp: K6,
+      coreOpen: ![],
+      phase: "armored",
+      age: 0,
+      deathTime: 0,
+      scale: V(),
+      cycle: 0,
+      cycles: 3,
+      reserveHp: K5,
+      coreShift: 0,
+      polarity: 0,
+      polarityAge: 0,
+      mechanic: K3.mechanic ?? null,
+      parts: K4,
+    }),
+      x(0),
+      (r = 3.2),
+      (p = 0),
+      (D.bullets = []),
+      (D.hazards = []),
+      H("boss_start", { act: K2, name: K3.name, x: D.boss.x, y: D.boss.y }));
+  }
+  function E() {
+    ((g = seededRandom(K)),
+      (l = []),
+      (c = 0),
+      (Y = { x: 0, y: 0 }),
+      (r = 0),
+      (p = 0),
+      (R = 0),
+      (Z = 0),
+      (s = 0),
+      (q = 0),
+      (U = ![]),
+      (A = 0),
+      (D = {
+        width: width,
+        height: height,
+        time: 0,
+        realTime: 0,
+        phase: "playing",
+        act: 0,
+        totalActs: BOSS_COUNT,
+        focus: ![],
+        paused: ![],
+        started: ![],
+        player: {
+          x: width * 0.5,
+          y: height * 0.79,
+          vx: 0,
+          vy: -24,
+          r: 12,
+          hp: 5,
+          maxHp: 5,
+          invuln: 0,
+          hook: null,
+          angle: -Math.PI / 2,
+        },
+        boss: null,
+        bullets: [],
+        hazards: [],
+        effects: [],
+        score: 0,
+        combo: 0,
+        bestCombo: 0,
+        kills: 0,
+        deflections: 0,
+        burstCharge: 0,
+        upgrades: [],
+        choices: [],
+        aim: { x: width * 0.5, y: height * 0.4, targetId: null },
+        message: "HOLD\x20·\x20AIM\x20AT\x20GOLD\x20·\x20RELEASE",
+        messageTime: 6,
+        victoryTime: 0,
+        stats: {
+          strikes: 0,
+          damageTaken: 0,
+          bossesDefeated: 0,
+          bursts: 0,
+          rescues: 0,
+        },
+      }),
+      d(0));
+  }
+  function G() {
+    !D.started &&
+      ((D.started = !![]), (D.messageTime = Math.min(D.messageTime, 2.5)));
+  }
+  function m(K2, K3, K4 = ![]) {
+    let K5 = null,
+      K6 = Infinity;
+    const K7 = Math.max(110, 180 * V()) * (t("longthread") ? 1.5 : 1);
+    for (const K8 of F()) {
+      const K9 = length(K8.x - K2, K8.y - K3),
+        KK = K9 + (K8.cooldown > 0.2 ? 14 * V() : 0);
+      KK < K6 && (K4 || K9 <= K7 + K8.r) && ((K5 = K8), (K6 = KK));
+    }
+    return K5;
+  }
+  function O() {
+    const K2 = m(D.aim.x, D.aim.y);
+    D.aim.targetId = K2?.id ?? null;
+  }
+  function S(K2, K3, K4) {
+    if (D.paused || D.phase !== "playing") return ![];
+    ((D.aim.x = clamp(finite(K2, D.aim.x), 0, D.width)),
+      (D.aim.y = clamp(finite(K3, D.aim.y), 0, D.height)),
+      (D.focus = Boolean(K4)));
+    if (K4) G();
+    return (O(), !![]);
+  }
+  function y(K2, K3) {
+    if (D.paused || D.phase !== "playing") return ![];
+    (G(), (D.focus = ![]));
+    const K4 = !Number.isFinite(K2) || !Number.isFinite(K3);
+    ((D.aim.x = clamp(finite(K2, D.aim.x), 0, D.width)),
+      (D.aim.y = clamp(finite(K3, D.aim.y), 0, D.height)));
+    const K5 = m(D.aim.x, D.aim.y, K4);
+    D.aim.targetId = K5?.id ?? null;
+    const K6 = D.player;
+    if (K6.hook && K6.hook.age < 0.1) return ![];
+    if (K5)
+      ((K6.hook = {
+        targetId: K5.id,
+        age: 0,
+        startX: K6.x,
+        startY: K6.y,
+        side: ++A % 2 ? 1 : -1,
+      }),
+        (s = 0),
+        (q = 0),
+        H("hook", {
+          x: K6.x,
+          y: K6.y,
+          targetX: K5.x,
+          targetY: K5.y,
+          targetId: K5.id,
+        }));
+    else {
+      if (s > 0) return ![];
+      let K7 = D.aim.x - K6.x,
+        K8 = D.aim.y - K6.y;
+      const K9 = length(K7, K8);
+      K9 < 1 && ((K7 = 0), (K8 = -1));
+      const KK = K9 < 1 ? 1 : K9;
+      ((K6.hook = null),
+        (K6.vx = (K7 / KK) * 520 * Math.max(0.8, V())),
+        (K6.vy = (K8 / KK) * 520 * Math.max(0.8, V())),
+        (K6.invuln = Math.max(K6.invuln, 0.2)),
+        (s = 0.28),
+        H("hook", {
+          x: K6.x,
+          y: K6.y,
+          targetX: D.aim.x,
+          targetY: D.aim.y,
+          miss: !![],
+        }));
+    }
+    return !![];
+  }
+  function J(K2) {
+    const K3 = D.burstCharge;
+    D.burstCharge = Math.min(
+      100,
+      D.burstCharge + K2 * (t("stormglass") ? 1.35 : 1),
+    );
+    if (K3 < 100 && D.burstCharge >= 100)
+      H("burst_ready", { x: D.player.x, y: D.player.y });
+  }
+  function N(K2) {
+    D.score += Math.round(K2 * (1 + Math.min(D.combo, 20) * 0.065));
+  }
+  function w(K2) {
+    if (U) return;
+    ((U = !![]),
+      (D.phase = K2 ? "won" : "lost"),
+      (D.focus = ![]),
+      (D.player.hook = null),
+      (D.hazards = []),
+      (D.bullets = []),
+      K2
+        ? ((D.score +=
+            0xbb8 +
+            D.player.hp * 500 +
+            Math.max(0, 0x960 - Math.floor(D.realTime * 6))),
+          (D.victoryTime = 0),
+          Q("THE\x20STORM\x20IS\x20SILENT", 100))
+        : Q(
+            "Aim\x20for\x20gold.\x20Chain\x20your\x20hooks\x20to\x20deflect\x20fire.",
+            100,
+          ),
+      H(K2 ? "win" : "lose", {
+        x: D.player.x,
+        y: D.player.y,
+        score: D.score,
+        act: D.act,
+        combo: D.bestCombo,
+        kills: D.kills,
+        deflections: D.deflections,
+        time: D.realTime,
+      }));
+  }
+  function L() {
+    if (D.phase !== "playing") return;
+    ((D.boss.hp = 0),
+      (D.boss.deathTime = 0),
+      (D.phase = "dying"),
+      (D.focus = ![]),
+      (D.player.hook = null),
+      (D.player.invuln = 3),
+      (D.player.vx *= 0.35),
+      (D.player.vy = -80),
+      (D.hazards = []),
+      (D.bullets = []),
+      D.stats.bossesDefeated++,
+      (D.score += 0x708 + D.act * 800),
+      H("boss_defeat", {
+        x: D.boss.x,
+        y: D.boss.y,
+        act: D.act,
+        name: D.boss.name,
+      }),
+      Q(
+        D.act === BOSS_COUNT - 1
+          ? "THE\x20ECLIPSE\x20BREAKS"
+          : "FORTRESS\x20BROKEN",
+        2.4,
+      ));
+  }
+  function B() {
+    const K2 = D.boss;
+    K2.hp = Math.max(
+      0,
+      K2.parts.reduce((K3, K4) => K3 + Math.max(0, K4.hp), K2.reserveHp),
+    );
+    if (
+      !K2.coreOpen &&
+      K2.parts.every((K3) => K3.kind === "core" || K3.hp <= 0)
+    ) {
+      ((K2.coreOpen = !![]), (K2.phase = "core"));
+      const K3 = K2.parts.find((K4) => K4.kind === "core");
+      ((K3.active = !![]),
+        (K3.exposed = !![]),
+        (r = Math.max(r, 1.4)),
+        (D.hazards = []),
+        (D.bullets = D.bullets.filter((K4) => K4.friendly)),
+        Q("CORE\x20EXPOSED\x20—\x20STRIKE\x20THE\x20HEART", 2.2),
+        H("core_open", { x: K3.x, y: K3.y, act: D.act }));
+    }
+    if ((K2.kind === 2 || K2.kind === 5) && K2.coreOpen) {
+      const K4 = K2.parts[K2.parts.length - 1];
+      K4.hp <= K4.maxHp * 0.5 &&
+        K2.phase !== "enraged" &&
+        ((K2.phase = "enraged"),
+        Q(
+          K2.kind === 5
+            ? "THE\x20LAST\x20SUN\x20UNBOUND"
+            : "THE\x20CROWN\x20UNBOUND",
+          2,
+        ),
+        H("enrage", { x: K2.x, y: K2.y }));
+    }
+    if (K2.hp <= 0) L();
+  }
+  function T() {
+    const K2 = D.boss,
+      K3 = D.player;
+    (K2.cycle++,
+      (K2.coreOpen = ![]),
+      (K2.phase = "armored"),
+      (K2.polarity = K2.cycle % 2),
+      (K2.polarityAge = 0));
+    const K4 = BOSSES[K2.kind].reformHp;
+    for (const K5 of K2.parts) {
+      K5.kind === "core"
+        ? ((K5.active = ![]), (K5.exposed = ![]))
+        : ((K5.hp = K4),
+          (K5.maxHp = K4),
+          (K5.active = !![]),
+          (K5.exposed = !![]),
+          (K5.cooldown = 0.8));
+    }
+    ((K2.reserveHp = Math.max(
+      0,
+      K2.reserveHp - BOSSES[K2.kind].offsets.length * K4,
+    )),
+      (D.hazards = []),
+      (D.bullets = []),
+      (K3.invuln = Math.max(K3.invuln, 1.1)),
+      K3.hp < K3.maxHp && (K3.hp++, H("heal", { x: K3.x, y: K3.y, amount: 1 })),
+      (D.score += 650),
+      (r = 1.9),
+      Q(
+        K2.cycle === 1
+          ? "HEART\x20CRACKED\x20·\x20SECOND\x20GUARD"
+          : "LAST\x20GUARD\x20·\x20FINISH\x20THE\x20HEART",
+        2.2,
+      ),
+      H("armor_reform", { x: K2.x, y: K2.y, act: D.act, cycle: K2.cycle }),
+      n(0),
+      B());
+  }
+  function f(K2, K3, K4) {
+    if (D.phase !== "playing" || !K2?.active || !K2.exposed || K2.hp <= 0)
+      return ![];
+    const K5 =
+        K2.kind === "core" ? Math.max(0, K2.maxHp - (D.boss.cycle + 1) * 4) : 0,
+      K6 = Math.min(K2.hp - K5, Math.max(0, K3));
+    ((K2.hp = Math.max(0, Math.round((K2.hp - K6) * 0x3e8) / 0x3e8)),
+      N(K6 * (K4 === "strike" ? 140 : 80)));
+    K2.hp <= 0 &&
+      ((K2.active = ![]),
+      (K2.exposed = ![]),
+      (D.hazards = D.hazards.filter(
+        (K7) => K7.fromId !== K2.id && K7.toId !== K2.id,
+      )),
+      D.kills++,
+      N(K2.kind === "core" ? 700 : 450),
+      J(6),
+      H("break", {
+        x: K2.x,
+        y: K2.y,
+        kind: K2.kind,
+        partId: K2.id,
+        act: D.act,
+      }));
+    (B(), n(0));
+    if (K2.kind === "core" && K2.hp <= K5 && K5 > 0) T();
+    return !![];
+  }
+  function k(K2) {
+    const K3 = D.player;
+    K3.hook = null;
+    const K4 = K3.x - D.boss.x,
+      K5 = K3.y - D.boss.y,
+      K6 = length(K4, K5) || 1;
+    K2.kind === "core"
+      ? ((K3.vx =
+          (Math.abs(K4) < 12 ? (R % 2 ? 1 : -1) * 0.65 : K4 / K6) *
+          390 *
+          Math.max(0.8, V())),
+        (K3.vy = Math.abs(K5 / K6) * 370 + 190),
+        (q = 0.6))
+      : ((K3.vx = (K4 / K6) * 290 * Math.max(0.8, V())),
+        (K3.vy = (K5 / K6) * 260 * Math.max(0.8, V()) - 120));
+    if (K2.cooldown > 0) {
+      H("strike", {
+        x: K2.x,
+        y: K2.y,
+        partId: K2.id,
+        damage: 0,
+        armored: !![],
+        angle: K3.angle,
+      });
+      return;
+    }
+    ((K3.invuln = Math.max(K3.invuln, 0.24)),
+      D.combo++,
+      (D.bestCombo = Math.max(D.bestCombo, D.combo)),
+      (Z = 4.2),
+      R++,
+      D.stats.strikes++);
+    const K7 =
+      1 +
+      (t("sunsteel") && R % 3 === 0 ? 1 : 0) +
+      (t("redcomet") && D.combo >= 6 ? 1 : 0);
+    ((K2.cooldown = K2.kind === "core" ? 1.2 : 1.05),
+      J(10),
+      H("strike", {
+        x: K2.x,
+        y: K2.y,
+        partId: K2.id,
+        damage: K7,
+        combo: D.combo,
+        angle: K3.angle,
+        core: K2.kind === "core",
+      }));
+    t("wardens") &&
+      R % 7 === 0 &&
+      K3.hp < K3.maxHp &&
+      (K3.hp++, H("heal", { x: K3.x, y: K3.y, amount: 1 }));
+    f(K2, K7, "strike");
+    if (K2.kind === "core") D.boss.coreShift++;
+  }
+  function z(K2 = 1) {
+    const K3 = D.player;
+    K2 = Math.max(0, finite(K2, 1));
+    if (K2 === 0) return ![];
+    if (!D.started || D.paused || D.phase !== "playing" || K3.invuln > 0)
+      return ![];
+    ((K3.hp = Math.max(0, K3.hp - K2)),
+      (K3.invuln = 1.25 + (t("cloudstep") ? 0.5 : 0)),
+      (K3.hook = null),
+      (K3.vx *= -0.45),
+      (K3.vy = -155),
+      (D.combo = 0),
+      (Z = 0),
+      D.stats.damageTaken++,
+      J(14),
+      H("hurt", { x: K3.x, y: K3.y, hp: K3.hp }));
+    if (K3.hp <= 0 && t("secondwind") && D.stats.rescues === 0)
+      ((K3.hp = 2),
+        (K3.invuln = 2),
+        D.stats.rescues++,
+        Q("SECOND\x20WIND\x20·\x20RISE\x20AGAIN", 2.5),
+        H("rescue", { x: K3.x, y: K3.y, hp: K3.hp }));
+    else {
+      if (K3.hp <= 0) w(![]);
+    }
+    return !![];
+  }
+  function M() {
+    if (D.paused || D.phase !== "playing" || D.burstCharge < 100) return ![];
+    G();
+    const K2 = D.player;
+    ((D.burstCharge = 0),
+      (D.focus = ![]),
+      D.stats.bursts++,
+      (K2.invuln = Math.max(K2.invuln, t("afterglow") ? 2.2 : 0.9)));
+    const K3 = 310 * Math.max(0.8, V()),
+      K4 = F(),
+      K5 = K4.filter((K7) => length(K7.x - K2.x, K7.y - K2.y) <= K3 + K7.r);
+    if (!K5.length && K4.length)
+      K5.push(
+        K4.reduce((K7, K8) =>
+          length(K7.x - K2.x, K7.y - K2.y) < length(K8.x - K2.x, K8.y - K2.y)
+            ? K7
+            : K8,
+        ),
+      );
+    const K6 = D.bullets.filter((K7) => !K7.friendly).length;
+    ((D.bullets = D.bullets.filter((K7) => K7.friendly)),
+      (D.hazards = []),
+      N(K6 * 20),
+      H("burst", { x: K2.x, y: K2.y, radius: K3, count: K6 }));
+    if (t("overdrive"))
+      D.burstCharge = Math.min(100, D.burstCharge + Math.min(36, K6 * 3));
+    for (const K7 of K5)
+      f(K7, (K7.kind === "core" ? 2 : 1) + (t("stormglass") ? 1 : 0), "burst");
+    return !![];
+  }
+  function I(K2, K3, K4, K5, K6, K7, K8, K9, KK = {}) {
+    D.hazards.push({
+      kind: K2,
+      x: K3,
+      y: K4,
+      x2: K5,
+      y2: K6,
+      width: K7,
+      timer: 0,
+      warn: K8,
+      duration: K9,
+      activated: ![],
+      ...KK,
+    });
+  }
+  function i(K2, K3, K4, K5 = 22, K6 = 1.12, K7 = 0.3, K8 = "beam") {
+    const K9 = length(D.width, D.height) * 1.4;
+    I(
+      K8,
+      K2,
+      K3,
+      K2 + Math.cos(K4) * K9,
+      K3 + Math.sin(K4) * K9,
+      K5 * Math.max(0.8, V()),
+      K6,
+      K7,
+    );
+  }
+  function X(K2, K3 = 3, K4 = 0.3, K5 = 180, K6 = 0.82) {
+    const K7 = Math.atan2(D.player.y - K2.y, D.player.x - K2.x);
+    I(
+      "volley",
+      K2.x,
+      K2.y,
+      K2.x + Math.cos(K7) * 160,
+      K2.y + Math.sin(K7) * 160,
+      12,
+      K6,
+      0.08,
+      { angle: K7, count: K3, spread: K4, speed: K5, spiral: ![] },
+    );
+  }
+  function o(K2, K3, K4, K5 = 1.2) {
+    I("nova", K2, K3, K2, K3, 0, K5, 0.3, { radius: K4 * Math.max(0.8, V()) });
+  }
+  function h(K2, K3, K4 = 1.15) {
+    if (!K2 || !K3 || K2.id === K3.id) return;
+    I("tether", K2.x, K2.y, K3.x, K3.y, 21 * Math.max(0.8, V()), K4, 2.8, {
+      fromId: K2.id,
+      toId: K3.id,
+    });
+  }
+  function C() {
+    const K2 = D.boss,
+      K3 = D.player,
+      K4 = F();
+    if (!K4.length) return;
+    const K5 = K4[p % K4.length],
+      K6 = Math.atan2(K3.y - K2.y, K3.x - K2.x);
+    if (K2.kind === 0) {
+      if (p % 3 === 1) i(K2.x, K2.y + 12 * V(), K6, 23, 1.15, 0.28);
+      else {
+        X(K5, K2.coreOpen ? 5 : 3, 0.27, K2.coreOpen ? 195 : 170);
+        if (p % 5 === 4 && K4.length > 1)
+          X(K4[(p + 2) % K4.length], 3, 0.3, 155);
+      }
+    } else {
+      if (K2.kind === 1) {
+        if (p % 3 === 0) {
+          const K7 = K2.coreOpen ? 5 : 4,
+            K8 = D.width / (K7 + 1),
+            K9 = (g() - 0.5) * K8 * 0.6;
+          for (let KK = 0; KK < K7; KK++) {
+            const Kg = K8 * (KK + 1) + K9;
+            I(
+              "rain",
+              Kg,
+              0,
+              Kg,
+              D.height,
+              22 * Math.max(0.8, V()),
+              1.25 + KK * 0.1,
+              0.3,
+            );
+          }
+        } else {
+          if (p % 3 === 1) {
+            const KD = p % 2 ? 1 : -1;
+            (i(
+              K2.x + KD * 230 * V(),
+              K2.y,
+              Math.PI / 2 + KD * 0.55,
+              31,
+              1.2,
+              0.42,
+              "sweep",
+            ),
+              i(
+                K2.x - KD * 180 * V(),
+                K2.y + 40 * V(),
+                Math.PI / 2 - KD * 0.33,
+                23,
+                1.5,
+                0.3,
+                "sweep",
+              ));
+          } else X(K5, 5, 0.22, 200);
+        }
+      } else {
+        if (K2.kind === 2) {
+          if (p % 3 === 0)
+            I(
+              "volley",
+              K2.x,
+              K2.y,
+              K2.x + Math.cos(K6) * 120,
+              K2.y + Math.sin(K6) * 120,
+              16,
+              0.95,
+              0.1,
+              {
+                angle: K2.age * 0.47,
+                count: K2.phase === "enraged" ? 14 : 10,
+                spread: TAU / (K2.phase === "enraged" ? 14 : 10),
+                speed: K2.phase === "enraged" ? 205 : 175,
+                spiral: !![],
+              },
+            );
+          else {
+            if (p % 3 === 1) {
+              (i(K2.x, K2.y, K6 - 0.25, 25, 1.1, 0.36),
+                i(K2.x, K2.y, K6 + 0.25, 25, 1.1, 0.36));
+              if (K2.phase === "enraged") i(K2.x, K2.y, K6, 18, 1.55, 0.23);
+            } else {
+              X(K5, 5, 0.22, 220);
+              if (K4.length > 1) X(K4[(p + 3) % K4.length], 4, 0.3, 170);
+            }
+          }
+        } else {
+          if (K2.kind === 3) {
+            if (p % 3 === 0)
+              (o(K3.x, K3.y, 112, 1.2), X(K5, 3, 0.28, 185, 0.95));
+            else {
+              if (p % 3 === 1) {
+                o(K3.x, K3.y, 122, 1.3);
+                const Kl = clamp(K3.x - K3.vx * 0.4, 45, D.width - 45),
+                  Kc = clamp(K3.y - K3.vy * 0.4, 85, D.height - 55);
+                o(Kl, Kc, 95, 1.7);
+              } else {
+                const KY = K2.parts[K2.parts.length - 1];
+                I(
+                  "volley",
+                  KY.x,
+                  KY.y,
+                  KY.x + Math.cos(K6) * 120,
+                  KY.y + Math.sin(K6) * 120,
+                  16,
+                  1.05,
+                  0.1,
+                  {
+                    angle: K2.age * 0.31,
+                    count: 10,
+                    spread: TAU / 10,
+                    speed: 195,
+                    spiral: !![],
+                  },
+                );
+                if (K2.coreOpen) o(K3.x, K3.y, 105, 1.4);
+              }
+            }
+          } else {
+            if (K2.kind === 4) {
+              if (!K2.coreOpen && K4.length >= 2) {
+                const Kr = K4[p % K4.length],
+                  Kp =
+                    K4[
+                      (p + Math.max(1, Math.floor(K4.length / 2))) % K4.length
+                    ];
+                h(Kr, Kp);
+                if (K4.length >= 4)
+                  h(K4[(p + 1) % K4.length], K4[(p + 3) % K4.length], 1.45);
+                if (p % 2 === 1) X(K5, 3, 0.23, 190, 1.05);
+              } else
+                p % 2 === 0
+                  ? (i(K2.x, K2.y, K6 - 0.31, 22, 1.15, 0.35),
+                    i(K2.x, K2.y, K6 + 0.31, 22, 1.15, 0.35))
+                  : (o(K3.x, K3.y, 105, 1.3), X(K5, 5, 0.24, 195, 1.1));
+            } else {
+              if (K2.kind === 5) {
+                if (p % 3 === 0) {
+                  const KR = K2.x - 210 * V(),
+                    KZ = K2.x + 210 * V(),
+                    Ks = K2.y - 25 * V();
+                  (i(
+                    KR,
+                    Ks,
+                    Math.atan2(K3.y - Ks, K3.x - KR) - 0.12,
+                    24,
+                    1.2,
+                    0.32,
+                    "sweep",
+                  ),
+                    i(
+                      KZ,
+                      Ks,
+                      Math.atan2(K3.y - Ks, K3.x - KZ) + 0.12,
+                      24,
+                      1.55,
+                      0.32,
+                      "sweep",
+                    ));
+                } else {
+                  if (p % 3 === 1) {
+                    X(K5, 5, 0.22, 205, 0.95);
+                    if (K4.length > 1)
+                      X(K4[(p + 2) % K4.length], 4, 0.28, 185, 1.35);
+                  } else
+                    (o(K2.x, K2.y + 25 * V(), 172, 1.35),
+                      o(K3.x, K3.y, 105, 1.8),
+                      K2.phase === "enraged" &&
+                        I(
+                          "volley",
+                          K2.x,
+                          K2.y,
+                          K2.x + Math.cos(K6) * 120,
+                          K2.y + Math.sin(K6) * 120,
+                          16,
+                          1,
+                          0.1,
+                          {
+                            angle: K2.age * 0.21,
+                            count: 12,
+                            spread: TAU / 12,
+                            speed: 185,
+                            spiral: !![],
+                          },
+                        ));
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    (p++,
+      (r =
+        K2.kind === 0
+          ? K2.coreOpen
+            ? 2.25
+            : 2.8
+          : K2.kind === 1
+            ? K2.coreOpen
+              ? 2.35
+              : 2.7
+            : K2.kind === 2
+              ? K2.phase === "enraged"
+                ? 1.9
+                : 2.4
+              : K2.kind === 3
+                ? K2.coreOpen
+                  ? 2.35
+                  : 2.7
+                : K2.kind === 4
+                  ? K2.coreOpen
+                    ? 2.4
+                    : 3.1
+                  : K2.phase === "enraged"
+                    ? 1.95
+                    : K2.coreOpen
+                      ? 2.3
+                      : 2.8));
+  }
+  function u(K2) {
+    const K3 = D.player;
+    for (const K4 of D.hazards) {
+      if (K4.kind === "tether") {
+        const K5 = D.boss.parts.find(
+            (K7) => K7.id === K4.fromId && K7.active && K7.hp > 0,
+          ),
+          K6 = D.boss.parts.find(
+            (K7) => K7.id === K4.toId && K7.active && K7.hp > 0,
+          );
+        if (!K5 || !K6) {
+          K4.timer = K4.warn + K4.duration;
+          continue;
+        }
+        ((K4.x = K5.x), (K4.y = K5.y), (K4.x2 = K6.x), (K4.y2 = K6.y));
+      }
+      K4.timer += K2;
+      if (K4.timer >= K4.warn && !K4.activated) {
+        K4.activated = !![];
+        if (K4.kind === "volley") {
+          for (let K7 = 0; K7 < K4.count; K7++) {
+            const K8 =
+              K4.angle +
+              (K4.spiral ? K7 : K7 - (K4.count - 1) * 0.5) * K4.spread;
+            D.bullets.push({
+              x: K4.x,
+              y: K4.y,
+              vx: Math.cos(K8) * K4.speed,
+              vy: Math.sin(K8) * K4.speed,
+              r: 5.5 * Math.max(0.8, V()),
+              kind: BOLT_KINDS[D.act],
+              friendly: ![],
+              life: 8,
+            });
+          }
+          H("volley", { x: K4.x, y: K4.y, act: D.act });
+        } else
+          H(K4.kind === "nova" || K4.kind === "tether" ? K4.kind : "beam", {
+            x: K4.x,
+            y: K4.y,
+            kind: K4.kind,
+            act: D.act,
+          });
+      }
+      if (
+        K4.kind !== "volley" &&
+        K4.timer >= K4.warn &&
+        K4.timer < K4.warn + K4.duration
+      ) {
+        const K9 =
+          K4.kind === "nova"
+            ? !K3.hook && length(K3.x - K4.x, K3.y - K4.y) < K4.radius + K3.r
+            : segmentDistance(K3.x, K3.y, K4.x, K4.y, K4.x2, K4.y2) <
+              K3.r + K4.width * 0.5;
+        if (K9) z();
+      }
+      if (D.phase !== "playing") return;
+    }
+    D.hazards = D.hazards.filter((KK) => KK.timer < KK.warn + KK.duration);
+  }
+  function W(K2, K3, K4, K5) {
+    const K6 = D.player,
+      K7 = F(),
+      K8 = (t("windspun") ? 57 : 43) * Math.max(0.8, V());
+    for (const K9 of D.bullets) {
+      if (K9.life <= 0) continue;
+      K9.life -= K2;
+      const KK = K9.x,
+        Kg = K9.y;
+      if (K9.friendly) {
+        let KD = K7.find((Kl) => Kl.id === K9.targetId && Kl.active);
+        if (!KD) KD = K7.find((Kl) => Kl.active);
+        if (KD) {
+          K9.targetId = KD.id;
+          const Kl = KD.x - K9.x,
+            Kc = KD.y - K9.y,
+            KY = length(Kl, Kc) || 1,
+            Kr = Math.min(1, K2 * 11);
+          ((K9.vx += ((Kl / KY) * 620 - K9.vx) * Kr),
+            (K9.vy += ((Kc / KY) * 620 - K9.vy) * Kr));
+        }
+      }
+      ((K9.x += K9.vx * K2), (K9.y += K9.vy * K2));
+      if (K9.friendly)
+        for (const Kp of K7) {
+          if (
+            Kp.active &&
+            segmentDistance(Kp.x, Kp.y, KK, Kg, K9.x, K9.y) <= Kp.r + K9.r
+          ) {
+            ((K9.life = 0),
+              H("reflect_hit", { x: Kp.x, y: Kp.y, partId: Kp.id }),
+              f(Kp, t("echobell") ? 0.8 : 0.4, "deflect"));
+            break;
+          }
+        }
+      else {
+        const KR = segmentDistance(
+          0,
+          0,
+          KK - K3,
+          Kg - K4,
+          K9.x - K6.x,
+          K9.y - K6.y,
+        );
+        if ((K6.hook || K5) && KR <= K8 + K9.r) {
+          ((K9.friendly = !![]), (K9.kind = "reflected"), (K9.life = 2.5));
+          const KZ = m(K9.x, K9.y, !![]),
+            Ks = (KZ?.x ?? D.boss.x) - K9.x,
+            Kq = (KZ?.y ?? D.boss.y) - K9.y,
+            KU = length(Ks, Kq) || 1;
+          ((K9.vx = (Ks / KU) * 620),
+            (K9.vy = (Kq / KU) * 620),
+            (K9.targetId = KZ?.id ?? null),
+            D.deflections++,
+            N(80),
+            J(3),
+            H("deflect", { x: K9.x, y: K9.y }));
+        } else KR < K6.r + K9.r && ((K9.life = 0), z());
+      }
+      if (D.phase !== "playing") return;
+    }
+    D.bullets = D.bullets.filter(
+      (KA) =>
+        KA.life > 0 &&
+        KA.x > -100 &&
+        KA.x < D.width + 100 &&
+        KA.y > -100 &&
+        KA.y < D.height + 100,
+    );
+  }
+  function P(K2) {
+    const K3 = D.player;
+    ((K3.invuln = Math.max(0, K3.invuln - K2)),
+      (s = Math.max(0, s - K2)),
+      (q = Math.max(0, q - K2)));
+    if (K3.hook) {
+      const K7 = D.boss.parts.find(
+        (K8) => K8.id === K3.hook.targetId && K8.active && K8.exposed,
+      );
+      if (!K7) K3.hook = null;
+      else {
+        K3.hook.age += K2;
+        const K8 = K7.x - K3.x,
+          K9 = K7.y - K3.y,
+          KK = length(K8, K9) || 1,
+          Kg =
+            Math.min(0x672, 500 + K3.hook.age * 0x73a) *
+            Math.max(0.82, V()) *
+            (t("windspun") ? 1.28 : 1);
+        K3.angle = Math.atan2(K9, K8);
+        const KD =
+          K3.hook.side *
+          Math.min(0.24, KK / 0x708) *
+          Math.max(0, 1 - K3.hook.age);
+        ((K3.vx = (K8 / KK - (K9 / KK) * KD) * Kg),
+          (K3.vy = (K9 / KK + (K8 / KK) * KD) * Kg),
+          KK <= Kg * K2 + K7.r + K3.r * 0.5
+            ? ((K3.x = K7.x - (K8 / KK) * (K7.r + K3.r * 0.5)),
+              (K3.y = K7.y - (K9 / KK) * (K7.r + K3.r * 0.5)),
+              k(K7))
+            : ((K3.x += K3.vx * K2), (K3.y += K3.vy * K2)));
+      }
+    } else {
+      const Kl = Math.exp(-K2 * (s > 0 || q > 0 ? 0.8 : 1.5));
+      ((K3.vx = K3.vx * Kl + Y.x * 690 * K2),
+        (K3.vy = K3.vy * Kl + (Y.y * 690 + 48) * K2));
+      const Kc = length(K3.vx, K3.vy);
+      Kc > 490 &&
+        s <= 0 &&
+        q <= 0 &&
+        ((K3.vx *= 490 / Kc), (K3.vy *= 490 / Kc));
+      ((K3.x += K3.vx * K2), (K3.y += K3.vy * K2));
+      if (Kc > 35) K3.angle = Math.atan2(K3.vy, K3.vx);
+    }
+    const K4 = 28,
+      K5 = 75,
+      K6 = D.height - 50;
+    (K3.x < K4 && ((K3.x = K4), (K3.vx = Math.abs(K3.vx) * 0.7)),
+      K3.x > D.width - K4 &&
+        ((K3.x = D.width - K4), (K3.vx = -Math.abs(K3.vx) * 0.7)),
+      K3.y < K5 && ((K3.y = K5), (K3.vy = Math.abs(K3.vy) * 0.7)),
+      K3.y > K6 && ((K3.y = K6), (K3.vy = -Math.abs(K3.vy) * 0.7 - 20)));
+  }
+  function e() {
+    const K2 = UPGRADES.filter((K3) => !t(K3.id)).map((K3) => K3.id);
+    for (let K3 = K2.length - 1; K3 > 0; K3--) {
+      const K4 = Math.floor(g() * (K3 + 1));
+      [K2[K3], K2[K4]] = [K2[K4], K2[K3]];
+    }
+    ((D.choices = K2.slice(0, 3)),
+      (D.phase = "upgrade"),
+      (D.player.hp = Math.min(D.player.maxHp, D.player.hp + 2)),
+      (D.combo = 0),
+      (Z = 0),
+      Q("CHOOSE\x20A\x20RELIC\x20·\x20HULL\x20REPAIRED", 100));
+  }
+  function j(K2) {
+    if (D.phase !== "upgrade" || !D.choices.includes(K2)) return ![];
+    return (
+      D.upgrades.push(K2),
+      (D.choices = []),
+      K2 === "heartwood" &&
+        ((D.player.maxHp += 2),
+        (D.player.hp = Math.min(D.player.maxHp, D.player.hp + 2))),
+      D.act++,
+      (D.phase = "playing"),
+      (D.player.x = D.width * 0.5),
+      (D.player.y = D.height * 0.79),
+      (D.player.vx = 0),
+      (D.player.vy = -25),
+      (D.player.hook = null),
+      (D.player.invuln = 1.2),
+      (D.focus = ![]),
+      (Y = { x: 0, y: 0 }),
+      d(D.act),
+      Q(BOSSES[D.act].name.toUpperCase(), 3),
+      H("upgrade", { id: K2, act: D.act, x: D.player.x, y: D.player.y }),
+      !![]
+    );
+  }
+  function a(K2) {
+    if (D.phase === "won") {
+      ((D.victoryTime += K2), (D.time += K2));
+      return;
+    }
+    if (D.phase === "lost" || D.phase === "upgrade") return;
+    if (D.started) D.realTime += K2;
+    const K3 = K2 * (D.focus ? 0.24 : 1);
+    ((D.time += K3), (D.messageTime = Math.max(0, D.messageTime - K2)));
+    if (D.phase === "dying") {
+      ((D.boss.deathTime += K2),
+        (D.player.x += D.player.vx * K3),
+        (D.player.y += D.player.vy * K3),
+        (D.player.vx *= Math.exp(-K3 * 2)),
+        (D.player.vy *= Math.exp(-K3 * 2)));
+      if (D.boss.deathTime >= 2.6) {
+        if (D.act === BOSS_COUNT - 1) w(!![]);
+        else e();
+      }
+      return;
+    }
+    ((D.boss.age += K3), x(K3));
+    const K4 = D.player.x,
+      K5 = D.player.y,
+      K6 = Boolean(D.player.hook);
+    P(K3);
+    if (D.phase !== "playing") return;
+    if (D.started) {
+      r -= K3;
+      if (r <= 0) C();
+      u(K3);
+      if (D.phase !== "playing") return;
+      W(K3, K4, K5, K6);
+      if (Z > 0) {
+        Z -= K3;
+        if (Z <= 0) D.combo = 0;
+      }
+    }
+    O();
+  }
+  function v(K2) {
+    if (D.paused) return;
+    c += clamp(finite(K2, 0), 0, 0.25);
+    while (c + 1e-10 >= FIXED_DT) {
+      (a(FIXED_DT), (c = Math.max(0, c - FIXED_DT)));
+    }
+  }
+  function b(K2, K3) {
+    if (D.paused || D.phase !== "playing") return;
+    ((K2 = clamp(finite(K2, 0), -1, 1)), (K3 = clamp(finite(K3, 0), -1, 1)));
+    const K4 = Math.max(1, length(K2, K3));
+    Y = { x: K2 / K4, y: K3 / K4 };
+    if (K2 || K3) G();
+  }
+  function K0(K2) {
+    ((D.paused = Boolean(K2)), (D.focus = ![]), (Y = { x: 0, y: 0 }), (c = 0));
+  }
+  function K1(K2, K3) {
+    const K4 = clamp(finite(K2, D.width), 320, 0x960),
+      K5 = clamp(finite(K3, D.height), 400, 0x960),
+      K6 = K4 / D.width,
+      K7 = K5 / D.height;
+    ((D.player.x *= K6), (D.player.y *= K7), (D.aim.x *= K6), (D.aim.y *= K7));
+    for (const K8 of D.bullets) {
+      ((K8.x *= K6), (K8.y *= K7));
+    }
+    for (const K9 of D.hazards) {
+      ((K9.x *= K6), (K9.x2 *= K6), (K9.y *= K7), (K9.y2 *= K7));
+    }
+    ((width = D.width = K4), (height = D.height = K5), x(0), O());
+  }
+  return (
+    E(),
+    {
+      get state() {
+        return D;
+      },
+      update: v,
+      aim: S,
+      release: y,
+      move: b,
+      burst: M,
+      chooseUpgrade: j,
+      restart: E,
+      setPaused: K0,
+      resizeWorld: K1,
+      drainEvents() {
+        const K2 = l;
+        return ((l = []), K2);
+      },
+      debug: {
+        damagePlayer: z,
+        breakPart(K2) {
+          return (
+            G(),
+            f(
+              D.boss.parts.find((K3) => K3.id === K2),
+              0x3e8,
+              "debug",
+            )
+          );
+        },
+        winBoss() {
+          (G(), (D.boss.cycle = 2), (D.boss.reserveHp = 0));
+          for (const K2 of D.boss.parts) {
+            ((K2.active = !![]), (K2.exposed = !![]), f(K2, 0x3e8, "debug"));
+          }
+        },
+        forceEnd(K2 = ![]) {
+          (G(), w(Boolean(K2)));
+        },
+      },
+    }
+  );
+}

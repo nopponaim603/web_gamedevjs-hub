@@ -1,1 +1,170 @@
-export function createSafeStorage(K){const g=new Map();return{'read'(D,l=null){try{const c=window.localStorage.getItem(K+':'+D);return c==null?g.has(D)?g.get(D):l:JSON.parse(c);}catch{return g.has(D)?g.get(D):l;}},'write'(D,l){g.set(D,l);try{window.localStorage.setItem(K+':'+D,JSON.stringify(l));}catch{}}};}export function createTelemetry(){const K=[];let g=0,D=![],l=![];const c=(p,R)=>{Z=R.method;if(typeof p[Z]!=="function")return![];try{const s=p[Z](...R.args);if(s?.catch)s.catch(()=>{});}catch{}return!![];},Y=()=>{p=window.AIGameShare;if(!p)return;for(R<K.length;){if(c(p,K[R]))K.splice(R,1);else R++;}},r=(p,...R)=>{K.push({'method':p,'args':R}),Y();};return{'newRun'(){g++,D=![],l=![];},'start'(p={}){if(D)return;D=!![],r("track",'game_start',{'game':"grapple-knight-storm-siege",'run':g,...p});},'end'(p,R={}){if(l||!D)return;l=!![];const Z={'game':"grapple-knight-storm-siege",'run':g,...R};r("track","game_end",{...Z,'score':p});if(Number.isFinite(p))r("submitScore","score",Math.max(0,Math.floor(p)),{'meta':Z});},'flush':Y};}export function createCloudSettings({read:K,apply:g}){let D=![],l=![],c=![],Y=![],r=0,p=![];function Z(){s=window.AIGameShare?.cloudSave;if(p||!s||typeof s.get!=="function"||typeof s.set!=="function")return;if(!D&&!l){l=!![];const U=r;Promise.resolve().then(()=>s.get(R)).then(A=>{const J=y;if(A&&typeof A===J(295)){const t=K(),H=A[J(291)]&&typeof A[J(291)]==='object'?A.data:A,V={...t,'best':Math[J(293)](t[J(264)]||0,Number(H[J(264)])||0)};if(r===U&&r===0){if(H.language==='en'||H[J(300)]==='zh')V[J(300)]=H[J(300)];if(typeof H.muted==='boolean')V.muted=H[J(292)];}g(V);}D=!![];}).catch(()=>{p=!![];}).finally(()=>{l=![];});return;}if(!D||!c||Y)return;c=![],Y=!![];const q=K();Promise.resolve().then(()=>s.set(R,{'schema':1,...q})).catch(()=>{p=!![];}).finally(()=>{Y=![];});}return{'flush':Z,'save'(){r++,c=!![];}};}
+export function createSafeStorage(namespace) {
+  const memory = new Map();
+  return {
+    read(key, fallback = null) {
+      try {
+        const value = window.localStorage.getItem(`${namespace}:${key}`);
+        return value == null
+          ? memory.has(key)
+            ? memory.get(key)
+            : fallback
+          : JSON.parse(value);
+      } catch {
+        return memory.has(key) ? memory.get(key) : fallback;
+      }
+    },
+    write(key, value) {
+      memory.set(key, value);
+      try {
+        window.localStorage.setItem(
+          `${namespace}:${key}`,
+          JSON.stringify(value),
+        );
+      } catch {}
+    },
+  };
+}
+
+export function createTelemetry() {
+  const queue = [];
+  let runCount = 0;
+  let started = false;
+  let ended = false;
+
+  const dispatch = (bridge, item) => {
+    const method = item.method;
+    if (typeof bridge[method] !== "function") return false;
+    try {
+      const promise = bridge[method](...item.args);
+      if (promise?.catch) promise.catch(() => {});
+    } catch {}
+    return true;
+  };
+
+  const flush = () => {
+    const bridge = window.AIGameShare;
+    if (!bridge) return;
+    for (let i = 0; i < queue.length;) {
+      if (dispatch(bridge, queue[i])) {
+        queue.splice(i, 1);
+      } else {
+        i++;
+      }
+    }
+  };
+
+  const enqueue = (method, ...args) => {
+    queue.push({ method, args });
+    flush();
+  };
+
+  return {
+    newRun() {
+      runCount++;
+      started = false;
+      ended = false;
+    },
+    start(extra = {}) {
+      if (started) return;
+      started = true;
+      enqueue("track", "game_start", {
+        game: "grapple-knight-storm-siege",
+        run: runCount,
+        ...extra,
+      });
+    },
+    end(score, extra = {}) {
+      if (ended || !started) return;
+      ended = true;
+      const meta = {
+        game: "grapple-knight-storm-siege",
+        run: runCount,
+        ...extra,
+      };
+      enqueue("track", "game_end", { ...meta, score });
+      if (Number.isFinite(score)) {
+        enqueue("submitScore", "score", Math.max(0, Math.floor(score)), {
+          meta,
+        });
+      }
+    },
+    flush,
+  };
+}
+
+export function createCloudSettings({ read, apply }) {
+  let initialLoaded = false;
+  let loading = false;
+  let dirty = false;
+  let saving = false;
+  let version = 0;
+  let disabled = false;
+  const cloudKey = "settings";
+
+  function flush() {
+    const cloud = window.AIGameShare?.cloudSave;
+    if (
+      disabled ||
+      !cloud ||
+      typeof cloud.get !== "function" ||
+      typeof cloud.set !== "function"
+    )
+      return;
+
+    if (!initialLoaded && !loading) {
+      loading = true;
+      const currentVer = version;
+      Promise.resolve()
+        .then(() => cloud.get(cloudKey))
+        .then((payload) => {
+          if (payload && typeof payload === "object") {
+            const local = read();
+            const remoteData =
+              payload.data && typeof payload.data === "object"
+                ? payload.data
+                : payload;
+            const merged = {
+              ...local,
+              best: Math.max(local.best || 0, Number(remoteData.best) || 0),
+            };
+            if (version === currentVer && version === 0) {
+              if (remoteData.language === "en" || remoteData.language === "zh")
+                merged.language = remoteData.language;
+              if (typeof remoteData.muted === "boolean")
+                merged.muted = remoteData.muted;
+            }
+            apply(merged);
+          }
+          initialLoaded = true;
+        })
+        .catch(() => {
+          disabled = true;
+        })
+        .finally(() => {
+          loading = false;
+        });
+      return;
+    }
+
+    if (!initialLoaded || !dirty || saving) return;
+    dirty = false;
+    saving = true;
+    const currentSettings = read();
+    Promise.resolve()
+      .then(() => cloud.set(cloudKey, { schema: 1, ...currentSettings }))
+      .catch(() => {
+        disabled = true;
+      })
+      .finally(() => {
+        saving = false;
+      });
+  }
+
+  return {
+    flush,
+    save() {
+      version++;
+      dirty = true;
+    },
+  };
+}

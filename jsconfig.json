@@ -1,16 +1,20 @@
 {
   "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "checkJs": false,
+    "allowJs": true
   },
   "include": [
     "next.config.js",
     "server.js",
-    "src/**/*",
-    "public/**/*"
+    "src/**/*"
   ],
   "exclude": [
     "node_modules",
@@ -22,6 +26,12 @@
     ".obsidian",
     "engines_backup",
     "scratch",
-    "docs"
+    "docs",
+    "public/games/**/vendor/**",
+    "public/games/**/assets/**",
+    "public/games/**/draco/**",
+    "public/games/**/basis/**",
+    "public/games/**/game_assets/**",
+    "public/games/**/immutable/**"
   ]
 }

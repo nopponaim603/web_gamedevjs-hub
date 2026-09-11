@@ -1,5 +1,5 @@
-import { BAL } from './balance.js';
-import { mulberry32 } from './sim.js';
+import { BAL } from "./balance.js";
+import { mulberry32 } from "./sim.js";
 
 export const PERSONA = {
   farmer: {
@@ -31,23 +31,23 @@ export const PERSONA = {
   },
 };
 
-export const PERSONAS = ['farmer', 'hunter', 'raider'];
+export const PERSONAS = ["farmer", "hunter", "raider"];
 
 /**
  * Returns a deterministic persona for a given player slot.
  */
 export function personaFor(slot) {
   const rotation = [
-    'farmer',
-    'hunter',
-    'raider',
-    'raider',
-    'farmer',
-    'hunter',
-    'raider',
-    'farmer',
-    'hunter',
-    'raider',
+    "farmer",
+    "hunter",
+    "raider",
+    "raider",
+    "farmer",
+    "hunter",
+    "raider",
+    "farmer",
+    "hunter",
+    "raider",
   ];
   return rotation[slot % rotation.length];
 }
@@ -66,7 +66,7 @@ export function createBot(gameClient, slot, personaType, seed = 1) {
   const gridSize = gameClient.S.G;
 
   const bot = {
-    state: 'plan', // 'plan' | 'loop' | 'hunt' | 'return'
+    state: "plan", // 'plan' | 'loop' | 'hunt' | 'return'
     waypoints: [],
     wpIndex: 0,
     huntSlot: -1,
@@ -90,7 +90,8 @@ export function createBot(gameClient, slot, personaType, seed = 1) {
       for (let cy = minY; cy <= maxY; cy++) {
         for (let cx = minX; cx <= maxX; cx++) {
           // Only check perimeter of the current search box
-          if (cy !== minY && cy !== maxY && cx !== minX && cx !== maxX) continue;
+          if (cy !== minY && cy !== maxY && cx !== minX && cx !== maxX)
+            continue;
           if (isMyCell(cy * gridSize + cx)) {
             return [cx + 0.5, cy + 0.5];
           }
@@ -141,12 +142,18 @@ export function createBot(gameClient, slot, personaType, seed = 1) {
         const sampleY = me.y + sinA * dist;
 
         // Penalize proximity to board boundaries
-        if (sampleX < 3 || sampleY < 3 || sampleX > gridSize - 3 || sampleY > gridSize - 3) {
+        if (
+          sampleX < 3 ||
+          sampleY < 3 ||
+          sampleX > gridSize - 3 ||
+          sampleY > gridSize - 3
+        ) {
           score -= 2.5;
           continue;
         }
 
-        const cellOwner = gameClient.S.grid[(sampleY | 0) * gridSize + (sampleX | 0)];
+        const cellOwner =
+          gameClient.S.grid[(sampleY | 0) * gridSize + (sampleX | 0)];
         if (cellOwner === 0) {
           score += 1.0; // Unclaimed neutral territory
         } else if (cellOwner !== slot + 1) {
@@ -157,7 +164,10 @@ export function createBot(gameClient, slot, personaType, seed = 1) {
       // Penalize heading into close proximity with active enemies
       for (const other of gameClient.S.players) {
         if (!other || other.slot === slot || !other.alive) continue;
-        const enemyDist = Math.hypot(other.x - (me.x + cosA * 10), other.y - (me.y + sinA * 10));
+        const enemyDist = Math.hypot(
+          other.x - (me.x + cosA * 10),
+          other.y - (me.y + sinA * 10),
+        );
         if (enemyDist < 16) {
           score -= (16 - enemyDist) * 0.6;
         }
@@ -177,10 +187,17 @@ export function createBot(gameClient, slot, personaType, seed = 1) {
   function planExpansionLoop() {
     const me = getPlayer();
     const heading = pickExpansionHeading();
-    const maxPathDist = (me.ink / BAL.inkDrainOut) * BAL.speed * persona.loopScale;
+    const maxPathDist =
+      (me.ink / BAL.inkDrainOut) * BAL.speed * persona.loopScale;
 
-    const loopLength = Math.max(5, Math.min(34, maxPathDist * 0.3 * persona.safety));
-    const loopWidth = Math.max(4, Math.min(26, maxPathDist * 0.2 * persona.safety));
+    const loopLength = Math.max(
+      5,
+      Math.min(34, maxPathDist * 0.3 * persona.safety),
+    );
+    const loopWidth = Math.max(
+      4,
+      Math.min(26, maxPathDist * 0.2 * persona.safety),
+    );
     const turnSign = rng() < 0.5 ? 1 : -1;
 
     const cosH = Math.cos(heading);
@@ -189,16 +206,22 @@ export function createBot(gameClient, slot, personaType, seed = 1) {
     const perpY = cosH * turnSign;
 
     const clampCoord = (val, min, max) => Math.min(max, Math.max(min, val));
-    const makePt = (x, y) => [clampCoord(x, 2, gridSize - 2), clampCoord(y, 2, gridSize - 2)];
+    const makePt = (x, y) => [
+      clampCoord(x, 2, gridSize - 2),
+      clampCoord(y, 2, gridSize - 2),
+    ];
 
     bot.waypoints = [
       makePt(me.x + cosH * loopLength, me.y + sinH * loopLength),
-      makePt(me.x + cosH * loopLength + perpX * loopWidth, me.y + sinH * loopLength + perpY * loopWidth),
+      makePt(
+        me.x + cosH * loopLength + perpX * loopWidth,
+        me.y + sinH * loopLength + perpY * loopWidth,
+      ),
       makePt(me.x + perpX * loopWidth, me.y + perpY * loopWidth),
       makePt(me.x, me.y),
     ];
     bot.wpIndex = 0;
-    bot.state = 'loop';
+    bot.state = "loop";
   }
 
   /**
@@ -237,15 +260,17 @@ export function createBot(gameClient, slot, personaType, seed = 1) {
     const targetEnemy = gameClient.S.players[targetEnemySlot];
     const enemyHome = findEnemyHome(targetEnemy);
     const enemyTimeToHome = enemyHome
-      ? Math.hypot(targetEnemy.x - enemyHome[0], targetEnemy.y - enemyHome[1]) / BAL.speed
+      ? Math.hypot(targetEnemy.x - enemyHome[0], targetEnemy.y - enemyHome[1]) /
+        BAL.speed
       : 3;
 
-    const myTimeToTarget = closestDist / (BAL.speed * (persona.boostHunt ? BAL.boostMult : 1));
+    const myTimeToTarget =
+      closestDist / (BAL.speed * (persona.boostHunt ? BAL.boostMult : 1));
     if (myTimeToTarget > enemyTimeToHome * 0.9 + 0.7) {
       return false; // Enemy will close their loop before we can reach them
     }
 
-    bot.state = 'hunt';
+    bot.state = "hunt";
     bot.huntSlot = targetEnemySlot;
     bot.waypoints = [targetPoint];
     bot.wpIndex = 0;
@@ -281,7 +306,7 @@ export function createBot(gameClient, slot, personaType, seed = 1) {
     const me = getPlayer();
     const angle = Math.atan2(targetY - me.y, targetX - me.x);
     const inputHandler = gameClient.localInput || gameClient.sendInput;
-    if (typeof inputHandler === 'function') {
+    if (typeof inputHandler === "function") {
       inputHandler(slot, { angle, boost: !!boost });
     }
   }
@@ -292,14 +317,17 @@ export function createBot(gameClient, slot, personaType, seed = 1) {
   function update() {
     const me = getPlayer();
     if (!me || !me.alive) {
-      bot.state = 'plan';
+      bot.state = "plan";
       bot.huntSlot = -1;
       return;
     }
 
     const currentCellIdx = (me.y | 0) * gridSize + (me.x | 0);
-    const isInDangerZone = me.trailCells.length > 0 || !isMyCell(currentCellIdx);
-    const isDecideTick = gameClient.S.tick - bot.lastDecideTick >= Math.round(20 / BAL.botDecideHz);
+    const isInDangerZone =
+      me.trailCells.length > 0 || !isMyCell(currentCellIdx);
+    const isDecideTick =
+      gameClient.S.tick - bot.lastDecideTick >=
+      Math.round(20 / BAL.botDecideHz);
 
     if (isDecideTick) {
       bot.lastDecideTick = gameClient.S.tick;
@@ -308,22 +336,24 @@ export function createBot(gameClient, slot, personaType, seed = 1) {
       if (isInDangerZone) {
         // High risk situation: evaluate emergency retreat
         const trailLen = me.trailCells.length;
-        const enemyThreatThreshold = persona.threatR + Math.min(10, trailLen * 0.12);
-        const shouldFlee = (nearestEnemy && enemyDist < enemyThreatThreshold) || me.ink < 8;
+        const enemyThreatThreshold =
+          persona.threatR + Math.min(10, trailLen * 0.12);
+        const shouldFlee =
+          (nearestEnemy && enemyDist < enemyThreatThreshold) || me.ink < 8;
 
         if (shouldFlee) {
           const safeCell = findNearestTerritory(me.x, me.y);
           if (safeCell) {
-            bot.state = 'return';
+            bot.state = "return";
             bot.waypoints = [safeCell];
             bot.wpIndex = 0;
           }
         }
       } else {
         // Safe inside territory: hunt or start a new loop
-        if (bot.state !== 'hunt' || bot.huntSlot < 0) {
+        if (bot.state !== "hunt" || bot.huntSlot < 0) {
           if (!attemptTrailHunt()) {
-            if (bot.state !== 'loop' || bot.wpIndex >= bot.waypoints.length) {
+            if (bot.state !== "loop" || bot.wpIndex >= bot.waypoints.length) {
               planExpansionLoop();
             }
           }
@@ -331,12 +361,16 @@ export function createBot(gameClient, slot, personaType, seed = 1) {
       }
 
       // Update hunt tracking
-      if (bot.state === 'hunt') {
+      if (bot.state === "hunt") {
         const targetEnemy = gameClient.S.players[bot.huntSlot];
-        if (!targetEnemy || !targetEnemy.alive || targetEnemy.trailCells.length === 0) {
-          bot.state = isInDangerZone ? 'return' : 'plan';
+        if (
+          !targetEnemy ||
+          !targetEnemy.alive ||
+          targetEnemy.trailCells.length === 0
+        ) {
+          bot.state = isInDangerZone ? "return" : "plan";
           bot.huntSlot = -1;
-          if (bot.state === 'return') {
+          if (bot.state === "return") {
             const home = findNearestTerritory(me.x, me.y);
             if (home) {
               bot.waypoints = [home];
@@ -365,7 +399,7 @@ export function createBot(gameClient, slot, personaType, seed = 1) {
       }
     }
 
-    if (bot.state === 'plan') {
+    if (bot.state === "plan") {
       planExpansionLoop();
     }
 
@@ -378,8 +412,8 @@ export function createBot(gameClient, slot, personaType, seed = 1) {
         bot.wpIndex++;
       } else {
         const shouldUseBoost =
-          (bot.state === 'hunt' && persona.boostHunt) ||
-          (bot.state === 'return' && persona.boostFlee && me.ink > 25) ||
+          (bot.state === "hunt" && persona.boostHunt) ||
+          (bot.state === "return" && persona.boostFlee && me.ink > 25) ||
           (gameClient.S.frenzy && me.ink > 10);
 
         steerTowards(targetX, targetY, shouldUseBoost);
@@ -389,24 +423,24 @@ export function createBot(gameClient, slot, personaType, seed = 1) {
 
     // On completing waypoints sequence
     if (bot.wpIndex >= bot.waypoints.length) {
-      if (bot.state === 'loop' && !isInDangerZone) {
-        bot.state = 'plan';
-      } else if (bot.state === 'loop' && isInDangerZone) {
+      if (bot.state === "loop" && !isInDangerZone) {
+        bot.state = "plan";
+      } else if (bot.state === "loop" && isInDangerZone) {
         const retreatHome = findNearestTerritory(me.x, me.y);
         if (retreatHome) {
           bot.waypoints = [retreatHome];
           bot.wpIndex = 0;
         }
-      } else if (bot.state === 'return' && !isInDangerZone) {
-        bot.state = 'plan';
-      } else if (bot.state === 'return' && isInDangerZone) {
+      } else if (bot.state === "return" && !isInDangerZone) {
+        bot.state = "plan";
+      } else if (bot.state === "return" && isInDangerZone) {
         const retreatHome = findNearestTerritory(me.x, me.y);
         if (retreatHome) {
           bot.waypoints = [retreatHome];
           bot.wpIndex = 0;
         }
-      } else if (bot.state === 'hunt') {
-        bot.state = 'plan';
+      } else if (bot.state === "hunt") {
+        bot.state = "plan";
         bot.huntSlot = -1;
       }
     }
@@ -430,11 +464,17 @@ export function createBotPool(gameClient, seed = 1) {
   const sync = () => {
     for (const player of gameClient.S.players) {
       if (player && player.bot && !botsMap.has(player.slot)) {
-        botsMap.set(player.slot, createBot(gameClient, player.slot, player.bot, seed));
+        botsMap.set(
+          player.slot,
+          createBot(gameClient, player.slot, player.bot, seed),
+        );
       }
     }
     for (const slotKey of [...botsMap.keys()]) {
-      if (!gameClient.S.players[slotKey] || !gameClient.S.players[slotKey].bot) {
+      if (
+        !gameClient.S.players[slotKey] ||
+        !gameClient.S.players[slotKey].bot
+      ) {
         botsMap.delete(slotKey);
       }
     }
