@@ -1,6 +1,6 @@
 // ============================================================
-// Card Memory Match — High Performance Canvas 2D Engine
-// Engine: HTML5 Canvas 2D API | Assets: Kenney Cards (large)
+// Card Memory Match — Main Game Controller
+// Engine: HTML5 Canvas 2D API | Assets: Kenney Playing Cards
 // ============================================================
 
 (function () {
@@ -22,101 +22,9 @@
   let height = 600;
   let dpr = 1;
 
-  // --- Audio Context (Synthesized Web Audio API) ---
-  let audioCtx = null;
-  let soundEnabled = true;
-
-  function initAudio() {
-    if (!audioCtx) {
-      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-      if (AudioContextClass) {
-        audioCtx = new AudioContextClass();
-      }
-    }
-    if (audioCtx && audioCtx.state === 'suspended') {
-      audioCtx.resume();
-    }
-  }
-
-  function playTone(freq, type, duration, startVol = 0.15, endVol = 0.001) {
-    if (!soundEnabled || !audioCtx) return;
-    try {
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = type;
-      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-      gain.gain.setValueAtTime(startVol, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(endVol, audioCtx.currentTime + duration);
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start();
-      osc.stop(audioCtx.currentTime + duration);
-    } catch {}
-  }
-
-  function playFlipSound() {
-    playTone(400, 'sine', 0.08, 0.12);
-  }
-
-  function playMatchSound() {
-    if (!soundEnabled || !audioCtx) return;
-    try {
-      const now = audioCtx.currentTime;
-      [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(freq, now + i * 0.06);
-        gain.gain.setValueAtTime(0.18, now + i * 0.06);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.06 + 0.25);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start(now + i * 0.06);
-        osc.stop(now + i * 0.06 + 0.25);
-      });
-    } catch {}
-  }
-
-  function playMismatchSound() {
-    if (!soundEnabled || !audioCtx) return;
-    try {
-      const now = audioCtx.currentTime;
-      [220, 180].forEach((freq, i) => {
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(freq, now + i * 0.1);
-        gain.gain.setValueAtTime(0.12, now + i * 0.1);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.1 + 0.2);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start(now + i * 0.1);
-        osc.stop(now + i * 0.1 + 0.2);
-      });
-    } catch {}
-  }
-
-  function playVictorySound() {
-    if (!soundEnabled || !audioCtx) return;
-    try {
-      const notes = [523.25, 659.25, 783.99, 1046.5, 880, 1046.5];
-      const durations = [0.15, 0.15, 0.15, 0.25, 0.15, 0.4];
-      let t = audioCtx.currentTime;
-      notes.forEach((freq, i) => {
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq, t);
-        gain.gain.setValueAtTime(0.2, t);
-        gain.gain.exponentialRampToValueAtTime(0.001, t + durations[i]);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start(t);
-        osc.stop(t + durations[i]);
-        t += durations[i];
-      });
-    } catch {}
-  }
+  // --- Subsystems ---
+  const audio = new window.CardSoundEngine();
+  const particleSys = new window.CardParticleSystem();
 
   // --- Asset Preloader & Texture Pool ---
   const images = {};
@@ -182,195 +90,14 @@
   let timerInterval = null;
   let gameStarted = false;
   let gameOver = false;
-  let particles = [];
 
   // Interactive Buttons on Canvas
   let buttons = [];
   let mousePos = { x: -1, y: -1 };
-
-  // --- Card Object ---
-  class Card {
-    constructor(id, suit, value, imageKey) {
-      this.id = id;
-      this.suit = suit;
-      this.value = value;
-      this.imageKey = imageKey;
-
-      this.x = 0;
-      this.y = 0;
-      this.width = 100;
-      this.height = 140;
-
-      this.isFlipped = false;
-      this.isMatched = false;
-
-      // Animation properties
-      this.flipProgress = 0; // 0 = face down (back), 1 = face up (front)
-      this.targetFlip = 0;
-      this.scale = 1;
-      this.shakeX = 0;
-      this.bounceY = 0;
-      this.isHovered = false;
-    }
-
-    update(dt) {
-      // Flip animation interpolation
-      if (Math.abs(this.flipProgress - this.targetFlip) > 0.01) {
-        this.flipProgress += (this.targetFlip - this.flipProgress) * 14 * dt;
-      } else {
-        this.flipProgress = this.targetFlip;
-      }
-
-      // Shake animation for mismatch
-      if (this.shakeX !== 0) {
-        this.shakeX *= 0.85;
-        if (Math.abs(this.shakeX) < 0.1) this.shakeX = 0;
-      }
-
-      // Hover animation
-      const targetScale = this.isMatched ? 0.96 : this.isHovered ? 1.05 : 1.0;
-      this.scale += (targetScale - this.scale) * 10 * dt;
-    }
-
-    draw(ctx) {
-      ctx.save();
-      const centerX = this.x + this.width / 2 + this.shakeX;
-      const centerY = this.y + this.height / 2 + this.bounceY;
-
-      ctx.translate(centerX, centerY);
-      ctx.scale(this.scale, this.scale);
-
-      // Cosine flip scale effect
-      const flipScaleX = Math.cos(this.flipProgress * Math.PI);
-      ctx.scale(Math.abs(flipScaleX), 1);
-
-      const drawW = this.width;
-      const drawH = this.height;
-      const rx = -drawW / 2;
-      const ry = -drawH / 2;
-      const radius = 10;
-
-      // Card Drop Shadow
-      if (!this.isMatched) {
-        ctx.shadowColor = 'rgba(0, 0, 0, 0.4)';
-        ctx.shadowBlur = this.isHovered ? 18 : 10;
-        ctx.shadowOffsetY = this.isHovered ? 8 : 4;
-      }
-
-      // Determine Front vs Back image
-      const showFront = flipScaleX <= 0; // When flip passes 90 deg (scaleX crosses 0)
-      const img = showFront ? images[this.imageKey] : images['card_back'];
-
-      if (img && img.complete && img.naturalWidth !== 0) {
-        // Draw rounded image
-        ctx.beginPath();
-        ctx.roundRect(rx, ry, drawW, drawH, radius);
-        ctx.clip();
-        ctx.drawImage(img, rx, ry, drawW, drawH);
-      } else {
-        // Fallback procedural card
-        ctx.fillStyle = showFront ? '#ffffff' : '#2563eb';
-        ctx.beginPath();
-        ctx.roundRect(rx, ry, drawW, drawH, radius);
-        ctx.fill();
-
-        ctx.strokeStyle = '#38bdf8';
-        ctx.lineWidth = 3;
-        ctx.stroke();
-
-        if (showFront) {
-          ctx.fillStyle = (this.suit === 'hearts' || this.suit === 'diamonds') ? '#ef4444' : '#0f172a';
-          ctx.font = 'bold 22px sans-serif';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          const suitIcon = { clubs: '♣', diamonds: '♦', hearts: '♥', spades: '♠' }[this.suit] || '';
-          ctx.fillText(`${this.value}${suitIcon}`, 0, 0);
-        }
-      }
-
-      ctx.restore();
-
-      // Highlight / Matched Glow Overlay
-      ctx.save();
-      ctx.translate(centerX, centerY);
-      ctx.scale(this.scale, this.scale);
-      if (this.isMatched) {
-        ctx.beginPath();
-        ctx.roundRect(rx, ry, drawW, drawH, radius);
-        ctx.strokeStyle = 'rgba(52, 211, 153, 0.8)';
-        ctx.lineWidth = 3;
-        ctx.stroke();
-      } else if (this.isHovered && !this.isFlipped) {
-        ctx.beginPath();
-        ctx.roundRect(rx, ry, drawW, drawH, radius);
-        ctx.strokeStyle = 'rgba(56, 189, 248, 0.9)';
-        ctx.lineWidth = 3;
-        ctx.stroke();
-      }
-      ctx.restore();
-    }
-
-    containsPoint(px, py) {
-      return (
-        px >= this.x &&
-        px <= this.x + this.width &&
-        py >= this.y &&
-        py <= this.y + this.height
-      );
-    }
-  }
-
-  // --- Particles ---
-  function spawnSparkles(x, y, count = 16) {
-    for (let i = 0; i < count; i++) {
-      const angle = Math.random() * Math.PI * 2;
-      const speed = 60 + Math.random() * 120;
-      particles.push({
-        x: x,
-        y: y,
-        vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed - 40,
-        size: 3 + Math.random() * 5,
-        color: ['#fbbf24', '#34d399', '#38bdf8', '#f472b6'][Math.floor(Math.random() * 4)],
-        alpha: 1,
-        life: 0.6 + Math.random() * 0.4,
-      });
-    }
-    if (particles.length > 50) {
-      particles.splice(0, particles.length - 50);
-    }
-  }
-
-  function updateParticles(dt) {
-    for (let i = particles.length - 1; i >= 0; i--) {
-      const p = particles[i];
-      p.life -= dt;
-      if (p.life <= 0) {
-        particles.splice(i, 1);
-        continue;
-      }
-      p.x += p.vx * dt;
-      p.y += p.vy * dt;
-      p.vy += 120 * dt; // gravity
-      p.alpha = p.life;
-    }
-  }
-
-  function drawParticles(ctx) {
-    particles.forEach((p) => {
-      ctx.save();
-      ctx.globalAlpha = Math.max(0, p.alpha);
-      ctx.fillStyle = p.color;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.restore();
-    });
-  }
+  let victoryBtn = null;
 
   // --- Game Mechanics ---
   function initGame() {
-    // Stop previous timer
     if (timerInterval) clearInterval(timerInterval);
     timerInterval = null;
 
@@ -381,10 +108,9 @@
     gameOver = false;
     locked = false;
     flippedCards = [];
-    particles = [];
+    particleSys.clear();
 
     // Select 8 random pairs
-    const selectedPairs = [];
     const pool = [];
     for (const suit of SUITS) {
       for (const value of VALUES) {
@@ -411,7 +137,7 @@
       [cardList[i], cardList[j]] = [cardList[j], cardList[i]];
     }
 
-    cards = cardList.map((item, idx) => new Card(idx, item.suit, item.value, item.key));
+    cards = cardList.map((item, idx) => new window.Card(idx, item.suit, item.value, item.key));
     layoutGrid();
   }
 
@@ -425,7 +151,7 @@
   }
 
   function handleCardClick(card) {
-    initAudio();
+    audio.initAudio();
     if (locked || gameOver) return;
     if (card.isFlipped || card.isMatched) return;
     if (flippedCards.length >= 2) return;
@@ -438,7 +164,7 @@
     card.isFlipped = true;
     card.targetFlip = 1;
     flippedCards.push(card);
-    playFlipSound();
+    audio.playFlip();
 
     if (flippedCards.length === 2) {
       locked = true;
@@ -451,9 +177,9 @@
           c1.isMatched = true;
           c2.isMatched = true;
           matchedPairs++;
-          playMatchSound();
-          spawnSparkles(c1.x + c1.width / 2, c1.y + c1.height / 2, 20);
-          spawnSparkles(c2.x + c2.width / 2, c2.y + c2.height / 2, 20);
+          audio.playMatch();
+          particleSys.spawnSparkles(c1.x + c1.width / 2, c1.y + c1.height / 2, 20);
+          particleSys.spawnSparkles(c2.x + c2.width / 2, c2.y + c2.height / 2, 20);
           flippedCards = [];
           locked = false;
 
@@ -466,7 +192,7 @@
         setTimeout(() => {
           c1.shakeX = 12;
           c2.shakeX = 12;
-          playMismatchSound();
+          audio.playMismatch();
         }, 300);
 
         setTimeout(() => {
@@ -485,7 +211,7 @@
     gameOver = true;
     if (timerInterval) clearInterval(timerInterval);
 
-    playVictorySound();
+    audio.playVictory();
     saveHighScore();
   }
 
@@ -533,16 +259,13 @@
     const availableWidth = width;
     const availableHeight = height - topHudHeight - 20;
 
-    // Determine optimal card size to fit inside container perfectly
     const padding = isSmallScreen ? 6 : 12;
     const maxCardW = Math.floor((availableWidth - (GRID_COLS + 1) * padding) / GRID_COLS);
     const maxCardH = Math.floor((availableHeight - (GRID_ROWS + 1) * padding) / GRID_ROWS);
 
-    // Keep standard 1 : 1.4 aspect ratio for cards
     let cardW = Math.min(maxCardW, Math.floor(maxCardH / 1.4));
     let cardH = Math.floor(cardW * 1.4);
 
-    // Clamp card sizes
     cardW = Math.max(44, Math.min(110, cardW));
     cardH = Math.floor(cardW * 1.4);
 
@@ -578,7 +301,7 @@
 
   // --- Input Handlers ---
   function handleInput(px, py, isClick = false) {
-    if (isClick) initAudio();
+    if (isClick) audio.initAudio();
 
     mousePos = { x: px, y: py };
 
@@ -627,7 +350,6 @@
 
   // --- Render Loop ---
   let lastTime = performance.now();
-  let victoryBtn = null;
 
   function render(time) {
     const dt = Math.min(0.1, (time - lastTime) / 1000);
@@ -648,38 +370,24 @@
 
     if (isPreloading) {
       drawLoadingScreen(ctx);
-      ctx.restore();
-      requestAnimationFrame(render);
-      return;
-    }
+    } else {
+      // Update & Draw cards
+      cards.forEach((card) => {
+        card.update(dt);
+        card.draw(ctx, images);
+      });
 
-    // Subtle ambient grid pattern
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
-    ctx.lineWidth = 1;
-    const gridStep = 40;
-    for (let x = 0; x < width; x += gridStep) {
-      ctx.beginPath();
-      ctx.moveTo(x, 0);
-      ctx.lineTo(x, height);
-      ctx.stroke();
-    }
+      // Update & Draw particles
+      particleSys.update(dt);
+      particleSys.draw(ctx);
 
-    // 2. HUD Bar
-    drawHUD(ctx);
+      // Top HUD
+      drawHUD(ctx);
 
-    // 3. Cards
-    cards.forEach((card) => {
-      card.update(dt);
-      card.draw(ctx);
-    });
-
-    // 4. Particles
-    updateParticles(dt);
-    drawParticles(ctx);
-
-    // 5. Victory Overlay Modal
-    if (gameOver) {
-      drawVictoryModal(ctx);
+      // Victory Modal Overlay
+      if (gameOver) {
+        drawVictoryModal(ctx);
+      }
     }
 
     ctx.restore();
@@ -688,212 +396,217 @@
 
   function drawLoadingScreen(ctx) {
     ctx.fillStyle = '#f8fafc';
-    ctx.font = '600 16px system-ui, sans-serif';
+    ctx.font = 'bold 24px sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText('🃏 Loading Card Assets...', width / 2, height / 2 - 20);
+    ctx.fillText('กำลังโหลดการ์ด...', width / 2, height / 2 - 20);
 
-    const barW = Math.min(240, width - 60);
-    const barH = 8;
+    const progress = Math.min(1, imagesLoadedCount / TOTAL_DECK_IMAGES);
+    const barW = Math.min(260, width - 60);
+    const barH = 12;
     const barX = (width - barW) / 2;
-    const barY = height / 2 + 15;
+    const barY = height / 2 + 20;
 
     ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
     ctx.beginPath();
-    ctx.roundRect(barX, barY, barW, barH, 4);
+    ctx.roundRect(barX, barY, barW, barH, 6);
     ctx.fill();
 
-    const pct = Math.min(1, imagesLoadedCount / TOTAL_DECK_IMAGES);
-    ctx.fillStyle = '#34d399';
+    ctx.fillStyle = '#38bdf8';
     ctx.beginPath();
-    ctx.roundRect(barX, barY, barW * pct, barH, 4);
+    ctx.roundRect(barX, barY, barW * progress, barH, 6);
     ctx.fill();
   }
 
   function drawHUD(ctx) {
-    const isSmallScreen = width < 480;
-    const hudW = Math.min(width - 16, 720);
-    const hudH = isSmallScreen ? 44 : 50;
-    const hudX = (width - hudW) / 2;
-    const hudY = isSmallScreen ? 6 : 10;
+    buttons = [];
+    const isSmall = width < 480;
+    const hudY = isSmall ? 10 : 16;
+    const hudH = isSmall ? 40 : 48;
 
-    // Glass panel
-    ctx.save();
+    // Header Background
     ctx.fillStyle = 'rgba(15, 23, 42, 0.75)';
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
-    ctx.lineWidth = 1.5;
     ctx.beginPath();
-    ctx.roundRect(hudX, hudY, hudW, hudH, isSmallScreen ? 10 : 14);
+    ctx.roundRect(12, hudY, width - 24, hudH, 12);
     ctx.fill();
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+    ctx.lineWidth = 1;
     ctx.stroke();
 
-    // Text Formatting
-    const minutes = Math.floor(secondsElapsed / 60);
+    // Stats layout
+    const mins = Math.floor(secondsElapsed / 60);
     const secs = secondsElapsed % 60;
-    const timeStr = `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-
-    // Canvas Buttons Setup first to calculate available width
-    buttons = [];
-
-    const btnW = isSmallScreen ? 72 : 94;
-    const btnH = isSmallScreen ? 30 : 34;
-    const btnX = hudX + hudW - btnW - (isSmallScreen ? 6 : 12);
-    const btnY = hudY + (hudH - btnH) / 2;
-
-    const soundW = isSmallScreen ? 32 : 38;
-    const soundX = btnX - soundW - (isSmallScreen ? 4 : 8);
-
-    // Left available area for Stats
-    const leftMargin = isSmallScreen ? 8 : 16;
-    const rightBoundary = soundX - 6;
-    const availableStatW = rightBoundary - (hudX + leftMargin);
+    const timeStr = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 
     ctx.fillStyle = '#f8fafc';
-    ctx.font = isSmallScreen ? '600 11px system-ui, sans-serif' : '600 13px system-ui, sans-serif';
+    ctx.font = isSmall ? 'bold 13px sans-serif' : 'bold 15px sans-serif';
     ctx.textAlign = 'left';
     ctx.textBaseline = 'middle';
 
-    // Dynamic stats label text for small screens
-    const stat1 = isSmallScreen ? `🎯 ${matchedPairs}/${TOTAL_PAIRS}` : `🎯 Pairs: ${matchedPairs}/${TOTAL_PAIRS}`;
-    const stat2 = isSmallScreen ? `👆 ${moves}` : `👆 Moves: ${moves}`;
-    const stat3 = isSmallScreen ? `⏱️ ${timeStr}` : `⏱️ Time: ${timeStr}`;
+    const statY = hudY + hudH / 2;
+    ctx.fillText(`⏱️ ${timeStr}`, 24, statY);
+    ctx.fillText(`🔄 ครั้ง: ${moves}`, isSmall ? 105 : 140, statY);
+    ctx.fillText(`✨ คู่: ${matchedPairs}/${TOTAL_PAIRS}`, isSmall ? 180 : 250, statY);
 
-    const stepX = availableStatW / 3;
-    ctx.fillText(stat1, hudX + leftMargin, hudY + hudH / 2);
-    ctx.fillText(stat2, hudX + leftMargin + stepX, hudY + hudH / 2);
-    ctx.fillText(stat3, hudX + leftMargin + stepX * 2, hudY + hudH / 2);
+    // Top Right Controls (Restart & Sound)
+    const btnSize = isSmall ? 32 : 36;
+    const soundX = width - 12 - btnSize - 8 - btnSize - 6;
+    const restartX = width - 12 - btnSize - 6;
 
-    // New Game Button
-    const btnHover = mousePos.x >= btnX && mousePos.x <= btnX + btnW && mousePos.y >= btnY && mousePos.y <= btnY + btnH;
-
-    ctx.fillStyle = btnHover ? '#2563eb' : 'rgba(37, 99, 235, 0.8)';
-    ctx.beginPath();
-    ctx.roundRect(btnX, btnY, btnW, btnH, 8);
-    ctx.fill();
-    ctx.fillStyle = '#ffffff';
-    ctx.font = isSmallScreen ? 'bold 11px system-ui, sans-serif' : 'bold 12px system-ui, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText(isSmallScreen ? '↻ New' : '↻ New Game', btnX + btnW / 2, btnY + btnH / 2);
-
-    buttons.push({
-      containsPoint: (px, py) => px >= btnX && px <= btnX + btnW && py >= btnY && py <= btnY + btnH,
-      onClick: () => initGame(),
-    });
-
-    // Sound Toggle Button
-    const soundHover = mousePos.x >= soundX && mousePos.x <= soundX + soundW && mousePos.y >= btnY && mousePos.y <= btnY + btnH;
-
-    ctx.fillStyle = soundHover ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.1)';
-    ctx.beginPath();
-    ctx.roundRect(soundX, btnY, soundW, btnH, 8);
-    ctx.fill();
-    ctx.fillStyle = '#ffffff';
-    ctx.font = isSmallScreen ? '12px system-ui, sans-serif' : '14px system-ui, sans-serif';
-    ctx.fillText(soundEnabled ? '🔊' : '🔇', soundX + soundW / 2, btnY + btnH / 2);
-
-    buttons.push({
-      containsPoint: (px, py) => px >= soundX && px <= soundX + soundW && py >= btnY && py <= btnY + btnH,
-      onClick: () => {
-        soundEnabled = !soundEnabled;
+    // Sound button
+    const soundBtn = {
+      x: soundX,
+      y: hudY + (hudH - btnSize) / 2,
+      w: btnSize,
+      h: btnSize,
+      isHovered: false,
+      containsPoint(px, py) {
+        return px >= this.x && px <= this.x + this.w && py >= this.y && py <= this.y + this.h;
       },
-    });
+      onClick() {
+        audio.soundEnabled = !audio.soundEnabled;
+      },
+    };
+    buttons.push(soundBtn);
 
-    ctx.restore();
+    ctx.fillStyle = soundBtn.isHovered ? 'rgba(56, 189, 248, 0.25)' : 'rgba(255, 255, 255, 0.08)';
+    ctx.beginPath();
+    ctx.roundRect(soundBtn.x, soundBtn.y, soundBtn.w, soundBtn.h, 8);
+    ctx.fill();
+    ctx.textAlign = 'center';
+    ctx.font = '16px sans-serif';
+    ctx.fillText(audio.soundEnabled ? '🔊' : '🔇', soundBtn.x + soundBtn.w / 2, soundBtn.y + soundBtn.h / 2);
+
+    // Restart button
+    const restartBtn = {
+      x: restartX,
+      y: hudY + (hudH - btnSize) / 2,
+      w: btnSize,
+      h: btnSize,
+      isHovered: false,
+      containsPoint(px, py) {
+        return px >= this.x && px <= this.x + this.w && py >= this.y && py <= this.y + this.h;
+      },
+      onClick() {
+        initGame();
+      },
+    };
+    buttons.push(restartBtn);
+
+    ctx.fillStyle = restartBtn.isHovered ? 'rgba(56, 189, 248, 0.25)' : 'rgba(255, 255, 255, 0.08)';
+    ctx.beginPath();
+    ctx.roundRect(restartBtn.x, restartBtn.y, restartBtn.w, restartBtn.h, 8);
+    ctx.fill();
+    ctx.textAlign = 'center';
+    ctx.fillText('🔄', restartBtn.x + restartBtn.w / 2, restartBtn.y + restartBtn.h / 2);
   }
 
   function drawVictoryModal(ctx) {
-    ctx.save();
-
-    // Dim Backdrop
-    ctx.fillStyle = 'rgba(15, 23, 42, 0.82)';
+    // Backdrop
+    ctx.fillStyle = 'rgba(7, 9, 19, 0.85)';
     ctx.fillRect(0, 0, width, height);
 
-    // Modal Box
-    const boxW = Math.min(width - 32, 420);
-    const boxH = 340;
-    const boxX = (width - boxW) / 2;
-    const boxY = (height - boxH) / 2;
+    const cardW = Math.min(380, width - 40);
+    const cardH = 340;
+    const cardX = (width - cardW) / 2;
+    const cardY = (height - cardH) / 2;
 
-    ctx.fillStyle = 'rgba(30, 41, 59, 0.95)';
-    ctx.strokeStyle = 'rgba(56, 189, 248, 0.3)';
-    ctx.lineWidth = 2;
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+    // Glass Card
+    ctx.save();
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
     ctx.shadowBlur = 30;
-
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.95)';
     ctx.beginPath();
-    ctx.roundRect(boxX, boxY, boxW, boxH, 20);
+    ctx.roundRect(cardX, cardY, cardW, cardH, 20);
     ctx.fill();
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.4)';
+    ctx.lineWidth = 1.5;
     ctx.stroke();
+    ctx.restore();
 
-    ctx.shadowColor = 'transparent';
-
-    // Title
-    ctx.fillStyle = '#f8fafc';
-    ctx.font = 'bold 24px system-ui, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'top';
-    ctx.fillText('🎉 ยินดีด้วย! จับคู่สำเร็จ!', width / 2, boxY + 28);
-
-    // Stars Rating
-    const rating = calculateRating(moves, secondsElapsed);
-    let starsStr = '';
-    for (let i = 0; i < 5; i++) {
-      starsStr += i < rating ? '⭐' : '☆';
-    }
-    ctx.font = '26px system-ui, sans-serif';
-    ctx.fillText(starsStr, width / 2, boxY + 70);
-
-    // Stats Summary
-    const score = calculateScore(moves, secondsElapsed);
-    const minutes = Math.floor(secondsElapsed / 60);
-    const secs = secondsElapsed % 60;
-    const timeStr = `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-
-    ctx.font = '14px system-ui, sans-serif';
-    ctx.fillStyle = '#cbd5e1';
-    ctx.fillText(`เวลาที่ใช้: ${timeStr}  |  จำนวนเปิด: ${moves} ครั้ง`, width / 2, boxY + 120);
-
-    ctx.font = 'bold 20px system-ui, sans-serif';
+    // Victory Title
     ctx.fillStyle = '#38bdf8';
-    ctx.fillText(`คะแนนสะสม: ${score} pts`, width / 2, boxY + 155);
+    ctx.font = 'bold 26px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('🎉 ยินดีด้วย! ชนะแล้ว! 🏆', width / 2, cardY + 45);
 
-    // High Score Record
+    // Star Rating
+    const rating = calculateRating(moves, secondsElapsed);
+    const stars = '⭐'.repeat(rating) + '☆'.repeat(5 - rating);
+    ctx.font = '24px sans-serif';
+    ctx.fillText(stars, width / 2, cardY + 85);
+
+    // Score & Stats Box
+    const score = calculateScore(moves, secondsElapsed);
+    const mins = Math.floor(secondsElapsed / 60);
+    const secs = secondsElapsed % 60;
+    const timeStr = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+
+    const statBoxY = cardY + 115;
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+    ctx.beginPath();
+    ctx.roundRect(cardX + 24, statBoxY, cardW - 48, 110, 12);
+    ctx.fill();
+
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '13px sans-serif';
+    ctx.fillText('คะแนนรวม (SCORE)', width / 2, statBoxY + 22);
+
+    ctx.fillStyle = '#fbbf24';
+    ctx.font = 'bold 28px sans-serif';
+    ctx.fillText(`${score}`, width / 2, statBoxY + 54);
+
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = '14px sans-serif';
+    ctx.fillText(`เวลาที่ใช้: ${timeStr}  |  จำนวนครั้ง: ${moves}`, width / 2, statBoxY + 88);
+
+    // High Score Display
     const best = getHighScore();
     if (best) {
-      ctx.font = '13px system-ui, sans-serif';
-      ctx.fillStyle = '#fbbf24';
-      ctx.fillText(`🏆 Record สูงสุด: ${best.score} pts`, width / 2, boxY + 195);
+      ctx.fillStyle = '#64748b';
+      ctx.font = '12px sans-serif';
+      ctx.fillText(`🏆 สถิติดีที่สุด: ${best.score} คะแนน`, width / 2, cardY + 250);
     }
 
-    // Play Again Button on Canvas
-    const pBtnW = 180;
-    const pBtnH = 44;
-    const pBtnX = (width - pBtnW) / 2;
-    const pBtnY = boxY + boxH - pBtnH - 24;
+    // Play Again Button
+    const btnW = cardW - 60;
+    const btnH = 46;
+    const btnX = (width - btnW) / 2;
+    const btnY = cardY + cardH - 65;
 
-    const pHover = mousePos.x >= pBtnX && mousePos.x <= pBtnX + pBtnW && mousePos.y >= pBtnY && mousePos.y <= pBtnY + pBtnH;
+    victoryBtn = {
+      x: btnX,
+      y: btnY,
+      w: btnW,
+      h: btnH,
+      isHovered: false,
+      containsPoint(px, py) {
+        return px >= this.x && px <= this.x + this.w && py >= this.y && py <= this.y + this.h;
+      },
+    };
+    victoryBtn.isHovered = victoryBtn.containsPoint(mousePos.x, mousePos.y);
 
-    ctx.fillStyle = pHover ? '#10b981' : '#059669';
+    const btnGrad = ctx.createLinearGradient(btnX, btnY, btnX + btnW, btnY + btnH);
+    if (victoryBtn.isHovered) {
+      btnGrad.addColorStop(0, '#0284c7');
+      btnGrad.addColorStop(1, '#0369a1');
+    } else {
+      btnGrad.addColorStop(0, '#0ea5e9');
+      btnGrad.addColorStop(1, '#0284c7');
+    }
+
+    ctx.fillStyle = btnGrad;
     ctx.beginPath();
-    ctx.roundRect(pBtnX, pBtnY, pBtnW, pBtnH, 12);
+    ctx.roundRect(btnX, btnY, btnW, btnH, 12);
     ctx.fill();
 
     ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 15px system-ui, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('🎮 Play Again', width / 2, pBtnY + pBtnH / 2);
-
-    victoryBtn = {
-      containsPoint: (px, py) => px >= pBtnX && px <= pBtnX + pBtnW && py >= pBtnY && py <= pBtnY + pBtnH,
-    };
-
-    ctx.restore();
+    ctx.font = 'bold 16px sans-serif';
+    ctx.fillText('🔄 เล่นใหม่อีกครั้ง (PLAY AGAIN)', width / 2, btnY + btnH / 2);
   }
 
-  // --- Start ---
+  // --- Bootstrapping ---
   resizeCanvas();
   preloadAllAssets();
   requestAnimationFrame(render);
-
 })();

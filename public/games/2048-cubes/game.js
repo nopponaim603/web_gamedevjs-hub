@@ -1,5 +1,7 @@
 // 2048 Cubes - Game Logic using Phaser 3 and Matter.js
 
+const { colors: cubeColors, sizes: cubeSizes, spawnValues, storageKey } = window.CubesConfig;
+
 const config = {
     type: Phaser.AUTO,
     width: 450,
@@ -31,54 +33,25 @@ const config = {
 let game = new Phaser.Game(config);
 
 let score = 0;
-let highscore = localStorage.getItem('2048-cubes-highscore') || 0;
+let highscore = localStorage.getItem(storageKey) || 0;
 let currentCube = null;
 let isDropping = false;
-let ground, leftWall, rightWall;
 let gameOverLine;
 let gameOverLineTimer = 0;
 let isGameOver = false;
 
-const cubeColors = {
-    2: 0xff9ff3,
-    4: 0xfeca57,
-    8: 0xff6b6b,
-    16: 0x48dbfb,
-    32: 0x1dd1a1,
-    64: 0x5f27cd,
-    128: 0x54a0ff,
-    256: 0x00d2d3,
-    512: 0xff9f43,
-    1024: 0xee5253,
-    2048: 0x0abde3,
-    4096: 0x10ac84,
-    8192: 0x222f3e
-};
-
-const cubeSizes = {
-    2: 40,
-    4: 45,
-    8: 50,
-    16: 55,
-    32: 60,
-    64: 65,
-    128: 70,
-    256: 75,
-    512: 80,
-    1024: 85,
-    2048: 90
-};
-
 function preload() {
-    // No external assets needed, we'll use graphics
+    // Canvas graphics generated procedurally
 }
 
 function create() {
     const { width, height } = this.scale;
 
     // UI Updates
-    document.getElementById('score').innerText = score;
-    document.getElementById('highscore').innerText = highscore;
+    const scoreEl = document.getElementById('score');
+    const highscoreEl = document.getElementById('highscore');
+    if (scoreEl) scoreEl.innerText = score;
+    if (highscoreEl) highscoreEl.innerText = highscore;
 
     // Physics Boundaries
     this.matter.world.setBounds(0, 0, width, height, 32, true, true, false, true);
@@ -95,17 +68,19 @@ function create() {
 
     // Theme Button Logic
     const themeBtn = document.getElementById('theme-btn');
-    themeBtn.onclick = () => {
-        document.body.classList.toggle('light');
-        const isLight = document.body.classList.contains('light');
-        this.cameras.main.setBackgroundColor(isLight ? '#faf8ef' : '#3c343b');
-        updateDashedLine(isLight);
-    };
+    if (themeBtn) {
+        themeBtn.onclick = () => {
+            document.body.classList.toggle('light');
+            const isLight = document.body.classList.contains('light');
+            this.cameras.main.setBackgroundColor(isLight ? '#faf8ef' : '#3c343b');
+            updateDashedLine(isLight);
+        };
+    }
 
     // Fullscreen Exit Button Logic
     const exitFullscreenBtn = document.getElementById('exit-fullscreen-btn');
-
     const updateFullscreenBtn = () => {
+        if (!exitFullscreenBtn) return;
         if (document.fullscreenElement) {
             exitFullscreenBtn.classList.remove('hidden');
         } else {
@@ -113,26 +88,29 @@ function create() {
         }
     };
 
-    exitFullscreenBtn.onclick = () => {
-        if (document.fullscreenElement) {
-            document.exitFullscreen();
-        }
-    };
+    if (exitFullscreenBtn) {
+        exitFullscreenBtn.onclick = () => {
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            }
+        };
+    }
 
-    // Listen for fullscreen changes
     document.addEventListener('fullscreenchange', updateFullscreenBtn);
-    // Initial check
     updateFullscreenBtn();
 
     // Restart Button
-    document.getElementById('restart-btn').onclick = () => {
-        location.reload();
-    };
+    const restartBtn = document.getElementById('restart-btn');
+    if (restartBtn) {
+        restartBtn.onclick = () => {
+            location.reload();
+        };
+    }
 
     // Spawn First Cube
     spawnCube.call(this);
 
-    // Input Handling (Pointer Touch & Mouse)
+    // Pointer Input
     this.input.on('pointermove', (pointer) => {
         if (!isGameOver && currentCube && currentCube.active && !isDropping) {
             const size = cubeSizes[currentCube.value] || 60;
@@ -151,12 +129,7 @@ function create() {
         }
     });
 
-    // Keyboard Controls for PC Play
-    const cursors = this.input.keyboard.createCursorKeys();
-    const keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-    const keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-    const keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-
+    // Keyboard Controls
     this.input.keyboard.on('keydown', (event) => {
         if (isGameOver || !currentCube || !currentCube.active || isDropping) return;
         const step = 20;
@@ -198,10 +171,7 @@ function create() {
 }
 
 function spawnCube() {
-    const values = [2, 4, 8, 16, 32];
-    const value = values[Math.floor(Math.random() * values.length)];
-    const size = cubeSizes[value];
-
+    const value = spawnValues[Math.floor(Math.random() * spawnValues.length)];
     const x = this.scale.width / 2;
     const y = 80;
 
@@ -305,14 +275,16 @@ function mergeCubes(objA, objB) {
                 ease: 'Back.out'
             });
 
-            createExplosion.call(this, midX, midY, cubeColors[newValue]);
+            createExplosion.call(this, midX, midY, cubeColors[newValue] || 0xffffff);
 
             score += newValue;
-            document.getElementById('score').innerText = score;
+            const scoreEl = document.getElementById('score');
+            const highscoreEl = document.getElementById('highscore');
+            if (scoreEl) scoreEl.innerText = score;
             if (score > highscore) {
                 highscore = score;
-                localStorage.setItem('2048-cubes-highscore', highscore);
-                document.getElementById('highscore').innerText = highscore;
+                localStorage.setItem(storageKey, highscore);
+                if (highscoreEl) highscoreEl.innerText = highscore;
             }
 
             if (currentCube === null && !isDropping && !isGameOver) {
@@ -326,7 +298,6 @@ function createExplosion(x, y, color) {
     for (let i = 0; i < 10; i++) {
         const p = this.add.rectangle(x, y, 8, 8, color);
         const angle = Math.random() * Math.PI * 2;
-        const speed = 2 + Math.random() * 4;
 
         this.tweens.add({
             targets: p,
@@ -400,6 +371,8 @@ function drawDashedLine(graphics, x1, y1, x2, y2, dashLength = 10, gapLength = 1
 
 function endGame() {
     isGameOver = true;
-    document.getElementById('final-score').innerText = score;
-    document.getElementById('game-over').classList.remove('hidden');
+    const finalScoreEl = document.getElementById('final-score');
+    const gameOverEl = document.getElementById('game-over');
+    if (finalScoreEl) finalScoreEl.innerText = score;
+    if (gameOverEl) gameOverEl.classList.remove('hidden');
 }
