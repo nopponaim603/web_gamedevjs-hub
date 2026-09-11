@@ -8,23 +8,19 @@ const gameContainer = document.getElementById('game-container');
     const actionBtn = document.getElementById('action-btn');
 
     // Sound Toggle Logic
-    let isMuted = false;
     const soundToggleBtn = document.getElementById('sound-toggle-btn');
     if (soundToggleBtn) {
+      soundToggleBtn.textContent = window.moguraAudio.muted ? '🔇' : '🔊';
       soundToggleBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        isMuted = !isMuted;
-        soundToggleBtn.textContent = isMuted ? '🔇' : '🔊';
-        if (currentBgmAudio) {
-          currentBgmAudio.muted = isMuted;
-        }
+        const muted = window.moguraAudio.toggleMute();
+        soundToggleBtn.textContent = muted ? '🔇' : '🔊';
       });
     }
 
-
     // GAMEPLAY STATE
     let score = 0;
-    let timeLeft = 30.0;
+    let timeLeft = window.MOGURA_CONFIG.GAME_DURATION || 30.0;
     let isPlaying = false;
     let isTitleMode = true;
     let lastTime = performance.now();
@@ -41,7 +37,7 @@ const gameContainer = document.getElementById('game-container');
     let inMemoryTopScores = [];
     function loadSavedScores() {
       try {
-        const raw = localStorage.getItem('MoguraTatakanai_TopScores');
+        const raw = localStorage.getItem(window.MOGURA_CONFIG.STORAGE_KEY_SCORES);
         if (raw) {
           inMemoryTopScores = JSON.parse(raw);
           return inMemoryTopScores;
@@ -53,7 +49,7 @@ const gameContainer = document.getElementById('game-container');
     function saveScores(scores) {
       inMemoryTopScores = scores;
       try {
-        localStorage.setItem('MoguraTatakanai_TopScores', JSON.stringify(scores));
+        localStorage.setItem(window.MOGURA_CONFIG.STORAGE_KEY_SCORES, JSON.stringify(scores));
       } catch (e) {}
     }
     loadSavedScores();
@@ -61,206 +57,28 @@ const gameContainer = document.getElementById('game-container');
     // UI DYNAMIC RESIZING
     function updateLayoutScale() {
       const rect = gameContainer.getBoundingClientRect();
-      const baseWidth = 360;
+      const baseWidth = window.MOGURA_CONFIG.BASE_WIDTH || 360;
       const scale = Math.max(0.6, Math.min(rect.width / baseWidth, 1.8));
       gameContainer.style.setProperty('--ui-scale', scale);
     }
     window.addEventListener('resize', updateLayoutScale);
     updateLayoutScale();
 
-    let audioCtx = null;
     function initAudio() {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
+      window.moguraAudio.initAudio();
     }
 
     function playSound(type) {
-      if (isMuted) return;
-      if (!audioCtx) return;
-      const now = audioCtx.currentTime;
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-
-      if (type === 'button') {
-        const osc2 = audioCtx.createOscillator();
-        const gain2 = audioCtx.createGain();
-        osc2.connect(gain2);
-        gain2.connect(audioCtx.destination);
-
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(523.25, now);
-        gain.gain.setValueAtTime(0.18, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
-        osc.start(now);
-        osc.stop(now + 0.1);
-
-        osc2.type = 'sine';
-        osc2.frequency.setValueAtTime(783.99, now + 0.05);
-        gain2.gain.setValueAtTime(0.001, now);
-        gain2.gain.setValueAtTime(0.2, now + 0.05);
-        gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
-        osc2.start(now + 0.05);
-        osc2.stop(now + 0.2);
-      } else if (type === 'normal') {
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(540, now);
-        osc.frequency.exponentialRampToValueAtTime(840, now + 0.18);
-        gain.gain.setValueAtTime(0.25, now);
-        gain.gain.linearRampToValueAtTime(0.01, now + 0.18);
-        osc.start(now);
-        osc.stop(now + 0.18);
-      } else if (type === 'gold') {
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(880, now);
-        osc.frequency.exponentialRampToValueAtTime(1860, now + 0.28);
-        gain.gain.setValueAtTime(0.35, now);
-        gain.gain.linearRampToValueAtTime(0.01, now + 0.28);
-        osc.start(now);
-        osc.stop(now + 0.28);
-      } else if (type === 'black') {
-        osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(170, now);
-        osc.frequency.linearRampToValueAtTime(80, now + 0.26);
-        gain.gain.setValueAtTime(0.25, now);
-        gain.gain.linearRampToValueAtTime(0.01, now + 0.26);
-        osc.start(now);
-        osc.stop(now + 0.26);
-      } else if (type === 'white') {
-        const notes = [1046.50, 1318.51, 1567.98, 2093.00];
-        notes.forEach((freq, i) => {
-          const o = audioCtx.createOscillator();
-          const g = audioCtx.createGain();
-          o.type = 'sine';
-          o.frequency.setValueAtTime(freq, now + i * 0.06);
-          g.gain.setValueAtTime(0.001, now);
-          g.gain.setValueAtTime(0.2, now + i * 0.06);
-          g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.06 + 0.4);
-          o.connect(g);
-          g.connect(audioCtx.destination);
-          o.start(now + i * 0.06);
-          o.stop(now + i * 0.06 + 0.42);
-        });
-      } else if (type === 'pop') {
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(260, now);
-        osc.frequency.exponentialRampToValueAtTime(560, now + 0.09);
-        gain.gain.setValueAtTime(0.12, now);
-        gain.gain.linearRampToValueAtTime(0.001, now + 0.09);
-        osc.start(now);
-        osc.stop(now + 0.09);
-      } else if (type === 'descend') {
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(460, now);
-        osc.frequency.exponentialRampToValueAtTime(210, now + 0.11);
-        gain.gain.setValueAtTime(0.09, now);
-        gain.gain.linearRampToValueAtTime(0.001, now + 0.11);
-        osc.start(now);
-        osc.stop(now + 0.11);
-      } else if (type === 'count_tick') {
-        // 主音パート（880Hz）: 4msソフトアタック
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(880, now);
-        gain.gain.setValueAtTime(0.001, now);
-        gain.gain.linearRampToValueAtTime(0.45, now + 0.004);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
-        osc.start(now);
-        osc.stop(now + 0.04);
-
-        // 高音レイヤー（1760Hz）
-        const oscHigh = audioCtx.createOscillator();
-        const gainHigh = audioCtx.createGain();
-        oscHigh.type = 'sine';
-        oscHigh.frequency.setValueAtTime(1760, now);
-        gainHigh.gain.setValueAtTime(0.001, now);
-        gainHigh.gain.linearRampToValueAtTime(0.45, now + 0.004);
-        gainHigh.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
-        oscHigh.connect(gainHigh);
-        gainHigh.connect(audioCtx.destination);
-        oscHigh.start(now);
-        oscHigh.stop(now + 0.04);
-      } else if (type === 'count_finish') {
-        // 主音パート（C6 -> E6）
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(1046.5, now);
-        osc.frequency.exponentialRampToValueAtTime(1318.5, now + 0.18);
-        gain.gain.setValueAtTime(0.45, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
-        osc.start(now);
-        osc.stop(now + 0.28);
-
-        // 高音和音パート（C7 -> E7）
-        const oscHigh = audioCtx.createOscillator();
-        const gainHigh = audioCtx.createGain();
-        oscHigh.type = 'triangle';
-        oscHigh.frequency.setValueAtTime(2093.0, now);
-        oscHigh.frequency.exponentialRampToValueAtTime(2637.0, now + 0.18);
-        gainHigh.gain.setValueAtTime(0.45, now);
-        gainHigh.gain.exponentialRampToValueAtTime(0.001, now + 0.32);
-        oscHigh.connect(gainHigh);
-        gainHigh.connect(audioCtx.destination);
-        oscHigh.start(now);
-        oscHigh.stop(now + 0.32);
-      }
-    }
-
-    const bgmTracks = ['bgm_01.mp3', 'bgm_02.mp3'];
-    let currentBgmIndex = 0;
-    let currentBgmAudio = null;
-    let isBgmStarted = false;
-
-    function playCurrentBgm() {
-      if (!isBgmStarted) return;
-      if (currentBgmAudio) {
-        currentBgmAudio.pause();
-        currentBgmAudio.onended = null;
-      }
-      currentBgmAudio = new Audio(bgmTracks[currentBgmIndex]);
-      currentBgmAudio.volume = 0.7;
-      currentBgmAudio.muted = isMuted;
-      currentBgmAudio.onended = () => {
-        currentBgmIndex = 1 - currentBgmIndex;
-        playCurrentBgm();
-      };
-      currentBgmAudio.play().catch(() => {});
+      window.moguraAudio.playSound(type);
     }
 
     function startBgm() {
-      if (isBgmStarted && currentBgmAudio && !currentBgmAudio.paused) return;
-      isBgmStarted = true;
-      if (!currentBgmAudio || currentBgmAudio.paused) {
-        if (!currentBgmAudio) {
-          currentBgmIndex = Math.floor(Math.random() * bgmTracks.length);
-        }
-        playCurrentBgm();
-      }
+      window.moguraAudio.startBgm();
     }
 
     function stopBgm() {
-      isBgmStarted = false;
-      if (currentBgmAudio) {
-        currentBgmAudio.pause();
-        currentBgmAudio.currentTime = 0;
-        currentBgmAudio.onended = null;
-      }
+      window.moguraAudio.stopBgm();
     }
-
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        if (currentBgmAudio && !currentBgmAudio.paused) {
-          currentBgmAudio.pause();
-        }
-      } else {
-        if (isBgmStarted && currentBgmAudio && currentBgmAudio.paused) {
-          currentBgmAudio.play().catch(() => {});
-        }
-      }
-    });
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(46, 9 / 16, 0.1, 100);

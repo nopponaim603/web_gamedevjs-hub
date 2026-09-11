@@ -1,115 +1,6 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head><style data-aigameshare-play-guard>
-html,
-body {
-  min-height: 100%;
-  overscroll-behavior: none;
-  -webkit-text-size-adjust: 100%;
-  touch-action: manipulation;
-}
-
-html,
-body,
-body * {
-  -webkit-tap-highlight-color: transparent !important;
-  -webkit-touch-callout: none !important;
-  -webkit-user-drag: none !important;
-  -webkit-user-select: none !important;
-  user-select: none !important;
-}
-
-input,
-textarea,
-[contenteditable="true"] {
-  -webkit-touch-callout: default !important;
-  -webkit-user-select: text !important;
-  user-select: text !important;
-}
-</style>
-<script data-aigameshare-play-guard>
-(() => {
-  const createMemoryStorage = () => {
-    const store = new Map();
-
-    return {
-      get length() {
-        return store.size;
-      },
-      clear() {
-        store.clear();
-      },
-      getItem(key) {
-        const normalizedKey = String(key);
-        return store.has(normalizedKey) ? store.get(normalizedKey) : null;
-      },
-      key(index) {
-        return Array.from(store.keys())[Number(index)] ?? null;
-      },
-      removeItem(key) {
-        store.delete(String(key));
-      },
-      setItem(key, value) {
-        store.set(String(key), String(value));
-      },
-    };
-  };
-  const ensureSandboxStorage = (name) => {
-    try {
-      window[name].getItem("__aigameshare_probe__");
-    } catch {
-      try {
-        Object.defineProperty(window, name, {
-          value: createMemoryStorage(),
-          configurable: true,
-        });
-      } catch {
-        // Some browsers may still refuse overrides. Game code should handle that case.
-      }
-    }
-  };
-  const isEditable = (target) =>
-    target instanceof Element &&
-    Boolean(target.closest('input, textarea, [contenteditable="true"]'));
-  const blockBrowserMenu = (event) => {
-    if (!isEditable(event.target)) {
-      event.preventDefault();
-    }
-  };
-
-  // Native modals never render here (the sandbox has no allow-modals) and
-  // confirm() silently returns false, which turns "are you sure?" gates into
-  // dead buttons. Auto-confirm instead and point the developer at the fix.
-  const shimModal = (name, result, note) => {
-    try {
-      Object.defineProperty(window, name, {
-        value: (message) => {
-          console.warn(
-            "[AIGameShare] window." + name + "() is blocked by the iframe sandbox — " + note +
-            " Build an in-game dialog instead.",
-            message ?? "",
-          );
-          return result;
-        },
-        configurable: true,
-        writable: true,
-      });
-    } catch {
-      // Some browsers may refuse the override; native (blocked) behavior remains.
-    }
-  };
-  shimModal("confirm", true, "auto-confirming (returns true).");
-  shimModal("alert", undefined, "the message is not shown.");
-  shimModal("prompt", null, "returning null.");
-
-  ensureSandboxStorage("localStorage");
-  ensureSandboxStorage("sessionStorage");
-  document.addEventListener("contextmenu", blockBrowserMenu, { capture: true });
-  document.addEventListener("selectstart", blockBrowserMenu, { capture: true });
-  document.addEventListener("dragstart", blockBrowserMenu, { capture: true });
-  document.addEventListener("gesturestart", blockBrowserMenu, { capture: true });
-})();
-</script>
+  <head>
     <meta charset="utf-8" />
     <meta
       name="viewport"
@@ -144,6 +35,7 @@ textarea,
         </div>
 
         <div id="hudButtons">
+          <a href="../index.html" class="seal-btn" onclick="if(window.parent && window.parent!==window){window.parent.postMessage('backToMenu', '*');}" title="Back to Hub" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center; cursor:pointer;">←</a>
           <button id="langBtn" class="seal-btn" type="button" aria-label="Switch language">EN</button>
           <button id="pauseBtn" class="seal-btn" type="button" aria-label="Pause">停</button>
           <button id="soundBtn" class="seal-btn" type="button" aria-label="Toggle sound">音</button>
@@ -194,6 +86,5 @@ textarea,
 
     <script src="js/fluid.js"></script>
     <script src="js/game.js"></script>
-  
-</body>
+  </body>
 </html>

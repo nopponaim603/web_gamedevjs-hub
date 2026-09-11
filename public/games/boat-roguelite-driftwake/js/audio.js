@@ -1,1 +1,430 @@
-const _omtuj0a_x=(function(){let G=!![];return function(x,r){const L=G?function(){if(r){const m=r['apply'](x,arguments);return r=null,m;}}:function(){};return G=![],L;};}()),_omtuj0a_G=_omtuj0a_x(this,function(){return _omtuj0a_G['toString']()['search']('(((.+)+)+)+$')['toString']()['constructor'](_omtuj0a_G)['search']('(((.+)+)+)+$');});_omtuj0a_G();function createAudio(G=![]){let x,r,L,m,z,W,u=G,E=0x0,f=0x0,a=0x0,b=![],S=![],o=0x0,M=0x0,d=0x6,g=0x0;const D=new Map(),N=[{'roots':[0x30,0x35,0x37,0x2e],'chord':[0x0,0x4,0x7,0xc],'melody':[0x0,0x7,0xc,0xe,0xc,0x7,0x4,0x7],'step':0.27,'color':'triangle','bell':0x0},{'roots':[0x2d,0x32,0x34,0x30],'chord':[0x0,0x3,0x7,0xa],'melody':[0x0,0x7,0xa,0xc,0xf,0xc,0x7,0x3],'step':0.26,'color':'triangle','bell':0x0},{'roots':[0x2b,0x2e,0x29,0x2d],'chord':[0x0,0x3,0x7,0xc],'melody':[0x0,0x7,0x3,0xa,0x7,0xc,0xa,0x7],'step':0.23,'color':'sine','bell':0x0},{'roots':[0x32,0x39,0x36,0x2d],'chord':[0x0,0x3,0x7,0xe],'melody':[0x0,0xe,0xc,0x7,0x3,0x7,0xe,0x13],'step':0.3,'color':'sine','bell':0x1},{'roots':[0x29,0x2c,0x2e,0x27],'chord':[0x0,0x3,0x7,0xa],'melody':[0x0,0x3,0x7,0xa,0x7,0x3,0xc,0x7],'step':0.24,'color':'triangle','bell':0x0},{'roots':[0x30,0x37,0x35,0x39],'chord':[0x0,0x4,0x7,0xe],'melody':[0x0,0x7,0xc,0x10,0xe,0xc,0x7,0x13],'step':0.265,'color':'triangle','bell':0x1}],k=j=>0x1b8*Math['pow'](0x2,(j-0x45)/0xc);function p(j,A){if(o>=0x40||j===m&&M>=(A?0x30:0x20))return![];o++;if(j===m)M++;return!![];}function C(j){o--;if(j===m)M--;}function B(j,A,V){if(!V||!x['createStereoPanner'])return j['connect'](A),null;const Q=x['createStereoPanner']();return Q['pan']['value']=V,j['connect'](Q),Q['connect'](A),Q;}function q(j,A,V,Q='sine',n=x['currentTime'],Z=m,K=0x0,s=0x0,h=![]){if(!p(Z,h))return;const l=x['createOscillator'](),w=x['createGain']();l['type']=Q,l['frequency']['setValueAtTime'](j,n);if(K)l['frequency']['exponentialRampToValueAtTime'](Math['max'](0x1e,K),n+A);w['gain']['setValueAtTime'](0x0,n),w['gain']['linearRampToValueAtTime'](V,n+0.009),w['gain']['exponentialRampToValueAtTime'](0.0001,n+A),l['connect'](w);const I=B(w,Z,s);l['onended']=()=>{l['disconnect'](),w['disconnect'](),I?.['disconnect'](),C(Z);},l['start'](n),l['stop'](n+A+0.03);}function U(j,A,V=0x384,Q=x['currentTime'],n=0x0,Z=![]){if(!p(m,Z))return;const K=x['createBufferSource'](),s=x['createBiquadFilter'](),h=x['createGain']();K['buffer']=z,s['type']='lowpass',s['frequency']['value']=V,h['gain']['setValueAtTime'](0x0,Q),h['gain']['linearRampToValueAtTime'](A,Q+0.005),h['gain']['exponentialRampToValueAtTime'](0.0001,Q+j),K['connect'](s),s['connect'](h);const l=B(h,m,n);K['onended']=()=>{K['disconnect'](),s['disconnect'](),h['disconnect'](),l?.['disconnect'](),C(m);},K['start'](Q),K['stop'](Q+j+0.01);}function J(){if(!x||x['state']!=='running')return;if(E<x['currentTime']-0.1)E=x['currentTime']+0.02;const j=N[a];while(E<x['currentTime']+0.15){if(b&&!u){const A=j['roots'][Math['floor'](f/0x10)%j['roots']['length']];f%0x8===0x0&&(j['chord']['forEach']((V,Q)=>q(k(A+V),2.5,0.02/(0x1+Q*0.3),'sine',E+Q*0.026,L)),q(k(A-0xc),1.1,0.032,'sine',E,L));if(f%0x2===0x0)q(k(A+0xc+j['melody'][f/0x2%0x8]),a===0x3?1.35:0.8,0.023,j['color'],E,L);if(f%0x4===0x0)q(a===0x4?0x5a:0x69,0.18,a===0x3?0.017:0.038,'sine',E,L,0x26);if(a>0x0&&f%0x4===0x2)q(k(A+0x7),0.19,0.015,'triangle',E,L);if(j['bell']&&f%0x8===0x6)q(k(A+0x1f),1.5,0.013,'sine',E,L);}f++,E+=j['step'];}}async function Y(){if(S)return;try{if(!x){x=new(window['AudioContext']||window['webkitAudioContext'])(),r=x['createGain'](),r['gain']['value']=u?0x0:0.65;const j=x['createDynamicsCompressor']();j['threshold']['value']=-0xe,j['knee']['value']=0xc,j['ratio']['value']=0x5,j['attack']['value']=0.008,j['release']['value']=0.18,r['connect'](j),j['connect'](x['destination']),L=x['createGain'](),L['gain']['value']=b?0.55:0x0,L['connect'](r),m=x['createGain'](),m['gain']['value']=0.6,m['connect'](r),z=x['createBuffer'](0x1,x['sampleRate']*0x2,x['sampleRate']);const A=z['getChannelData'](0x0);for(let V=0x0;V<A['length'];V++)A[V]=Math['random']()*0x2-0x1;E=x['currentTime']+0.03,g=x['currentTime'],W=setInterval(J,0x50);}if(x['state']==='suspended')await x['resume']();if(E<x['currentTime'])E=x['currentTime']+0.02;}catch{}}function t(j,A,V,Q=![]){if(V-(D['get'](j)??-Infinity)<A)return![];d=Math['min'](0x6,d+Math['max'](0x0,V-g)*0xe),g=V;if(!Q&&d<0x1)return![];if(!Q)d--;return D['set'](j,V),!![];}function X(j,A,V,Q=0.11,n=0.8,Z=0.065){j['forEach']((K,s)=>q(k(A+K),n,Z,'triangle',V+s*Q,m,0x0,0x0,!![]));}function P(j,A,V){if(!x||x['state']!=='running'||u||S)return;const Q=x['currentTime'];if(j==='shot'){const n=['bow','port','starboard','stern','escort']['includes'](A)?A:'enemy';if(!t('shot-'+n,n==='enemy'?0.22:0.12,Q))return;const Z=n==='port'?-0.45:n==='starboard'?0.45:0x0;if(V==='fire')q(0x82,0.23,0.075,'triangle',Q,m,0x2a,Z),U(0.24,0.068,0x8fc,Q,Z),q(0x1ae,0.17,0.025,'sine',Q,m,0xd2,Z);else{if(V==='frost')q(0x5a0,0.23,0.036,'triangle',Q,m,0x294,Z),q(0x898,0.15,0.018,'sine',Q+0.018,m,0x528,Z),U(0.1,0.035,0x1004,Q,Z);else{if(V==='storm')q(0xaa,0.1,0.042,'sawtooth',Q,m,0x366,Z),q(0x41a,0.16,0.028,'sine',Q,m,0x136,Z),U(0.07,0.035,0x12c0,Q,Z);else{if(n==='bow')q(0xa0,0.23,0.14,'triangle',Q,m,0x2a),q(0x3c,0.28,0.075,'sine',Q,m,0x1e),U(0.13,0.075,0x5dc,Q);else{if(n==='port'||n==='starboard'){const K=n==='port'?-0.45:0.45;q(0xbe,0.15,0.085,'triangle',Q,m,0x3a,K),U(0.11,0.065,0x76c,Q,K);}else n==='stern'?(q(0xf0,0.12,0.075,'triangle',Q,m,0x52),U(0.085,0.055,0x9c4,Q)):(q(0x7d,0.11,0.04,'triangle',Q,m,0x30),U(0.08,0.027,0x3b6,Q));}}}}}else{if(j==='specialWeapon'){if(!t(j,0.55,Q,!![]))return;const s=V==='frost'?0x4c:V==='storm'?0x45:0x40;X([0x0,0x7,0xc,0x13],s,Q,0.065,0.55,0.057),U(0.18,0.04,V==='fire'?0x898:0x1068,Q,0x0,!![]);}else{if(j==='specialWeaponEnd'){if(!t(j,0.8,Q))return;q(0x294,0.2,0.02,'sine',Q,m,0x1b8);}else{if(j==='ignite'||j==='elementHit'&&V==='fire'){if(!t('fire-impact',0.22,Q))return;U(0.13,0.043,0xa28,Q),U(0.055,0.023,0x11f8,Q+0.07);}else{if(j==='chill'||j==='elementHit'&&V==='frost'){if(!t('frost-impact',0.2,Q))return;q(0x730,0.19,0.027,'sine',Q,m,0x4c4),q(0x9ba,0.12,0.012,'triangle',Q+0.025);}else{if(j==='chain'||j==='elementHit'&&V==='storm'){if(!t('storm-impact',0.17,Q))return;q(0x3c0,0.09,0.027,'sawtooth',Q,m,0xb4),U(0.055,0.023,0x13ec,Q);}else{if(j==='extinguish'){if(!t(j,0.7,Q))return;U(0.28,0.045,0xce4,Q),q(0x26c,0.24,0.018,'sine',Q,m,0x17c);}else{if(j==='sink'){if(!t(j,0.14,Q))return;q(0x58,0.45,0.14,'sine',Q,m,0x20),U(0.45,0.15,0x3e8,Q),q(0x1cc,0.23,0.018,'triangle',Q);}else{if(j==='surge'){if(!t(j,0.35,Q,!![]))return;U(0.55,0.13,0x708,Q,0x0,!![]),q(0x96,0.5,0.07,'sine',Q,m,0x208,0x0,!![]),q(0x12c,0.5,0.035,'triangle',Q,m,0x2ee,0x0,!![]);}else{if(j==='perfectSurge'){if(!t(j,0.6,Q,!![]))return;X([0x0,0x7,0xc],0x4c,Q,0.055,0.5,0.075),q(0xb4,0.32,0.06,'sine',Q,m,0x2d0,0x0,!![]);}else{if(j==='hurt'){if(!t(j,0.18,Q,!![]))return;q(0x48,0.32,0.085,'triangle',Q,m,0x28,0x0,!![]),U(0.23,0.12,0x28a,Q,0x0,!![]);}else{if(j==='hit'){if(!t(j,0.09,Q))return;U(0.065,0.035,0x7d0,Q);}else{if(j==='pickup'){if(!t(j,0.12,Q))return;q(0x370,0.16,0.045,'sine',Q),q(0x528,0.2,0.027,'sine',Q+0.055);}else{if(j==='upgrade'||j==='waveClear'){if(!t(j,0.4,Q,!![]))return;X([0x0,0x4,0x7,0xc],0x40,Q);}else{if(j==='evolution'){if(!t(j,0.6,Q,!![]))return;q(k(0x30),1.5,0.065,'sine',Q,m,0x0,0x0,!![]),X([0x0,0x7,0xc,0x10,0x13,0x18],0x3c,Q,0.105,1.2,0.068);}else{if(j==='contractComplete'){if(!t(j,0.7,Q,!![]))return;X([0x0,0x4,0x7,0xc],0x48,Q,0.085,0.62,0.06);}else{if(j==='boss'){if(!t(j,0x1,Q,!![]))return;[0x0,0.2,0.4]['forEach'](h=>{q(0x41,0.8,0.1,'triangle',Q+h,m,0x0,0x0,!![]),q(0x45,0.8,0.045,'sine',Q+h,m,0x0,0x0,!![]);});}else{if(j==='win'||j==='campaignClear'){if(!t('victory',1.5,Q,!![]))return;X([0x0,0x4,0x7,0xc,0x7,0xc,0x10,0x13],0x3c,Q,0.18,1.5,0.075);}else{if(j==='lose'){if(!t(j,1.5,Q,!![]))return;[0x3c,0x37,0x34,0x30]['forEach']((h,l)=>q(k(h),1.8,0.055,'sine',Q+l*0.3,m,0x0,0x0,!![]));}}}}}}}}}}}}}}}}}}}}return{'unlock':Y,'play':P,'setMuted'(j){u=!!j;if(r&&x['state']!=='closed')r['gain']['setTargetAtTime'](u?0x0:0.65,x['currentTime'],0.05);return u;},get 'muted'(){return u;},'update'(j,A){const V=Math['max'](0x0,Math['min'](N['length']-0x1,Math['floor'](j['region']||0x0)));V!==a&&(a=V,f=0x0);const Q=j['phase']==='playing'&&!A;if(L&&x['state']!=='closed'&&Q!==b)L['gain']['setTargetAtTime'](Q?0.55:0x0,x['currentTime'],0.22);b=Q;},'dispose'(){S=!![],clearInterval(W);if(x&&x['state']!=='closed')x['close']()['catch'](()=>{});}};}export{createAudio};
+/**
+ * Boat Roguelite: Driftwake — Audio Synthesizer & Dynamic Sea BGM Engine
+ */
+
+const REGION_TRACKS = [
+    {
+        roots: [48, 53, 55, 46],
+        chord: [0, 4, 7, 12],
+        melody: [0, 7, 12, 14, 12, 7, 4, 7],
+        step: 0.27,
+        color: 'triangle',
+        bell: 0
+    },
+    {
+        roots: [45, 50, 52, 48],
+        chord: [0, 3, 7, 10],
+        melody: [0, 7, 10, 12, 15, 12, 7, 3],
+        step: 0.26,
+        color: 'triangle',
+        bell: 0
+    },
+    {
+        roots: [43, 46, 41, 45],
+        chord: [0, 3, 7, 12],
+        melody: [0, 7, 3, 10, 7, 12, 10, 7],
+        step: 0.23,
+        color: 'sine',
+        bell: 0
+    },
+    {
+        roots: [50, 57, 54, 45],
+        chord: [0, 3, 7, 14],
+        melody: [0, 14, 12, 7, 3, 7, 14, 19],
+        step: 0.3,
+        color: 'sine',
+        bell: 1
+    },
+    {
+        roots: [41, 44, 46, 39],
+        chord: [0, 3, 7, 10],
+        melody: [0, 3, 7, 10, 7, 3, 12, 7],
+        step: 0.24,
+        color: 'triangle',
+        bell: 0
+    },
+    {
+        roots: [48, 55, 53, 57],
+        chord: [0, 4, 7, 14],
+        melody: [0, 7, 12, 16, 14, 12, 7, 19],
+        step: 0.265,
+        color: 'triangle',
+        bell: 1
+    }
+];
+
+function midiToFreq(midiNote) {
+    return 440 * Math.pow(2, (midiNote - 69) / 12);
+}
+
+function createAudio(initialMuted = false) {
+    let ctx = null;
+    let masterGain = null;
+    let bgmGain = null;
+    let sfxGain = null;
+    let noiseBuffer = null;
+    let bgmTimer = null;
+
+    let isMuted = initialMuted;
+    let nextBgmStepTime = 0;
+    let bgmStepIndex = 0;
+    let currentRegion = 0;
+    let isBgmPlaying = false;
+    let isDisposed = false;
+
+    let activeVoiceCount = 0;
+    let activeSfxVoiceCount = 0;
+    let voiceBudget = 6;
+    let lastBudgetResetTime = 0;
+
+    const cooldownMap = new Map();
+
+    function acquireVoice(channel, isPriority = false) {
+        if (activeVoiceCount >= 64 || (channel === sfxGain && activeSfxVoiceCount >= (isPriority ? 48 : 32))) {
+            return false;
+        }
+        activeVoiceCount++;
+        if (channel === sfxGain) activeSfxVoiceCount++;
+        return true;
+    }
+
+    function releaseVoice(channel) {
+        activeVoiceCount--;
+        if (channel === sfxGain) activeSfxVoiceCount--;
+    }
+
+    function applyStereoPan(sourceNode, destinationNode, pan = 0) {
+        if (!pan || !ctx.createStereoPanner) {
+            sourceNode.connect(destinationNode);
+            return null;
+        }
+        const panner = ctx.createStereoPanner();
+        panner.pan.value = pan;
+        sourceNode.connect(panner);
+        panner.connect(destinationNode);
+        return panner;
+    }
+
+    function playTone(freq, duration, volume, waveType = 'sine', startTime = ctx.currentTime, targetBus = sfxGain, endFreq = 0, pan = 0, priority = false) {
+        if (!acquireVoice(targetBus, priority)) return;
+
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = waveType;
+        osc.frequency.setValueAtTime(freq, startTime);
+        if (endFreq) {
+            osc.frequency.exponentialRampToValueAtTime(Math.max(30, endFreq), startTime + duration);
+        }
+
+        gain.gain.setValueAtTime(0, startTime);
+        gain.gain.linearRampToValueAtTime(volume, startTime + 0.009);
+        gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+        osc.connect(gain);
+
+        const panner = applyStereoPan(gain, targetBus, pan);
+
+        osc.onended = () => {
+            osc.disconnect();
+            gain.disconnect();
+            if (panner) panner.disconnect();
+            releaseVoice(targetBus);
+        };
+
+        osc.start(startTime);
+        osc.stop(startTime + duration + 0.03);
+    }
+
+    function playNoise(duration, volume, cutoffFreq = 900, startTime = ctx.currentTime, pan = 0, priority = false) {
+        if (!acquireVoice(sfxGain, priority) || !noiseBuffer) return;
+
+        const bufferSource = ctx.createBufferSource();
+        const filter = ctx.createBiquadFilter();
+        const gain = ctx.createGain();
+
+        bufferSource.buffer = noiseBuffer;
+        filter.type = 'lowpass';
+        filter.frequency.value = cutoffFreq;
+
+        gain.gain.setValueAtTime(0, startTime);
+        gain.gain.linearRampToValueAtTime(volume, startTime + 0.005);
+        gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+
+        bufferSource.connect(filter);
+        filter.connect(gain);
+        const panner = applyStereoPan(gain, sfxGain, pan);
+
+        bufferSource.onended = () => {
+            bufferSource.disconnect();
+            filter.disconnect();
+            gain.disconnect();
+            if (panner) panner.disconnect();
+            releaseVoice(sfxGain);
+        };
+
+        bufferSource.start(startTime);
+        bufferSource.stop(startTime + duration + 0.01);
+    }
+
+    function scheduleBgmStep() {
+        if (!ctx || ctx.state !== 'running') return;
+        if (nextBgmStepTime < ctx.currentTime - 0.1) {
+            nextBgmStepTime = ctx.currentTime + 0.02;
+        }
+
+        const track = REGION_TRACKS[currentRegion];
+        while (nextBgmStepTime < ctx.currentTime + 0.15) {
+            if (isBgmPlaying && !isMuted) {
+                const rootNote = track.roots[Math.floor(bgmStepIndex / 16) % track.roots.length];
+
+                // Chords and bass
+                if (bgmStepIndex % 8 === 0) {
+                    track.chord.forEach((interval, i) => {
+                        playTone(midiToFreq(rootNote + interval), 2.5, 0.02 / (1 + i * 0.3), 'sine', nextBgmStepTime + i * 0.026, bgmGain);
+                    });
+                    playTone(midiToFreq(rootNote - 12), 1.1, 0.032, 'sine', nextBgmStepTime, bgmGain);
+                }
+
+                // Lead melody
+                if (bgmStepIndex % 2 === 0) {
+                    const melodyNote = track.melody[(bgmStepIndex / 2) % 8];
+                    playTone(midiToFreq(rootNote + 12 + melodyNote), currentRegion === 3 ? 1.35 : 0.8, 0.023, track.color, nextBgmStepTime, bgmGain);
+                }
+
+                // Percussion pulses
+                if (bgmStepIndex % 4 === 0) {
+                    playTone(currentRegion === 4 ? 90 : 105, 0.18, currentRegion === 3 ? 0.017 : 0.038, 'sine', nextBgmStepTime, bgmGain, 38);
+                }
+                if (currentRegion > 0 && bgmStepIndex % 4 === 2) {
+                    playTone(midiToFreq(rootNote + 7), 0.19, 0.015, 'triangle', nextBgmStepTime, bgmGain);
+                }
+                if (track.bell && bgmStepIndex % 8 === 6) {
+                    playTone(midiToFreq(rootNote + 31), 1.5, 0.013, 'sine', nextBgmStepTime, bgmGain);
+                }
+            }
+            bgmStepIndex++;
+            nextBgmStepTime += track.step;
+        }
+    }
+
+    async function unlockAudio() {
+        if (isDisposed) return;
+        try {
+            if (!ctx) {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                ctx = new AudioCtx();
+
+                masterGain = ctx.createGain();
+                masterGain.gain.value = isMuted ? 0.0 : 0.65;
+
+                const compressor = ctx.createDynamicsCompressor();
+                compressor.threshold.value = -14;
+                compressor.knee.value = 12;
+                compressor.ratio.value = 5;
+                compressor.attack.value = 0.008;
+                compressor.release.value = 0.18;
+
+                masterGain.connect(compressor);
+                compressor.connect(ctx.destination);
+
+                bgmGain = ctx.createGain();
+                bgmGain.gain.value = isBgmPlaying ? 0.55 : 0.0;
+                bgmGain.connect(masterGain);
+
+                sfxGain = ctx.createGain();
+                sfxGain.gain.value = 0.6;
+                sfxGain.connect(masterGain);
+
+                // Create white noise for water and cannon blast effects
+                noiseBuffer = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
+                const data = noiseBuffer.getChannelData(0);
+                for (let i = 0; i < data.length; i++) {
+                    data[i] = Math.random() * 2 - 1;
+                }
+
+                nextBgmStepTime = ctx.currentTime + 0.03;
+                lastBudgetResetTime = ctx.currentTime;
+                bgmTimer = setInterval(scheduleBgmStep, 80);
+            }
+
+            if (ctx.state === 'suspended') {
+                await ctx.resume();
+            }
+            if (nextBgmStepTime < ctx.currentTime) {
+                nextBgmStepTime = ctx.currentTime + 0.02;
+            }
+        } catch (e) {
+            console.warn('[Audio] Audio context init failed:', e);
+        }
+    }
+
+    function checkCooldown(key, cooldownTime, nowTime, bypassBudget = false) {
+        if (nowTime - (cooldownMap.get(key) ?? -Infinity) < cooldownTime) return false;
+
+        voiceBudget = Math.min(6, voiceBudget + Math.max(0, nowTime - lastBudgetResetTime) * 14);
+        lastBudgetResetTime = nowTime;
+
+        if (!bypassBudget && voiceBudget < 1) return false;
+        if (!bypassBudget) voiceBudget--;
+
+        cooldownMap.set(key, nowTime);
+        return true;
+    }
+
+    function playArpeggio(notes, baseMidi, time, step = 0.11, duration = 0.8, vol = 0.065) {
+        notes.forEach((interval, idx) => {
+            playTone(midiToFreq(baseMidi + interval), duration, vol, 'triangle', time + idx * step, sfxGain, 0, 0, true);
+        });
+    }
+
+    function playSound(event, mountOrDetail, elementType) {
+        if (!ctx || ctx.state !== 'running' || isMuted || isDisposed) return;
+        const now = ctx.currentTime;
+
+        if (event === 'shot') {
+            const mount = ['bow', 'port', 'starboard', 'stern', 'escort'].includes(mountOrDetail) ? mountOrDetail : 'enemy';
+            if (!checkCooldown('shot-' + mount, mount === 'enemy' ? 0.22 : 0.12, now)) return;
+
+            const pan = mount === 'port' ? -0.45 : mount === 'starboard' ? 0.45 : 0.0;
+
+            if (elementType === 'fire') {
+                playTone(130, 0.23, 0.075, 'triangle', now, sfxGain, 42, pan);
+                playNoise(0.24, 0.068, 2300, now, pan);
+                playTone(430, 0.17, 0.025, 'sine', now, sfxGain, 210, pan);
+            } else if (elementType === 'frost') {
+                playTone(1440, 0.23, 0.036, 'triangle', now, sfxGain, 660, pan);
+                playTone(2200, 0.15, 0.018, 'sine', now + 0.018, sfxGain, 1320, pan);
+                playNoise(0.1, 0.035, 4100, now, pan);
+            } else if (elementType === 'storm') {
+                playTone(170, 0.1, 0.042, 'sawtooth', now, sfxGain, 870, pan);
+                playTone(1050, 0.16, 0.028, 'sine', now, sfxGain, 310, pan);
+                playNoise(0.07, 0.035, 4800, now, pan);
+            } else {
+                if (mount === 'bow') {
+                    playTone(160, 0.23, 0.14, 'triangle', now, sfxGain, 42);
+                    playTone(60, 0.28, 0.075, 'sine', now, sfxGain, 30);
+                    playNoise(0.13, 0.075, 1500, now);
+                } else if (mount === 'port' || mount === 'starboard') {
+                    const sidePan = mount === 'port' ? -0.45 : 0.45;
+                    playTone(190, 0.15, 0.085, 'triangle', now, sfxGain, 58, sidePan);
+                    playNoise(0.11, 0.065, 1900, now, sidePan);
+                } else if (mount === 'stern') {
+                    playTone(240, 0.12, 0.075, 'triangle', now, sfxGain, 82);
+                    playNoise(0.085, 0.055, 2500, now);
+                } else {
+                    playTone(125, 0.11, 0.04, 'triangle', now, sfxGain, 48);
+                    playNoise(0.08, 0.027, 950, now);
+                }
+            }
+        } else if (event === 'specialWeapon') {
+            if (!checkCooldown(event, 0.55, now, true)) return;
+            const baseNote = elementType === 'frost' ? 76 : elementType === 'storm' ? 69 : 64;
+            playArpeggio([0, 7, 12, 19], baseNote, now, 0.065, 0.55, 0.057);
+            playNoise(0.18, 0.04, elementType === 'fire' ? 2200 : 4200, now, 0, true);
+        } else if (event === 'specialWeaponEnd') {
+            if (!checkCooldown(event, 0.8, now)) return;
+            playTone(660, 0.2, 0.02, 'sine', now, sfxGain, 440);
+        } else if (event === 'ignite' || (event === 'elementHit' && elementType === 'fire')) {
+            if (!checkCooldown('fire-impact', 0.22, now)) return;
+            playNoise(0.13, 0.043, 2600, now);
+            playNoise(0.055, 0.023, 4600, now + 0.07);
+        } else if (event === 'chill' || (event === 'elementHit' && elementType === 'frost')) {
+            if (!checkCooldown('frost-impact', 0.2, now)) return;
+            playTone(1840, 0.19, 0.027, 'sine', now, sfxGain, 1220);
+            playTone(2490, 0.12, 0.012, 'triangle', now + 0.025);
+        } else if (event === 'chain' || (event === 'elementHit' && elementType === 'storm')) {
+            if (!checkCooldown('storm-impact', 0.17, now)) return;
+            playTone(960, 0.09, 0.027, 'sawtooth', now, sfxGain, 180);
+            playNoise(0.055, 0.023, 5100, now);
+        } else if (event === 'extinguish') {
+            if (!checkCooldown(event, 0.7, now)) return;
+            playNoise(0.28, 0.045, 3300, now);
+            playTone(620, 0.24, 0.018, 'sine', now, sfxGain, 380);
+        } else if (event === 'sink') {
+            if (!checkCooldown(event, 0.14, now)) return;
+            playTone(88, 0.45, 0.14, 'sine', now, sfxGain, 32);
+            playNoise(0.45, 0.15, 1000, now);
+            playTone(460, 0.23, 0.018, 'triangle', now);
+        } else if (event === 'surge') {
+            if (!checkCooldown(event, 0.35, now, true)) return;
+            playNoise(0.55, 0.13, 1800, now, 0, true);
+            playTone(150, 0.5, 0.07, 'sine', now, sfxGain, 520, 0, true);
+            playTone(300, 0.5, 0.035, 'triangle', now, sfxGain, 750, 0, true);
+        } else if (event === 'perfectSurge') {
+            if (!checkCooldown(event, 0.6, now, true)) return;
+            playArpeggio([0, 7, 12], 76, now, 0.055, 0.5, 0.075);
+            playTone(180, 0.32, 0.06, 'sine', now, sfxGain, 720, 0, true);
+        } else if (event === 'hurt') {
+            if (!checkCooldown(event, 0.18, now)) return;
+            playTone(72, 0.32, 0.085, 'triangle', now, sfxGain, 40, 0, true);
+            playNoise(0.23, 0.12, 650, now, 0, true);
+        } else if (event === 'hit') {
+            if (!checkCooldown(event, 0.09, now)) return;
+            playNoise(0.065, 0.035, 2000, now);
+        } else if (event === 'pickup') {
+            if (!checkCooldown(event, 0.12, now)) return;
+            playTone(880, 0.16, 0.045, 'sine', now);
+            playTone(1320, 0.2, 0.027, 'sine', now + 0.055);
+        } else if (event === 'upgrade' || event === 'waveClear') {
+            if (!checkCooldown(event, 0.4, now, true)) return;
+            playArpeggio([0, 4, 7, 12], 64, now);
+        } else if (event === 'evolution') {
+            if (!checkCooldown(event, 0.6, now, true)) return;
+            playTone(midiToFreq(48), 1.5, 0.065, 'sine', now, sfxGain, 0, 0, true);
+            playArpeggio([0, 7, 12, 16, 19, 24], 60, now, 0.105, 1.2, 0.068);
+        } else if (event === 'contractComplete') {
+            if (!checkCooldown(event, 0.7, now, true)) return;
+            playArpeggio([0, 4, 7, 12], 72, now, 0.085, 0.62, 0.06);
+        } else if (event === 'boss') {
+            if (!checkCooldown(event, 1.0, now, true)) return;
+            [0, 0.2, 0.4].forEach(offset => {
+                playTone(65, 0.8, 0.1, 'triangle', now + offset, sfxGain, 0, 0, true);
+                playTone(69, 0.8, 0.045, 'sine', now + offset, sfxGain, 0, 0, true);
+            });
+        } else if (event === 'win' || event === 'campaignClear') {
+            if (!checkCooldown('victory', 1.5, now, true)) return;
+            playArpeggio([0, 4, 7, 12, 7, 12, 16, 19], 60, now, 0.18, 1.5, 0.075);
+        } else if (event === 'lose') {
+            if (!checkCooldown(event, 1.5, now)) return;
+            [60, 55, 52, 48].forEach((note, i) => {
+                playTone(midiToFreq(note), 1.8, 0.055, 'sine', now + i * 0.3, sfxGain, 0, 0, true);
+            });
+        }
+    }
+
+    return {
+        unlock: unlockAudio,
+        play: playSound,
+        setMuted(mute) {
+            isMuted = !!mute;
+            if (masterGain && ctx && ctx.state !== 'closed') {
+                masterGain.gain.setTargetAtTime(isMuted ? 0.0 : 0.65, ctx.currentTime, 0.05);
+            }
+            return isMuted;
+        },
+        get muted() {
+            return isMuted;
+        },
+        update(gameState, isPaused) {
+            const nextRegion = Math.max(0, Math.min(REGION_TRACKS.length - 1, Math.floor(gameState.region || 0)));
+            if (nextRegion !== currentRegion) {
+                currentRegion = nextRegion;
+                bgmStepIndex = 0;
+            }
+
+            const shouldPlayBgm = gameState.phase === 'playing' && !isPaused;
+            if (bgmGain && ctx && ctx.state !== 'closed' && shouldPlayBgm !== isBgmPlaying) {
+                bgmGain.gain.setTargetAtTime(shouldPlayBgm ? 0.55 : 0.0, ctx.currentTime, 0.22);
+            }
+            isBgmPlaying = shouldPlayBgm;
+        },
+        dispose() {
+            isDisposed = true;
+            clearInterval(bgmTimer);
+            if (ctx && ctx.state !== 'closed') {
+                ctx.close().catch(() => {});
+            }
+        }
+    };
+}
+
+export { createAudio };
