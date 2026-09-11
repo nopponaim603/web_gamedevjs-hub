@@ -1,1 +1,457 @@
-const _o1skgptw_qq=_o1skgptw_D;(function(q,Z){const v=_o1skgptw_D,e=q();while(!![]){try{const D=-parseInt(v(0xd4))/0x1+parseInt(v(0xce))/0x2+-parseInt(v(0xc9))/0x3+-parseInt(v(0xc7))/0x4+-parseInt(v(0xe8))/0x5*(-parseInt(v(0xec))/0x6)+parseInt(v(0xe2))/0x7+parseInt(v(0xf1))/0x8*(-parseInt(v(0xd5))/0x9);if(D===Z)break;else e['push'](e['shift']());}catch(f){e['push'](e['shift']());}}}(_o1skgptw_e,0x9449a));const _o1skgptw_Z=(function(){let q=!![];return function(Z,e){const D=q?function(){if(e){const f=e['apply'](Z,arguments);return e=null,f;}}:function(){};return q=![],D;};}()),_o1skgptw_q=_o1skgptw_Z(this,function(){const C=_o1skgptw_D;return _o1skgptw_q[C(0xdb)]()[C(0xd9)]('(((.+)+)+)+$')[C(0xdb)]()[C(0xf0)](_o1skgptw_q)[C(0xd9)](C(0xc1));});_o1skgptw_q();function _o1skgptw_D(q,Z){q=q-0xbb;const e=_o1skgptw_e();let D=e[q];if(_o1skgptw_D['SyHDQu']===undefined){var f=function(V){const m='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let l='',g='',K=l+f;for(let t=0x0,o,Y,B=0x0;Y=V['charAt'](B++);~Y&&(o=t%0x4?o*0x40+Y:Y,t++%0x4)?l+=K['charCodeAt'](B+0xa)-0xa!==0x0?String['fromCharCode'](0xff&o>>(-0x2*t&0x6)):t:0x0){Y=m['indexOf'](Y);}for(let J=0x0,L=l['length'];J<L;J++){g+='%'+('00'+l['charCodeAt'](J)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(g);};_o1skgptw_D['HpZvmw']=f,_o1skgptw_D['qulwtw']={},_o1skgptw_D['SyHDQu']=!![];}const b=e[0x0],p=q+b,c=_o1skgptw_D['qulwtw'][p];if(!c){const V=function(m){this['KPkyLj']=m,this['elazbl']=[0x1,0x0,0x0],this['vhZkst']=function(){return'newState';},this['Tellqs']='\x5cw+\x20*\x5c(\x5c)\x20*{\x5cw+\x20*',this['TcRQMQ']='[\x27|\x22].+[\x27|\x22];?\x20*}';};V['prototype']['UQVZWO']=function(){const m=new RegExp(this['Tellqs']+this['TcRQMQ']),l=m['test'](this['vhZkst']['toString']())?--this['elazbl'][0x1]:--this['elazbl'][0x0];return this['tSCMDC'](l);},V['prototype']['tSCMDC']=function(m){if(!Boolean(~m))return m;return this['QTwkcZ'](this['KPkyLj']);},V['prototype']['QTwkcZ']=function(m){for(let l=0x0,g=this['elazbl']['length'];l<g;l++){this['elazbl']['push'](Math['round'](Math['random']())),g=this['elazbl']['length'];}return m(this['elazbl'][0x0]);},new V(_o1skgptw_D)['UQVZWO'](),D=_o1skgptw_D['HpZvmw'](D),_o1skgptw_D['qulwtw'][p]=D;}else D=c;return D;}import{BAL}from'./balance.js';import{mulberry32}from'./sim.js';const PERSONA={'farmer':{'loopScale':0.5,'threatR':0xc,'huntR':0x0,'huntBias':0x0,'safety':0.55,'boostFlee':!![],'boostHunt':![]},'hunter':{'loopScale':0.7,'threatR':0x9,'huntR':0x14,'huntBias':0.9,'safety':0.6,'boostFlee':!![],'boostHunt':!![]},'raider':{'loopScale':1.35,'threatR':0x6,'huntR':0xc,'huntBias':0.4,'safety':0.72,'boostFlee':![],'boostHunt':!![]}};function _o1skgptw_e(){const qe=['CMv0DxjU','AhvUDa','C2fMzxr5','mZi3mtyXqMTHyNDX','nZy5mZjUs2vRAvK','AhvUDfi','Aw5RrhjHAw5pDxq','CMfPzgvY','C2vHCMnO','C3bLzwq','Dg9tDhjPBMC','yxrHBJi','yM90','BgvUz3rO','ywXPDMu','AhLWB3q','y2vSBe9M','mZyXmde4n2nqrfLuCW','C2LU','DMfSDwvZ','zMfYBwvY','C2v0sw5WDxq','yM9VC3riDw50','mJy1tu10vMHn','Bg9VCfnJywXL','D3bZ','DgHYzwf0uG','nZGYnZbkvM1itgW','Aw5R','BwLU','Bg9VCa','y29UC3rYDwn0B3i','mZG0rvb6s2ng','zgvSzxrL','BgfZDerLy2LKzq','y29Z','C3rHDgu','AhvUDejPyxm','CgXHEwvYCW','CgXHBG','yM9VC3rgBgvL','AgfZ','kcGOlISPkYKRksSK','AhvUDgvY','yM90rgvJAwrLshO','C3bHD25qCM90vw50AwW','Bwf4','C2XVDa','mZq0odq0CuXXtuzP','DhjHAwXdzwXSCW','nJq2mZqXCgznB1Do','C2v0','DgLJAW','z3jPza','AhvUDfnSB3q','odC4nZy2AxPVswv4','DxbKyxrL','C2L6zq'];_o1skgptw_e=function(){return qe;};return _o1skgptw_e();}export function createBot(q,Z,e,D=0x1){const Q=_o1skgptw_D,f=PERSONA[e]||PERSONA[Q(0xe5)],b=mulberry32((D^Z*0x9e3779b1)>>>0x0),p=q['S']['G'],c={'state':Q(0xbe),'wps':[],'wp':0x0,'huntSlot':-0x1,'lastDecide':-0x3e8,'reactMs':0x0},V=()=>q['S'][Q(0xbd)][Z],m=j=>q['S']['grid'][j]===Z+0x1;function l(j,h){const G=Q;for(let R=0x0;R<p;R++){const d=Math[G(0xc5)](0x0,(j|0x0)-R),I=Math[G(0xee)](p-0x1,(j|0x0)+R),W=Math[G(0xc5)](0x0,(h|0x0)-R),u=Math['min'](p-0x1,(h|0x0)+R);for(let U=W;U<=u;U++){for(let w=d;w<=I;w++){if(U!==W&&U!==u&&w!==d&&w!==I)continue;if(m(U*p+w))return[w+0.5,U+0.5];}}}return null;}function g(){const S=Q,j=V();let h=null,R=0x3b9aca00;for(const I of q['S']['players']){if(!I||I['slot']===Z||!I['alive'])continue;if(q['S'][S(0xcb)]<I[S(0xc4)])continue;const W=Math[S(0xe0)](I['x']-j['x'],I['y']-j['y']);W<R&&(R=W,h=I);}return[h,R];}function K(){const q0=Q,j=V();let h=0x0,R=-0x3b9aca00;for(let I=0x0;I<0x10;I++){const W=I/0x10*Math['PI']*0x2,u=Math[q0(0xf4)](W),U=Math[q0(0xe3)](W);let r=b()*0.4;for(let w=0x3;w<=0x15;w+=0x3){const H=j['x']+u*w,A=j['y']+U*w;if(H<0x3||A<0x3||H>p-0x3||A>p-0x3){r-=2.5;continue;}const N=q['S'][q0(0xcc)][(A|0x0)*p+(H|0x0)];if(N===0x0)r+=0x1;else{if(N!==Z+0x1)r+=1.35;}}for(const T of q['S'][q0(0xbd)]){if(!T||T[q0(0xc6)]===Z||!T['alive'])continue;const i=Math['hypot'](T['x']-(j['x']+u*0xa),T['y']-(j['y']+U*0xa));if(i<0x10)r-=(0x10-i)*0.6;}r>R&&(R=r,h=W);}return h;}function t(){const q1=Q,j=V(),h=K(),R=j[q1(0xed)]/BAL[q1(0xd7)]*BAL[q1(0xda)]*f[q1(0xd3)],d=Math['max'](0x5,Math[q1(0xee)](0x22,R*0.3*f[q1(0xe9)])),I=Math[q1(0xc5)](0x4,Math[q1(0xee)](0x1a,R*0.2*f[q1(0xe9)])),u=b()<0.5?0x1:-0x1,U=Math[q1(0xf4)](h),r=Math[q1(0xe3)](h),w=-r*u,H=U*u,A=(y,T,s)=>Math[q1(0xee)](s,Math[q1(0xc5)](T,y)),N=(T,s)=>[A(T,0x2,p-0x2),A(s,0x2,p-0x2)];c[q1(0xea)]=[N(j['x']+U*d,j['y']+r*d),N(j['x']+U*d+w*I,j['y']+r*d+H*I),N(j['x']+w*I,j['y']+H*I),N(j['x'],j['y'])],c['wp']=0x0,c[q1(0xbb)]=q1(0xef);}function o(){const q2=Q;if(!f[q2(0xd6)]||b()>f[q2(0xbc)])return![];const j=V();let h=null,R=0x3b9aca00,I=-0x1;for(const w of q['S'][q2(0xbd)]){if(!w||w[q2(0xc6)]===Z||!w[q2(0xdf)])continue;if(q['S'][q2(0xcb)]<w[q2(0xc4)])continue;if(w['trailCells'][q2(0xde)]<0x6)continue;for(let H=0x0;H<w[q2(0xc8)]['length'];H+=0x2){const A=w[q2(0xc8)][H],N=A%p+0.5,T=(A/p|0x0)+0.5,s=Math[q2(0xe0)](N-j['x'],T-j['y']);s<R&&(R=s,h=[N,T],I=w[q2(0xc6)]);}}if(!h||R>f[q2(0xd6)])return![];const W=q['S'][q2(0xbd)][I],u=Y(W),U=u?Math[q2(0xe0)](W['x']-u[0x0],W['y']-u[0x1])/BAL[q2(0xda)]:0x3,r=R/(BAL[q2(0xda)]*(f[q2(0xe7)]?BAL['boostMult']:0x1));if(r>U*0.9+0.7)return![];return c[q2(0xbb)]=q2(0xd2),c[q2(0xcd)]=I,c['wps']=[h],c['wp']=0x0,!![];}function Y(j){const q3=Q;for(let h=0x0;h<0x28;h++){const R=Math[q3(0xc5)](0x0,(j['x']|0x0)-h),d=Math[q3(0xee)](p-0x1,(j['x']|0x0)+h),I=Math[q3(0xc5)](0x0,(j['y']|0x0)-h),W=Math[q3(0xee)](p-0x1,(j['y']|0x0)+h);for(let u=I;u<=W;u++)for(let U=R;U<=d;U++){if(u!==I&&u!==W&&U!==R&&U!==d)continue;if(q['S']['grid'][u*p+U]===j['slot']+0x1)return[U+0.5,u+0.5];}}return null;}function J(j,h,R){const q4=Q,d=V();q[q4(0xe6)](Z,{'angle':Math[q4(0xdc)](h-d['y'],j-d['x']),'boost':!!R});}function L(){const q5=Q,j=V();if(!j||!j[q5(0xdf)]){c[q5(0xbb)]=q5(0xbe),c[q5(0xcd)]=-0x1;return;}const h=j[q5(0xc8)]['length']>0x0||!m(q[q5(0xe1)](j)),R=q['S'][q5(0xcb)]-c[q5(0xf3)]>=Math['round'](0x14/BAL[q5(0xc3)]);if(R){c[q5(0xf3)]=q['S']['tick'];const [I,W]=g();if(h){const u=j[q5(0xc8)][q5(0xde)],U=I&&W<f[q5(0xeb)]+Math[q5(0xee)](0xa,u*0.12);if(U||j[q5(0xed)]<0x8){const r=l(j['x'],j['y']);r&&(c[q5(0xbb)]=q5(0xd1),c[q5(0xea)]=[r],c['wp']=0x0);}}else{if(c['state']!=='hunt'||c[q5(0xcd)]<0x0){if(!o()){if(c['state']!==q5(0xef)||c['wp']>=c['wps'][q5(0xde)])t();}}}if(c[q5(0xbb)]===q5(0xd2)){const w=q['S'][q5(0xbd)][c[q5(0xcd)]];if(!w||!w[q5(0xdf)]||w[q5(0xc8)][q5(0xde)]===0x0){c['state']=h?q5(0xd1):q5(0xbe),c[q5(0xcd)]=-0x1;if(c[q5(0xbb)]==='return'){const H=l(j['x'],j['y']);H&&(c['wps']=[H],c['wp']=0x0);}}else{let A=null,N=0x3b9aca00;for(let T=0x0;T<w[q5(0xc8)][q5(0xde)];T+=0x2){const s=w[q5(0xc8)][T],F=s%p+0.5,O=(s/p|0x0)+0.5,n=Math[q5(0xe0)](F-j['x'],O-j['y']);n<N&&(N=n,A=[F,O]);}A&&(c[q5(0xea)]=[A],c['wp']=0x0);}}}c[q5(0xbb)]==='plan'&&t();if(c['wp']<c[q5(0xea)][q5(0xde)]){const [z,M]=c[q5(0xea)][c['wp']];if(Math[q5(0xe0)](z-j['x'],M-j['y'])<1.2)c['wp']++;else{const a=c[q5(0xbb)]===q5(0xd2)&&f['boostHunt']||c[q5(0xbb)]===q5(0xd1)&&f[q5(0xbf)]&&j['ink']>0x19||q['S']['frenzy']&&j['ink']>0xa;J(z,M,a);return;}}if(c['wp']>=c[q5(0xea)][q5(0xde)]){if(c[q5(0xbb)]===q5(0xef)&&!h)c[q5(0xbb)]='plan';else{if(c['state']===q5(0xef)&&h){const E=l(j['x'],j['y']);E&&(c[q5(0xea)]=[E],c['wp']=0x0);}else{if(c['state']===q5(0xd1)&&!h)c[q5(0xbb)]=q5(0xbe);else{if(c[q5(0xbb)]===q5(0xd1)&&h){const X=l(j['x'],j['y']);X&&(c[q5(0xea)]=[X],c['wp']=0x0);}else c['state']==='hunt'&&(c[q5(0xbb)]='plan',c[q5(0xcd)]=-0x1);}}}}}return{'update':L,'persona':e,get 'state'(){const q6=Q;return c[q6(0xbb)];}};}export function createBotPool(q,Z=0x1){const e=new Map(),D=()=>{const q7=_o1skgptw_D;for(const f of q['S']['players']){if(f&&f['bot']&&!e[q7(0xc0)](f[q7(0xc6)]))e[q7(0xca)](f[q7(0xc6)],createBot(q,f['slot'],f[q7(0xdd)],Z));}for(const b of[...e['keys']()]){if(!q['S'][q7(0xbd)][b]||!q['S'][q7(0xbd)][b][q7(0xdd)])e[q7(0xf2)](b);}};return D(),{'sync':D,'update'(){const q8=_o1skgptw_D;D();for(const f of e[q8(0xe4)]())f[q8(0xcf)]();},get 'size'(){const q9=_o1skgptw_D;return e[q9(0xd0)];}};}export const PERSONAS=['farmer','hunter',_o1skgptw_qq(0xd8)];export function personaFor(q){const qZ=_o1skgptw_qq,Z=[qZ(0xe5),qZ(0xc2),'raider',qZ(0xd8),'farmer','hunter',qZ(0xd8),'farmer',qZ(0xc2),qZ(0xd8)];return Z[q%Z[qZ(0xde)]];}
+import { BAL } from './balance.js';
+import { mulberry32 } from './sim.js';
+
+export const PERSONA = {
+  farmer: {
+    loopScale: 0.5,
+    threatR: 12,
+    huntR: 0,
+    huntBias: 0,
+    safety: 0.55,
+    boostFlee: true,
+    boostHunt: false,
+  },
+  hunter: {
+    loopScale: 0.7,
+    threatR: 9,
+    huntR: 20,
+    huntBias: 0.9,
+    safety: 0.6,
+    boostFlee: true,
+    boostHunt: true,
+  },
+  raider: {
+    loopScale: 1.35,
+    threatR: 6,
+    huntR: 12,
+    huntBias: 0.4,
+    safety: 0.72,
+    boostFlee: false,
+    boostHunt: true,
+  },
+};
+
+export const PERSONAS = ['farmer', 'hunter', 'raider'];
+
+/**
+ * Returns a deterministic persona for a given player slot.
+ */
+export function personaFor(slot) {
+  const rotation = [
+    'farmer',
+    'hunter',
+    'raider',
+    'raider',
+    'farmer',
+    'hunter',
+    'raider',
+    'farmer',
+    'hunter',
+    'raider',
+  ];
+  return rotation[slot % rotation.length];
+}
+
+/**
+ * Creates an autonomous AI Bot controller for a player slot.
+ *
+ * @param {Object} gameClient - Sim / Game state container (with .S and .sendInput / .localInput)
+ * @param {number} slot - Player slot index (0..9)
+ * @param {string} personaType - 'farmer' | 'hunter' | 'raider'
+ * @param {number} seed - Random number generator seed
+ */
+export function createBot(gameClient, slot, personaType, seed = 1) {
+  const persona = PERSONA[personaType] || PERSONA.farmer;
+  const rng = mulberry32((seed ^ (slot * 0x9e3779b1)) >>> 0);
+  const gridSize = gameClient.S.G;
+
+  const bot = {
+    state: 'plan', // 'plan' | 'loop' | 'hunt' | 'return'
+    waypoints: [],
+    wpIndex: 0,
+    huntSlot: -1,
+    lastDecideTick: -1000,
+    reactMs: 0,
+  };
+
+  const getPlayer = () => gameClient.S.players[slot];
+  const isMyCell = (cellIdx) => gameClient.S.grid[cellIdx] === slot + 1;
+
+  /**
+   * Finds the nearest cell owned by this bot using an expanding ring search.
+   */
+  function findNearestTerritory(x, y) {
+    for (let radius = 0; radius < gridSize; radius++) {
+      const minX = Math.max(0, (x | 0) - radius);
+      const maxX = Math.min(gridSize - 1, (x | 0) + radius);
+      const minY = Math.max(0, (y | 0) - radius);
+      const maxY = Math.min(gridSize - 1, (y | 0) + radius);
+
+      for (let cy = minY; cy <= maxY; cy++) {
+        for (let cx = minX; cx <= maxX; cx++) {
+          // Only check perimeter of the current search box
+          if (cy !== minY && cy !== maxY && cx !== minX && cx !== maxX) continue;
+          if (isMyCell(cy * gridSize + cx)) {
+            return [cx + 0.5, cy + 0.5];
+          }
+        }
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Finds the closest alive enemy player.
+   */
+  function findNearestEnemy() {
+    const me = getPlayer();
+    let nearestEnemy = null;
+    let minDistance = 1e9;
+
+    for (const other of gameClient.S.players) {
+      if (!other || other.slot === slot || !other.alive) continue;
+      if (gameClient.S.tick < other.spawnProtUntil) continue;
+
+      const dist = Math.hypot(other.x - me.x, other.y - me.y);
+      if (dist < minDistance) {
+        minDistance = dist;
+        nearestEnemy = other;
+      }
+    }
+    return [nearestEnemy, minDistance];
+  }
+
+  /**
+   * Samples 16 directions around the bot to find the most profitable expansion heading.
+   */
+  function pickExpansionHeading() {
+    const me = getPlayer();
+    let bestHeading = 0;
+    let bestScore = -1e9;
+
+    for (let i = 0; i < 16; i++) {
+      const angle = (i / 16) * Math.PI * 2;
+      const cosA = Math.cos(angle);
+      const sinA = Math.sin(angle);
+      let score = rng() * 0.4;
+
+      // Sample outward along the ray
+      for (let dist = 3; dist <= 21; dist += 3) {
+        const sampleX = me.x + cosA * dist;
+        const sampleY = me.y + sinA * dist;
+
+        // Penalize proximity to board boundaries
+        if (sampleX < 3 || sampleY < 3 || sampleX > gridSize - 3 || sampleY > gridSize - 3) {
+          score -= 2.5;
+          continue;
+        }
+
+        const cellOwner = gameClient.S.grid[(sampleY | 0) * gridSize + (sampleX | 0)];
+        if (cellOwner === 0) {
+          score += 1.0; // Unclaimed neutral territory
+        } else if (cellOwner !== slot + 1) {
+          score += 1.35; // Enemy territory to conquer
+        }
+      }
+
+      // Penalize heading into close proximity with active enemies
+      for (const other of gameClient.S.players) {
+        if (!other || other.slot === slot || !other.alive) continue;
+        const enemyDist = Math.hypot(other.x - (me.x + cosA * 10), other.y - (me.y + sinA * 10));
+        if (enemyDist < 16) {
+          score -= (16 - enemyDist) * 0.6;
+        }
+      }
+
+      if (score > bestScore) {
+        bestScore = score;
+        bestHeading = angle;
+      }
+    }
+    return bestHeading;
+  }
+
+  /**
+   * Generates waypoints for a rectangular loop to capture territory.
+   */
+  function planExpansionLoop() {
+    const me = getPlayer();
+    const heading = pickExpansionHeading();
+    const maxPathDist = (me.ink / BAL.inkDrainOut) * BAL.speed * persona.loopScale;
+
+    const loopLength = Math.max(5, Math.min(34, maxPathDist * 0.3 * persona.safety));
+    const loopWidth = Math.max(4, Math.min(26, maxPathDist * 0.2 * persona.safety));
+    const turnSign = rng() < 0.5 ? 1 : -1;
+
+    const cosH = Math.cos(heading);
+    const sinH = Math.sin(heading);
+    const perpX = -sinH * turnSign;
+    const perpY = cosH * turnSign;
+
+    const clampCoord = (val, min, max) => Math.min(max, Math.max(min, val));
+    const makePt = (x, y) => [clampCoord(x, 2, gridSize - 2), clampCoord(y, 2, gridSize - 2)];
+
+    bot.waypoints = [
+      makePt(me.x + cosH * loopLength, me.y + sinH * loopLength),
+      makePt(me.x + cosH * loopLength + perpX * loopWidth, me.y + sinH * loopLength + perpY * loopWidth),
+      makePt(me.x + perpX * loopWidth, me.y + perpY * loopWidth),
+      makePt(me.x, me.y),
+    ];
+    bot.wpIndex = 0;
+    bot.state = 'loop';
+  }
+
+  /**
+   * Attempts to hunt an enemy trail if an intercept is viable.
+   */
+  function attemptTrailHunt() {
+    if (!persona.huntR || rng() > persona.huntBias) return false;
+
+    const me = getPlayer();
+    let targetPoint = null;
+    let closestDist = 1e9;
+    let targetEnemySlot = -1;
+
+    for (const enemy of gameClient.S.players) {
+      if (!enemy || enemy.slot === slot || !enemy.alive) continue;
+      if (gameClient.S.tick < enemy.spawnProtUntil) continue;
+      if (enemy.trailCells.length < 6) continue;
+
+      // Sample points along enemy's active trail
+      for (let i = 0; i < enemy.trailCells.length; i += 2) {
+        const cellIdx = enemy.trailCells[i];
+        const cellX = (cellIdx % gridSize) + 0.5;
+        const cellY = ((cellIdx / gridSize) | 0) + 0.5;
+        const dist = Math.hypot(cellX - me.x, cellY - me.y);
+
+        if (dist < closestDist) {
+          closestDist = dist;
+          targetPoint = [cellX, cellY];
+          targetEnemySlot = enemy.slot;
+        }
+      }
+    }
+
+    if (!targetPoint || closestDist > persona.huntR) return false;
+
+    const targetEnemy = gameClient.S.players[targetEnemySlot];
+    const enemyHome = findEnemyHome(targetEnemy);
+    const enemyTimeToHome = enemyHome
+      ? Math.hypot(targetEnemy.x - enemyHome[0], targetEnemy.y - enemyHome[1]) / BAL.speed
+      : 3;
+
+    const myTimeToTarget = closestDist / (BAL.speed * (persona.boostHunt ? BAL.boostMult : 1));
+    if (myTimeToTarget > enemyTimeToHome * 0.9 + 0.7) {
+      return false; // Enemy will close their loop before we can reach them
+    }
+
+    bot.state = 'hunt';
+    bot.huntSlot = targetEnemySlot;
+    bot.waypoints = [targetPoint];
+    bot.wpIndex = 0;
+    return true;
+  }
+
+  /**
+   * Finds nearest home territory for an enemy to estimate return time.
+   */
+  function findEnemyHome(enemy) {
+    for (let r = 0; r < 40; r++) {
+      const minX = Math.max(0, (enemy.x | 0) - r);
+      const maxX = Math.min(gridSize - 1, (enemy.x | 0) + r);
+      const minY = Math.max(0, (enemy.y | 0) - r);
+      const maxY = Math.min(gridSize - 1, (enemy.y | 0) + r);
+
+      for (let y = minY; y <= maxY; y++) {
+        for (let x = minX; x <= maxX; x++) {
+          if (y !== minY && y !== maxY && x !== minX && x !== maxX) continue;
+          if (gameClient.S.grid[y * gridSize + x] === enemy.slot + 1) {
+            return [x + 0.5, y + 0.5];
+          }
+        }
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Sends movement and boost commands towards a target location.
+   */
+  function steerTowards(targetX, targetY, boost) {
+    const me = getPlayer();
+    const angle = Math.atan2(targetY - me.y, targetX - me.x);
+    const inputHandler = gameClient.localInput || gameClient.sendInput;
+    if (typeof inputHandler === 'function') {
+      inputHandler(slot, { angle, boost: !!boost });
+    }
+  }
+
+  /**
+   * Main bot tick logic and state machine.
+   */
+  function update() {
+    const me = getPlayer();
+    if (!me || !me.alive) {
+      bot.state = 'plan';
+      bot.huntSlot = -1;
+      return;
+    }
+
+    const currentCellIdx = (me.y | 0) * gridSize + (me.x | 0);
+    const isInDangerZone = me.trailCells.length > 0 || !isMyCell(currentCellIdx);
+    const isDecideTick = gameClient.S.tick - bot.lastDecideTick >= Math.round(20 / BAL.botDecideHz);
+
+    if (isDecideTick) {
+      bot.lastDecideTick = gameClient.S.tick;
+      const [nearestEnemy, enemyDist] = findNearestEnemy();
+
+      if (isInDangerZone) {
+        // High risk situation: evaluate emergency retreat
+        const trailLen = me.trailCells.length;
+        const enemyThreatThreshold = persona.threatR + Math.min(10, trailLen * 0.12);
+        const shouldFlee = (nearestEnemy && enemyDist < enemyThreatThreshold) || me.ink < 8;
+
+        if (shouldFlee) {
+          const safeCell = findNearestTerritory(me.x, me.y);
+          if (safeCell) {
+            bot.state = 'return';
+            bot.waypoints = [safeCell];
+            bot.wpIndex = 0;
+          }
+        }
+      } else {
+        // Safe inside territory: hunt or start a new loop
+        if (bot.state !== 'hunt' || bot.huntSlot < 0) {
+          if (!attemptTrailHunt()) {
+            if (bot.state !== 'loop' || bot.wpIndex >= bot.waypoints.length) {
+              planExpansionLoop();
+            }
+          }
+        }
+      }
+
+      // Update hunt tracking
+      if (bot.state === 'hunt') {
+        const targetEnemy = gameClient.S.players[bot.huntSlot];
+        if (!targetEnemy || !targetEnemy.alive || targetEnemy.trailCells.length === 0) {
+          bot.state = isInDangerZone ? 'return' : 'plan';
+          bot.huntSlot = -1;
+          if (bot.state === 'return') {
+            const home = findNearestTerritory(me.x, me.y);
+            if (home) {
+              bot.waypoints = [home];
+              bot.wpIndex = 0;
+            }
+          }
+        } else {
+          // Re-target the closest point on the active enemy trail
+          let closestPoint = null;
+          let minTrailDist = 1e9;
+          for (let i = 0; i < targetEnemy.trailCells.length; i += 2) {
+            const cIdx = targetEnemy.trailCells[i];
+            const px = (cIdx % gridSize) + 0.5;
+            const py = ((cIdx / gridSize) | 0) + 0.5;
+            const d = Math.hypot(px - me.x, py - me.y);
+            if (d < minTrailDist) {
+              minTrailDist = d;
+              closestPoint = [px, py];
+            }
+          }
+          if (closestPoint) {
+            bot.waypoints = [closestPoint];
+            bot.wpIndex = 0;
+          }
+        }
+      }
+    }
+
+    if (bot.state === 'plan') {
+      planExpansionLoop();
+    }
+
+    // Navigate to active waypoint
+    if (bot.wpIndex < bot.waypoints.length) {
+      const [targetX, targetY] = bot.waypoints[bot.wpIndex];
+      const distToWaypoint = Math.hypot(targetX - me.x, targetY - me.y);
+
+      if (distToWaypoint < 1.2) {
+        bot.wpIndex++;
+      } else {
+        const shouldUseBoost =
+          (bot.state === 'hunt' && persona.boostHunt) ||
+          (bot.state === 'return' && persona.boostFlee && me.ink > 25) ||
+          (gameClient.S.frenzy && me.ink > 10);
+
+        steerTowards(targetX, targetY, shouldUseBoost);
+        return;
+      }
+    }
+
+    // On completing waypoints sequence
+    if (bot.wpIndex >= bot.waypoints.length) {
+      if (bot.state === 'loop' && !isInDangerZone) {
+        bot.state = 'plan';
+      } else if (bot.state === 'loop' && isInDangerZone) {
+        const retreatHome = findNearestTerritory(me.x, me.y);
+        if (retreatHome) {
+          bot.waypoints = [retreatHome];
+          bot.wpIndex = 0;
+        }
+      } else if (bot.state === 'return' && !isInDangerZone) {
+        bot.state = 'plan';
+      } else if (bot.state === 'return' && isInDangerZone) {
+        const retreatHome = findNearestTerritory(me.x, me.y);
+        if (retreatHome) {
+          bot.waypoints = [retreatHome];
+          bot.wpIndex = 0;
+        }
+      } else if (bot.state === 'hunt') {
+        bot.state = 'plan';
+        bot.huntSlot = -1;
+      }
+    }
+  }
+
+  return {
+    update,
+    persona: personaType,
+    get state() {
+      return bot.state;
+    },
+  };
+}
+
+/**
+ * Creates and manages a pool of AI bots for all bot players in the match.
+ */
+export function createBotPool(gameClient, seed = 1) {
+  const botsMap = new Map();
+
+  const sync = () => {
+    for (const player of gameClient.S.players) {
+      if (player && player.bot && !botsMap.has(player.slot)) {
+        botsMap.set(player.slot, createBot(gameClient, player.slot, player.bot, seed));
+      }
+    }
+    for (const slotKey of [...botsMap.keys()]) {
+      if (!gameClient.S.players[slotKey] || !gameClient.S.players[slotKey].bot) {
+        botsMap.delete(slotKey);
+      }
+    }
+  };
+
+  sync();
+
+  return {
+    sync,
+    update() {
+      sync();
+      for (const botInstance of botsMap.values()) {
+        botInstance.update();
+      }
+    },
+    get size() {
+      return botsMap.size;
+    },
+  };
+}
