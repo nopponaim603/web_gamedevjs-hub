@@ -109,5 +109,28 @@ tags:
 | **Main URL** | `/games/inkwash/index.html` |
 | **AI Generation Tools** | HTML5 Canvas 2D / Web Audio API / LocalStorage |
 | **Tech Stack** | Canvas 2D Grid Engine / Living Ink Diffusion / Procedural Audio / Smart Bot Pool |
-| **Category** | `Phaser 2D Engine` / `Three.js 3D Engine` / `แอ็กชัน / เอาชีวิตรอด` |
+| **Category** | `Canvas 2D Engine` / `IO Territory Battle` / `แอ็กชัน / เอาชีวิตรอด` |
 | **Standalone Ready** | 100% Offline Compatible (No CDN / External SDK dependency) |
+
+---
+
+## 5. Modular Codebase Architecture
+
+```text
+public/games/inkwash/
+├── index.html          # Clean HTML Entry Point with Hub Navigation
+├── styles.css          # Parchment Paper Aesthetics, Asian Calligraphy Theme
+├── thumbnail.png       # 16:9 Inkwash Thumbnail
+└── js/                 # Modular ES6 Game Engine
+    ├── audio.js        # Deobfuscated Web Audio Synthesizer (Pentatonic BGM & Ink SFX)
+    ├── balance.js      # Game constants & balance tuning
+    ├── bot.js          # AI Bot Personas & steering algorithms
+    ├── i18n.js         # Multilingual localization (EN / ZH / TH)
+    ├── input.js        # Desktop Pointer & Mobile Touch controller
+    ├── main.js         # Core Game Lifecycle & UI Coordinator
+    ├── net.js          # Room P2P Networking & invite system
+    ├── render.js       # Living ink diffusion & watercolor canvas renderer
+    ├── save.js         # LocalStorage persistence & skin unlock tracker
+    ├── sim.js          # Grid simulation & territory flood-fill algorithm
+    └── ui.js           # Screens, Podium, HUD, and Modals manager
+```

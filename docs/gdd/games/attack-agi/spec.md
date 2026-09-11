@@ -46,12 +46,25 @@ tags:
 
 ---
 
-## 3. Technical Architecture & Implementation
+## 3. Technical Architecture & Modular Layout
 
-1. **Engine Layer:** พัฒนาด้วย Three.js / Procedural Cyber Grid รันบนเบราว์เซอร์ 100% Client-Side ไม่ต้องพึ่งพาเซิร์ฟเวอร์ภายนอก
-2. **Audio System:** รองรับ Web Audio API สังเคราะห์เสียง Effect และ BGM ทำงานสมบูรณ์แบบทั้งบนเดสก์ท็อปและมือถือ
-3. **Responsive Viewport:** ปรับแต่ง Aspect Ratio และ Canvas Resolution ให้พอดีกับหน้าจอและ Frame ของ Hub Modal
-4. **State Persistence:** บันทึกคะแนนสูงสุด (High Scores) ลงใน `localStorage` ของเบราว์เซอร์อัตโนมัติ
+เกมได้รับการ Refactor สู่สถาปัตยกรรมแบบ **Clean Vanilla Three.js + Modular ES6** โดยปราศจาก React/Turbopack chunk bundle:
+
+```text
+public/games/attack-agi/
+├── index.html              # Entry Point (HUD, Overlays, Three.js canvas)
+├── styles.css              # Cyberpunk HUD, Health bar, Ammo counter, Touch buttons
+├── thumbnail.jpg
+└── js/
+    ├── config.js           # Weapon stats, Wave configs, Arena bounds
+    ├── audio.js            # Web Audio API Synthesizer (Lasers, Explosions, Reload, Sirens)
+    ├── particles.js        # 3D Particle system (Sparks, Fire zones, Bullet tracers)
+    ├── world.js            # Three.js 3D Arena, Neon pillars, Grid floor, Dynamic lighting
+    ├── weapons.js          # Pulse Rifle, Scatter Shotgun, Molotov EMP fireball viewmodels & recoil
+    ├── enemies.js          # AI Horde System (Drones, Cyber Hounds, Heavy Mechs, Core Sentinel Boss)
+    ├── player.js           # FPS Camera, WASD, Pointer Lock, Jump, Dodge Dash, Mobile Touch
+    └── game.js             # Core Game Loop, State Machine (MENU -> PLAYING -> GAMEOVER)
+```
 
 ---
 
