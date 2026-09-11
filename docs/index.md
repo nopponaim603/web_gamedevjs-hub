@@ -141,6 +141,68 @@ tags:
 - [04-retrospectives-backlog.md — Retrospectives Hub](./agile/04-retrospectives-backlog.md)
 - [05-report-backlog.md — QA & Test Reports Hub](./agile/05-report-backlog.md)
 - [Kanban-board.md — Kanban Board](./agile/Kanban-board.md)
+### 🎮 Active Released Game Specifications (`docs/gdd/games/`)
+- [☸️ K8s Games: 3D Kubernetes Simulator (G047)](./gdd/games/k8sgames/spec.md)
+- [✏️ Scribble Jump: Vertical Doodler (G046)](./gdd/games/scribble-jump/spec.md)
+- [⚡ VOLTA: Lineman of the Storm (G045)](./gdd/games/volta/spec.md)
+- [🎨 INKWASH 晕染: Territory io Battle (G044)](./gdd/games/inkwash/spec.md)
+- [👶 Jelly Baby: WebGPU 3D Soft-Body Physics (G043)](./gdd/games/jelly-baby/spec.md)
+- [🪙 Coin Pusher 3D: Copper Cascade (G039)](./gdd/games/coin-pusher-3d-copper-cascade/spec.md)
+- [🐉 Dragon Roguelite: Skywake (G040)](./gdd/games/dragon-roguelite-skywake/spec.md)
+- [⚔️ Grapple Knight: Storm Siege (G041)](./gdd/games/grapple-knight-storm-siege/spec.md)
+- [🖌️ Ink Warden 墨守 (Calligraphy Defense G042)](./gdd/games/ink-warden/spec.md)
+- [🌊 Echo Abyss: Deep-Sea Sonar Survival (G038)](./gdd/games/echo-abyss/spec.md)
+- [⛵ Boat Roguelite: Driftwake (3D Naval Combat & Endless Seas G037)](./gdd/games/boat-roguelite-driftwake/spec.md)
+- [📚 Oxford 3000 Vocab Master (EduGame G031)](./gdd/games/oxford-3000/spec.md)
+- [⚡ GODAWFUL (Cute Town God Sim G028)](./gdd/games/godawful/spec.md)
+- [🛡️ SURVIVE 10 WAVES (3D Extraction Survival G029)](./gdd/games/survive-10-waves/spec.md)
+- [🏍️ DIRT LINE (Trials Dirt Bike 3D G030)](./gdd/games/dirtline/spec.md)
+- [🎮 XO Multiplayer (WebRTC P2P G027)](./gdd/games/webrtc-xo/spec.md)
+- [🏎️ Starter Kit Racing 3D (Three.js & Crashcat G026)](./gdd/games/starter-kit-racing/spec.md)
+- [Pretext Breaker (Typography Block Breaker G025)](./gdd/games/pretext-breaker/spec.md)
+- [🍆 Wiggle Eggplant 3D (Three.js & Wiggle Physics G024)](./gdd/games/eggplant-wiggle/spec.md)
+- [BOBA PEARL DROP: 100% SUGAR (Super Monkey Ball Style Boba 3D G023)](./gdd/games/boba-pearl-drop/spec.md)
+- [Royal Cascade: Juicy Card Dealer (G022)](./gdd/games/animated-card-game/gdd.md)
+- [Tiny Dungeon Squad (SNKRX Edition G021)](./gdd/games/tiny-dungeon-squad/spec.md)
+- [State.IO (Territory Domination G019)](./gdd/games/stateIO/gdd.md)
+- [WarFront.io & FrontWars Strategy (G020)](./gdd/games/warfront/gdd.md)
+- [Dice Quest (เกมกระดานทอยลูกเต๋า G010)](./gdd/games/dice-quest/spec.md)
+- [Ocean Frenzy (เกมปลาใหญ่กินปลาเล็ก)](./gdd/games/ocean-frenzy/spec.md)
+- [Card Memory Match](./gdd/games/card-memory/spec.md)
+- [Goosl Glass Marbles](./gdd/games/goosl-marbles/spec.md)
+- [2048 Cubes](./gdd/games/2048-cubes/spec.md)
+- [Mahjong Tile Match (ไพ่นกกระจอก)](./gdd/games/mahjong-tile-match/spec.md)
+- [Tile Swap (Phaser 2D)](./gdd/games/tile-swap/spec.md)
+- [Emoji Match](./gdd/games/emoji-match/spec.md)
+- [Tiny Dungeon Survivor (Action Roguelike G017)](./gdd/games/tiny-dungeon-roguelike/spec.md)
+- [Space Shooter (Phaser 2D)](./gdd/games/space-shooter/spec.md)
+- [Kenney 3D Platformer (Babylon.js)](./gdd/games/3d-platformer/spec.md)
+- [Hole.io 3D (Babylon.js)](./gdd/games/hole-io/spec.md)
+- [Cyber Sphere 3D](./gdd/games/cyber-sphere-3d/spec.md)
+
+### 📋 Planned Game Specifications Roadmap (`docs/gdd/planning/`) — [Full Index](./gdd/planning/index.md)
+- [Pico Tower Climber (เกมพิกเซลไต่หอคอย)](./gdd/planning/pico-tower-climber/spec.md)
+- [Pixel Bullet Hell (เกมยานยิงหลบกระสุน)](./gdd/planning/pixel-bullet-hell/spec.md)
+- [Block Collapse (เกมทุบบล็อกจับคู่)](./gdd/planning/block-collapse/spec.md)
+- [Tiny Farm Tycoon (เกมทำฟาร์มปลูกผัก)](./gdd/planning/tiny-farm-tycoon/spec.md)
+- [Lunar Lander Gravity (เกมบังคับยานลงจอด)](./gdd/planning/lunar-lander/spec.md)
+
+---
+
+## 💻 Software Design
+- [01-system-design.md — Subsystem Breakdown](./software/01-system-design.md)
+- [02-class-diagram.md — Key Classes & Diagrams](./software/02-class-diagram.md)
+- [03-data-schema.md — Data Structures & Persistence](./software/03-data-schema.md)
+
+---
+
+## 🚀 Agile Management
+- [01-product-backlog.md — Product Backlog](./agile/01-product-backlog.md)
+- [02-sprint-planning.md — Sprint Planning & Roadmap](./agile/02-sprint-planning.md)
+- [03-meeting-backlogs.md — Meeting Logs Hub](./agile/03-meeting-backlogs.md)
+- [04-retrospectives-backlog.md — Retrospectives Hub](./agile/04-retrospectives-backlog.md)
+- [05-report-backlog.md — QA & Test Reports Hub](./agile/05-report-backlog.md)
+- [Kanban-board.md — Kanban Board](./agile/Kanban-board.md)
 
 ---
 
@@ -148,6 +210,7 @@ tags:
 - [Project Wiki](./wiki/wiki.md) - Central knowledge hub and logs
 - [3D Asset Loading & Mobile Edge Troubleshooting Guide](./wiki/guidelines/mobile-edge-3d-asset-loading-troubleshooting.md) - Diagnostic guide for 3D GLB loading on Mobile WebViews
 - [Cross-Platform Display & Mobile Portrait Standard](./wiki/guidelines/cross-platform-display-standard.md) - PC & Mobile Portrait UI/UX Standard
+- [Web Game Code Structure Standard](./wiki/guidelines/web-game-code-structure-standard.md) - Source Code Architecture & File Layout Standard
 - [Game Assets Guide](./wiki/assets-guide.md) - Complete catalog & game ideas for all public assets
 - [Testing Guidelines](./wiki/guidelines/system-test-guideline.md) - System & QA testing guide
 - [Documentation Changelog](./changelog.md) - Detailed doc update history

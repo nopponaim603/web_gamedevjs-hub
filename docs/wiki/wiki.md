@@ -38,6 +38,7 @@ tags:
 - [3D Asset Loading & Mobile Edge Troubleshooting Guide](./guidelines/mobile-edge-3d-asset-loading-troubleshooting.md)
 - [Cross-Platform Display & Mobile Portrait Standard](./guidelines/cross-platform-display-standard.md)
 - [System Test Guideline](./guidelines/system-test-guideline.md)
+- [Web Game Code Structure Standard](./guidelines/web-game-code-structure-standard.md)
 - [Documentation Changelog](../changelog.md)
 
 ---

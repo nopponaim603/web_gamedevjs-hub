@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Game Template — GameDevJS Standard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Chakra+Petch:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="app" class="game-wrapper">
+        <!-- Top HUD Header -->
+        <header id="hud" class="hud-container">
+            <button id="btn-back" class="hud-btn" title="กลับสู่เมนูหลัก">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                    <path d="M15.41 7.41L14 6L8 12L14 18L15.41 16.59L10.83 12L15.41 7.41Z"/>
+                </svg>
+            </button>
+            <div class="hud-stats">
+                <div class="stat-badge">
+                    <span class="stat-label">SCORE</span>
+                    <span id="score-val" class="stat-value">0</span>
+                </div>
+                <div class="stat-badge">
+                    <span class="stat-label">BEST</span>
+                    <span id="best-val" class="stat-value">0</span>
+                </div>
+            </div>
+            <div class="hud-actions">
+                <button id="btn-sound" class="hud-btn" title="เปิด/ปิดเสียง">🔊</button>
+                <button id="btn-pause" class="hud-btn" title="หยุดชั่วคราว">⏸️</button>
+            </div>
+        </header>
+
+        <!-- Main Canvas Area -->
+        <main id="game-container" class="canvas-container">
+            <canvas id="game-canvas"></canvas>
+        </main>
+
+        <!-- Overlays & Modals -->
+        <div id="overlay-start" class="overlay active">
+            <div class="modal-card">
+                <div class="modal-icon">🎮</div>
+                <h1 class="modal-title">Game Title</h1>
+                <p class="modal-desc">คำอธิบายและวิธีเล่นเบื้องต้น</p>
+                <button id="btn-start" class="btn btn-primary">เริ่มเล่นเกม (START)</button>
+            </div>
+        </div>
+
+        <div id="overlay-gameover" class="overlay hidden">
+            <div class="modal-card">
+                <div class="modal-icon">💀</div>
+                <h2 class="modal-title">จบเกม (GAME OVER)</h2>
+                <div class="score-summary">
+                    <p>คะแนนของคุณ: <span id="final-score" class="highlight">0</span></p>
+                    <p>คะแนนสูงสุด: <span id="final-best" class="highlight">0</span></p>
+                </div>
+                <button id="btn-restart" class="btn btn-primary">เล่นใหม่อีกครั้ง (RETRY)</button>
+            </div>
+        </div>
+
+        <div id="overlay-pause" class="overlay hidden">
+            <div class="modal-card">
+                <div class="modal-icon">⏸️</div>
+                <h2 class="modal-title">พักเกม (PAUSED)</h2>
+                <button id="btn-resume" class="btn btn-primary">เล่นต่อ (RESUME)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Standard Modular Script Load Order -->
+    <script src="config.js"></script>
+    <script src="audio.js"></script>
+    <script src="particles.js"></script>
+    <script src="entities.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
