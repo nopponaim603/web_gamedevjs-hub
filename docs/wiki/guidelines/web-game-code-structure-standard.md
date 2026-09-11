@@ -31,22 +31,35 @@ tags:
 
 ## 2. โครงสร้างโฟลเดอร์มาตรฐาน (Standard Directory & File Layout)
 
-ทุกเกมภายใต้ `public/games/<game-id>/` ต้องจัดวางไฟล์ตามโครงสร้างมาตรฐานดังนี้:
+ทุกเกมภายใต้ `public/games/<game-id>/` จัดวางไฟล์ตามโครงสร้างมาตรฐาน (โดยมี `k8sgames` เป็น Reference Architecture) ดังนี้:
 
+### 2.1 Standard Layout (สำหรับเกม 2D / 3D ทั่วไป):
 ```text
 public/games/<game-id>/
 ├── index.html          # HTML Entry Point (Container, Viewport, HUD & Overlays)
 ├── styles.css          # CSS Layout, Glassmorphic HUD, Animations, Themes
 ├── thumbnail.jpg       # ภาพตัวอย่างเกมขนาด 16:9 สำหรับหน้า Hub
-├── config.js           # ค่าคงที่, ตั้งค่าระดับความยาก, พาเลทสี, LocalStorage Keys
-├── audio.js            # Web Audio API Engine / Sound Manager / SFX Synthesizer
-├── particles.js        # ระบบ Particle Effects / Visual FX / Confetti (ถ้ามี)
-├── entities.js         # Domain Models, Game Objects, Card/Player Classes
-└── game.js             # Core Controller, Game Loop, Event Listeners, State Machine
+└── js/                 # โฟลเดอร์รวมโมดูล JavaScript
+    ├── config.js       # ค่าคงที่, ตั้งค่าระดับความยาก, พาเลทสี, LocalStorage Keys
+    ├── audio.js        # Web Audio API Engine / Sound Manager / SFX Synthesizer
+    ├── particles.js    # ระบบ Particle Effects / Visual FX / Confetti (ถ้ามี)
+    ├── entities.js     # Domain Models, Game Objects, Card/Player Classes
+    └── game.js         # Core Controller, Game Loop, Event Listeners, State Machine
 ```
 
-> [!NOTE]
-> สำหรับเกมขนาดเล็กที่ไม่ซับซ้อนมาก สามารถรวม `particles.js` และ `entities.js` เข้ากับ `game.js` ได้ แต่ **ต้องแยก `styles.css`, `config.js` และ `audio.js` ออกจาก `game.js` เสมอ**
+### 2.2 Advanced Submodule Layout (สำหรับเกมขนาดใหญ่ เช่น `k8sgames`):
+```text
+public/games/k8sgames/
+├── index.html
+├── style.css
+├── thumbnail.png
+└── js/
+    ├── data/           # Config, Constants, Scenarios, Datasets
+    ├── engine/         # State Machines, Incident Engines, Simulation Ticks
+    ├── rendering/      # 3D / WebGL / Canvas Renderers
+    ├── resources/      # Asset Loaders, Audio Managers, Haptics
+    └── ui/             # HUD Controllers, Modals, Terminal Panels
+```
 
 ---
 
@@ -60,11 +73,11 @@ public/games/<game-id>/
   * `#overlays`: ป๊อปอัปแจ้งเตือน (Start Screen, Victory Modal, Game Over Modal)
 * **Script Load Order:** ต้องโหลด Config และ Engine ย่อยก่อน Controller หลักเสมอ:
   ```html
-  <script src="config.js"></script>
-  <script src="audio.js"></script>
-  <script src="particles.js"></script>
-  <script src="entities.js"></script>
-  <script src="game.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/entities.js"></script>
+  <script src="js/game.js"></script>
   ```
 
 ---
