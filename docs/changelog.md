@@ -11,6 +11,27 @@ tags:
 # 📜 Documentation Changelog — webJS
 
 
+## [1.40.0] - 2026-09-11
+
+- **🎮 Master Game Index & 100% Complete GDD Coverage for All 49 Games**:
+  - **สร้างเอกสาร Master Game Index**: จัดทำเอกสารสารบัญรวมศูนย์ที่ [`docs/gdd/games/index.md`](./gdd/games/index.md) รวบรวมข้อมูลเกมทั้งหมด 49 เกม พร้อมรหัสประจำเกม (Game ID `G001` - `G054`), เอนจินที่ใช้, หมวดหมู่, และลิงก์ไปยังเอกสาร Game Specification ฉบับสมบูรณ์
+  - **สร้างเอกสาร Game Specification (GDD) ให้กับ 13 เกมที่ยังไม่มีเอกสาร**:
+    - 🐾 **Mogura Tatakanai (`mogura-tatakanai` - G053)**: [`docs/gdd/games/mogura-tatakanai/spec.md`](./gdd/games/mogura-tatakanai/spec.md)
+    - 🎯 **404 OVERPRINT (`overprint-404` - G051)**: [`docs/gdd/games/overprint-404/spec.md`](./gdd/games/overprint-404/spec.md)
+    - ⚔️ **Dynamic Pong Wars (`pong-wars` - G034)**: [`docs/gdd/games/pong-wars/spec.md`](./gdd/games/pong-wars/spec.md)
+    - 😀 **Emoji Memory Match (`emoji-match` - G001)**: [`docs/gdd/games/emoji-match/spec.md`](./gdd/games/emoji-match/spec.md)
+    - 🎲 **Rubik Graph Solver 3D (`rubik-graph` - G035)**: [`docs/gdd/games/rubik-graph/spec.md`](./gdd/games/rubik-graph/spec.md)
+    - 🧟 **Geeks vs Zombies (`geeks-vs-zombies` - G036)**: [`docs/gdd/games/geeks-vs-zombies/spec.md`](./gdd/games/geeks-vs-zombies/spec.md)
+    - 🌊 **Water Ring Toss 3D (`water-ring-toss` - G048)**: [`docs/gdd/games/water-ring-toss/spec.md`](./gdd/games/water-ring-toss/spec.md)
+    - 🏺 **CELADON: The Long Ash 3D (`celadon` - G049)**: [`docs/gdd/games/celadon/spec.md`](./gdd/games/celadon/spec.md)
+    - 📄 **Crumple Paper Arcade 3D (`crumple` - G050)**: [`docs/gdd/games/crumple/spec.md`](./gdd/games/crumple/spec.md)
+    - 🎯 **SILENT VIPER (`silent-viper` - G032)**: [`docs/gdd/games/silent-viper/spec.md`](./gdd/games/silent-viper/spec.md)
+    - ⚡ **Attack AGI (`attack-agi` - G033)**: [`docs/gdd/games/attack-agi/spec.md`](./gdd/games/attack-agi/spec.md)
+    - 🛹 **Skate Dog 3D (`skate-dog` - G054)**: [`docs/gdd/games/skate-dog/spec.md`](./gdd/games/skate-dog/spec.md)
+    - 🚂 **Whistlevale (`whistlevale` - G052)**: [`docs/gdd/games/whistlevale/spec.md`](./gdd/games/whistlevale/spec.md)
+  - **อัปเดตสารบัญโปรเจกต์ `docs/index.md`**: ปรับตาราง Game Index Code Names ให้ครบถ้วน 49 รายการแบบ 100% พร้อมลิงก์ตรงไปยังเอกสารแต่ละเกม
+  - **⚡ Echo Abyss Performance Optimization**: ปรับปรุงอัลกอริทึม Signed Distance Field (Zero-allocation Spatial Hash & Squared Distance) และ WebGL Shader Slice แก้ไขอาการกระตุกช่วงต้นเกม
+
 ## [1.39.0] - 2026-09-06
 
 - **🎮 Batch Integration of 4 Standalone HTML5 Games (G039 - G042) & GDD Specs**:

@@ -23,54 +23,61 @@ tags:
 - [mindmap-idea.canvas — Obsidian Ecosystem Mindmap Canvas](./gdd/mindmap-idea.canvas)
 - [Drawing.excalidraw.md — Excalidraw Visual Mindmap](./gdd/Drawing.excalidraw.md)
 
-### 🎮 Game Index Code Names
+### 🎮 Game Index Code Names (Master Registry)
 
-| #    | Code Name                | Game Title                         | Engine                   | Folder                                 |
-| ---- | ------------------------ | ---------------------------------- | ------------------------ | -------------------------------------- |
-| G001 | `emoji-match`            | Emoji Match                        | Vanilla JS               | `emoji-match/`                         |
-| G002 | `2048-cubes`             | 2048 Cubes                         | Canvas 2D                | `2048-cubes/`                          |
-| G003 | `mahjong-tile-match`     | Mahjong Tile Match                 | Vanilla JS               | `public/games/mahjong-tile-match/`     |
-| G004 | `space-shooter`          | Space Shooter                      | Phaser 2D                | `phaser-demo/`                         |
-| G005 | `cyber-sphere`           | Cyber Sphere 3D                    | Babylon.js 3D            | `babylon-demo/`                        |
-| G006 | `tile-swap`              | Tile Swap                          | Phaser 2D                | `public/games/tile-swap/`              |
-| G007 | `3d-platformer`          | Kenney 3D Platformer               | Babylon.js 8             | `3d-platformer/`                       |
-| G008 | `card-memory`            | Card Memory Match                  | Vanilla JS               | `public/games/card-memory/`            |
-| G009 | `ocean-frenzy`           | Ocean Frenzy                       | Phaser 3                 | `public/games/ocean-frenzy/`           |
-| G010 | `dice-quest`             | Dice Quest                         | Vanilla JS / Phaser      | `public/games/dice-quest/`             |
-| G011 | `pico-tower-climber`     | Pico Tower Climber                 | Phaser 3 Tilemap         | `public/games/pico-tower-climber/`     |
-| G012 | `pixel-bullet-hell`      | Pixel Bullet Hell                  | Phaser 3                 | `public/games/pixel-bullet-hell/`      |
-| G013 | `block-collapse`         | Block Collapse                     | Canvas 2D                | `public/games/block-collapse/`         |
-| G014 | `tiny-farm-tycoon`       | Tiny Farm Tycoon                   | Phaser 3                 | `public/games/tiny-farm-tycoon/`       |
-| G015 | `lunar-lander`           | Lunar Lander Gravity               | Phaser Physics           | `public/games/lunar-lander/`           |
-| G016 | `goosl-marbles`          | Goosl Glass Marbles                | WebGL 2 / Shader         | `public/games/goosl-marbles/`          |
-| G017 | `tiny-dungeon-roguelike` | Tiny Dungeon Survivor              | Phaser 2D / Roguelike    | `public/games/tiny-dungeon-roguelike/` |
-| G018 | `hole-io`                | Hole.io 3D                         | Babylon.js 7.50 / 8      | `public/games/hole-io/`                |
-| G019 | `stateIO`                | State.IO                           | Canvas 2D / Web Audio    | `public/games/stateIO/`                |
-| G020 | `warfront`               | WarFront.io (FrontWars)            | WebGL / TypeScript       | `public/games/warfront/`               |
-| G021 | `tiny-dungeon-squad`     | Tiny Dungeon Squad (SNKRX Edition) | Phaser 2D / Auto-Battler | `public/games/tiny-dungeon-squad/`     |
-| G022 | `animated-card-game`     | Royal Cascade (Juicy Card Dealer)  | Phaser 3 / GSAP          | `public/games/animated-card-game/`     |
-| G023 | `boba-pearl-drop`        | BOBA PEARL DROP: 100% SUGAR        | Babylon.js 3D            | `public/games/boba-pearl-drop/`        |
-| G024 | `eggplant-wiggle`        | 🍆 Wiggle Eggplant 3D               | Three.js / Wiggle Physics | `public/games/eggplant-wiggle/`        |
-| G025 | `pretext-breaker`        | Pretext Breaker (Typography Arkanoid) | Canvas 2D / Text Engine   | `public/games/pretext-breaker/`        |
-| G026 | `starter-kit-racing`     | 🏎️ Starter Kit Racing 3D            | Three.js / Crashcat Phys  | `public/games/starter-kit-racing/`     |
-| G027 | `webrtc-xo`              | 🎮 XO Multiplayer (WebRTC P2P)     | WebRTC / PeerJS           | `public/games/webrtc-xo/`              |
-| G028 | `godawful`               | ⚡ GODAWFUL (Cute Town God Sim)     | Three.js / PostFX         | `public/games/godawful/`               |
-| G029 | `survive-10-waves`       | 🛡️ SURVIVE 10 WAVES (Extraction 3D)| Three.js / ES Modules     | `public/games/survive-10-waves/`       |
-| G030 | `dirtline`               | 🏍️ DIRT LINE (Trials Dirt Bike 3D)  | Three.js / Spring Physics | `public/games/dirtline/`               |
-| G031 | `oxford-3000`            | 📚 Oxford 3000 Vocab Master        | HTML5 / Canvas / TTS     | `public/games/oxford-3000/`            |
-| G032 | `silent-viper`           | 🎯 SILENT VIPER (Sniper 3D)        | Three.js / Vite           | `public/games/silent-viper/`           |
-| G033 | `attack-agi`             | ⚡ Attack AGI (3D Horde Shooter)   | Three.js / Procedural     | `public/games/attack-agi/`             |
-| G037 | `boat-roguelite-driftwake` | ⛵ Boat Roguelite: Driftwake (3D Naval Roguelite) | Three.js / WebGL / WebAudio | `public/games/boat-roguelite-driftwake/` |
-| G038 | `echo-abyss`             | 🌊 Echo Abyss (Deep-Sea Sonar Survival) | WebGL 2 / Canvas / Web Audio | `public/games/echo-abyss/`             |
-| G039 | `coin-pusher-3d-copper-cascade` | 🪙 Coin Pusher 3D: Copper Cascade | Three.js / Physics 3D | `public/games/coin-pusher-3d-copper-cascade/` |
-| G040 | `dragon-roguelite-skywake` | 🐉 Dragon Roguelite: Skywake | PixiJS / 2D Action Roguelite | `public/games/dragon-roguelite-skywake/` |
-| G041 | `grapple-knight-storm-siege` | ⚔️ Grapple Knight: Storm Siege | Canvas 2D / Boss Rush | `public/games/grapple-knight-storm-siege/` |
-| G042 | `ink-warden`             | 🖌️ Ink Warden 墨守 (Calligraphy Defense) | WebGL Fluid Dynamics / Canvas | `public/games/ink-warden/`             |
-| G043 | `jelly-baby`              | 👶 Jelly Baby (WebGPU 3D Soft-Body) | WebGPU / Three.js r185 / WASM | `public/games/jelly-baby/`             |
-| G044 | `inkwash`                 | 🎨 INKWASH 晕染 (Territory io Battle) | Canvas 2D / Living Ink / IO | `public/games/inkwash/`                |
-| G045 | `volta`                   | ⚡ VOLTA: Lineman of the Storm      | PixiJS 8 / WPA Swing Arcade  | `public/games/volta/`                  |
-| G046 | `scribble-jump`           | ✏️ Scribble Jump                   | Canvas 2D / Doodle Jumper    | `public/games/scribble-jump/`          |
-| G047 | `k8sgames`                | ☸️ K8s Games (Kubernetes 3D)        | Three.js / WebGL / DevOps    | `public/games/k8sgames/`               |
+[📖 ดูดัชนีและเอกสารสเปกเกมฉบับละเอียดทั้งหมด (docs/gdd/games/index.md)](./gdd/games/index.md)
+
+| # | Code Name | Game Title | Engine | Folder | Spec Document |
+| :---: | :--- | :--- | :--- | :--- | :---: |
+| G001 | `emoji-match` | 😀 Emoji Memory Match | Vanilla JS / CSS Grid | `public/games/emoji-match/` | [📄 Spec](./gdd/games/emoji-match/spec.md) |
+| G002 | `2048-cubes` | 🧊 2048 Cubes | Canvas 2D / Physics | `public/games/2048-cubes/` | [📄 Spec](./gdd/games/2048-cubes/spec.md) |
+| G003 | `mahjong-tile-match` | 🀄 Mahjong Tile Match | Vanilla JS | `public/games/mahjong-tile-match/` | [📄 Spec](./gdd/games/mahjong-tile-match/spec.md) |
+| G004 | `space-shooter` | 🚀 Space Shooter | Phaser 2D | `public/games/phaser-demo/` | [📄 Spec](./gdd/games/space-shooter/spec.md) |
+| G005 | `cyber-sphere` | 🌐 Cyber Sphere 3D | Babylon.js 3D | `public/games/babylon-demo/` | [📄 Spec](./gdd/games/cyber-sphere-3d/spec.md) |
+| G006 | `tile-swap` | 🔲 Tile Swap | Phaser 2D | `public/games/tile-swap/` | [📄 Spec](./gdd/games/tile-swap/spec.md) |
+| G007 | `3d-platformer` | 🏃 Kenney 3D Platformer | Babylon.js 8 | `public/games/3d-platformer/` | [📄 Spec](./gdd/games/3d-platformer/spec.md) |
+| G008 | `card-memory` | 🃏 Card Memory Match | Vanilla JS | `public/games/card-memory/` | [📄 Spec](./gdd/games/card-memory/spec.md) |
+| G009 | `ocean-frenzy` | 🦈 Ocean Frenzy | Phaser 3 | `public/games/ocean-frenzy/` | [📄 Spec](./gdd/games/ocean-frenzy/spec.md) |
+| G010 | `dice-quest` | 🎲 Dice Quest | Vanilla JS / Phaser | `public/games/dice-quest/` | [📄 Spec](./gdd/games/dice-quest/spec.md) |
+| G016 | `goosl-marbles` | 🔮 Goosl Glass Marbles | WebGL 2 / Shader | `public/games/goosl-marbles/` | [📄 Spec](./gdd/games/goosl-marbles/spec.md) |
+| G017 | `tiny-dungeon-roguelike` | 🗡️ Tiny Dungeon Survivor | Phaser 2D / Roguelike | `public/games/tiny-dungeon-roguelike/` | [📄 Spec](./gdd/games/tiny-dungeon-roguelike/spec.md) |
+| G018 | `hole-io` | 🕳️ Hungry Manhole (Hole.io City) | Three.js 3D Engine | `public/games/hole-io/` | [📄 Spec](./gdd/games/hole-io/spec.md) |
+| G019 | `stateIO` | 🗺️ State.IO (Territory Domination) | Canvas 2D / Web Audio | `public/games/stateIO/` | [📄 Spec](./gdd/games/stateIO/gdd.md) |
+| G020 | `warfront` | ⚔️ WarFront.io (FrontWars RTS) | WebGL / TypeScript | `public/games/warfront/` | [📄 Spec](./gdd/games/warfront/gdd.md) |
+| G021 | `tiny-dungeon-squad` | 🐍 Tiny Dungeon Squad (SNKRX) | Phaser 2D / Auto-Battler | `public/games/tiny-dungeon-squad/` | [📄 Spec](./gdd/games/tiny-dungeon-squad/spec.md) |
+| G022 | `animated-card-game` | 🃏 FOOL THE GAME (Royal Cascade) | Phaser 3 / GSAP | `public/games/animated-card-game/` | [📄 Spec](./gdd/games/animated-card-game/gdd.md) |
+| G023 | `boba-pearl-drop` | 🧋 BOBA PEARL DROP: 100% SUGAR | Babylon.js 3D | `public/games/boba-pearl-drop/` | [📄 Spec](./gdd/games/boba-pearl-drop/spec.md) |
+| G024 | `eggplant-wiggle` | 🍆 Wiggle Eggplant 3D | Three.js / Wiggle Phys | `public/games/eggplant-wiggle/` | [📄 Spec](./gdd/games/eggplant-wiggle/spec.md) |
+| G025 | `pretext-breaker` | 🧱 Pretext Breaker (Typography Arkanoid) | Canvas 2D / Text Engine | `public/games/pretext-breaker/` | [📄 Spec](./gdd/games/pretext-breaker/spec.md) |
+| G026 | `starter-kit-racing` | 🏎️ Starter Kit Racing 3D | Three.js / Crashcat Phys | `public/games/starter-kit-racing/` | [📄 Spec](./gdd/games/starter-kit-racing/spec.md) |
+| G027 | `webrtc-xo` | 🎮 XO Multiplayer (WebRTC P2P) | WebRTC / PeerJS | `public/games/webrtc-xo/` | [📄 Spec](./gdd/games/webrtc-xo/spec.md) |
+| G028 | `godawful` | ⚡ GODAWFUL (Cute Town God Sim) | Three.js / PostFX | `public/games/godawful/` | [📄 Spec](./gdd/games/godawful/spec.md) |
+| G029 | `survive-10-waves` | 🛡️ SURVIVE 10 WAVES (Extraction 3D) | Three.js / ES Modules | `public/games/survive-10-waves/` | [📄 Spec](./gdd/games/survive-10-waves/spec.md) |
+| G030 | `dirtline` | 🏍️ DIRT LINE (Trials Dirt Bike 3D) | Three.js / Spring Phys | `public/games/dirtline/` | [📄 Spec](./gdd/games/dirtline/spec.md) |
+| G031 | `oxford-3000` | 📚 Oxford 3000 Vocab Master | HTML5 / Canvas / TTS | `public/games/oxford-3000/` | [📄 Spec](./gdd/games/oxford-3000/spec.md) |
+| G032 | `silent-viper` | 🎯 SILENT VIPER (Sniper 3D) | Three.js / Vite | `public/games/silent-viper/` | [📄 Spec](./gdd/games/silent-viper/spec.md) |
+| G033 | `attack-agi` | ⚡ Attack AGI (3D Horde Shooter) | Three.js / Procedural | `public/games/attack-agi/` | [📄 Spec](./gdd/games/attack-agi/spec.md) |
+| G034 | `pong-wars` | ⚔️ Dynamic Pong Wars (Day vs Night) | Canvas 2D / Vanilla JS | `public/games/pong-wars/` | [📄 Spec](./gdd/games/pong-wars/spec.md) |
+| G035 | `rubik-graph` | 🎲 Rubik Graph Solver 3D | Three.js / Graph Theory | `public/games/rubik-graph/` | [📄 Spec](./gdd/games/rubik-graph/spec.md) |
+| G036 | `geeks-vs-zombies` | 🧟 Geeks vs Zombies (Cyber TD) | Phaser 3 / Canvas 2D | `public/games/geeks-vs-zombies/` | [📄 Spec](./gdd/games/geeks-vs-zombies/spec.md) |
+| G037 | `boat-roguelite-driftwake` | ⛵ Boat Roguelite: Driftwake (3D Naval) | Three.js / WebGL / Audio | `public/games/boat-roguelite-driftwake/` | [📄 Spec](./gdd/games/boat-roguelite-driftwake/spec.md) |
+| G038 | `echo-abyss` | 🌊 Echo Abyss: Deep-Sea Sonar Survival | WebGL 2 / Canvas / Audio | `public/games/echo-abyss/` | [📄 Spec](./gdd/games/echo-abyss/spec.md) |
+| G039 | `coin-pusher-3d-copper-cascade` | 🪙 Coin Pusher 3D: Copper Cascade | Three.js / Physics 3D | `public/games/coin-pusher-3d-copper-cascade/` | [📄 Spec](./gdd/games/coin-pusher-3d-copper-cascade/spec.md) |
+| G040 | `dragon-roguelite-skywake` | 🐉 Dragon Roguelite: Skywake | PixiJS / 2D Action | `public/games/dragon-roguelite-skywake/` | [📄 Spec](./gdd/games/dragon-roguelite-skywake/spec.md) |
+| G041 | `grapple-knight-storm-siege` | ⚔️ Grapple Knight: Storm Siege | Canvas 2D / Boss Rush | `public/games/grapple-knight-storm-siege/` | [📄 Spec](./gdd/games/grapple-knight-storm-siege/spec.md) |
+| G042 | `ink-warden` | 🖌️ Ink Warden 墨守 (Calligraphy Defense) | WebGL Fluid / Canvas | `public/games/ink-warden/` | [📄 Spec](./gdd/games/ink-warden/spec.md) |
+| G043 | `jelly-baby` | 👶 Jelly Baby (WebGPU 3D Soft-Body) | WebGPU / Three.js r185 | `public/games/jelly-baby/` | [📄 Spec](./gdd/games/jelly-baby/spec.md) |
+| G044 | `inkwash` | 🎨 INKWASH 晕染 (Territory io Battle) | Canvas 2D / Living Ink | `public/games/inkwash/` | [📄 Spec](./gdd/games/inkwash/spec.md) |
+| G045 | `volta` | ⚡ VOLTA: Lineman of the Storm | PixiJS 8 / WPA Swing | `public/games/volta/` | [📄 Spec](./gdd/games/volta/spec.md) |
+| G046 | `scribble-jump` | ✏️ Scribble Jump (Vertical Doodler) | Canvas 2D / Doodle Jump | `public/games/scribble-jump/` | [📄 Spec](./gdd/games/scribble-jump/spec.md) |
+| G047 | `k8sgames` | ☸️ K8s Games (3D Kubernetes Simulator) | Three.js / WebGL / DevOps | `public/games/k8sgames/` | [📄 Spec](./gdd/games/k8sgames/spec.md) |
+| G048 | `water-ring-toss` | 🌊 Water Ring Toss 3D (Vintage Toy) | Three.js / Rapier WASM | `public/games/water-ring-toss/` | [📄 Spec](./gdd/games/water-ring-toss/spec.md) |
+| G049 | `celadon` | 🏺 CELADON: The Long Ash 3D | Three.js / GLSL Shader | `public/games/celadon/` | [📄 Spec](./gdd/games/celadon/spec.md) |
+| G050 | `crumple` | 📄 Crumple (Paper Arcade 3D) | Three.js / Procedural Mesh | `public/games/crumple/` | [📄 Spec](./gdd/games/crumple/spec.md) |
+| G051 | `overprint-404` | 🎯 404 OVERPRINT (Tactical Shooter) | Canvas 2D / WebGL | `public/games/overprint-404/` | [📄 Spec](./gdd/games/overprint-404/spec.md) |
+| G052 | `whistlevale` | 🚂 Whistlevale (A House of Little Worlds) | Three.js / Diorama 3D | `public/games/whistlevale/` | [📄 Spec](./gdd/games/whistlevale/spec.md) |
+| G053 | `mogura-tatakanai` | 🐾 Mogura Tatakanai (Pet the Mole 3D) | Three.js r128 / Web Audio | `public/games/mogura-tatakanai/` | [📄 Spec](./gdd/games/mogura-tatakanai/spec.md) |
+| G054 | `skate-dog` | 🛹 Skate Dog (3D Procedural Pup) | Three.js / Procedural 3D | `public/games/skate-dog/` | [📄 Spec](./gdd/games/skate-dog/spec.md) |
 
 ### 🎮 Active Released Game Specifications (`docs/gdd/games/`)
 - [☸️ K8s Games: 3D Kubernetes Simulator (G047)](./gdd/games/k8sgames/spec.md)
