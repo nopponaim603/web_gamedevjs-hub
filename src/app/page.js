@@ -168,6 +168,14 @@ const initialGames = [
 
   // 4. กลุ่ม Three.js / WebGPU 3D Engine
   {
+    id: "mogura-tatakanai",
+    title: "🐾 Mogura Tatakanai (Pet the Mole 3D)",
+    category: "Three.js 3D Engine",
+    url: "/games/mogura-tatakanai/index.html",
+    image: "/games/mogura-tatakanai/thumbnail.jpg",
+    gradient: "linear-gradient(135deg, #10B981 0%, #F59E0B 100%)"
+  },
+  {
     id: "hole-io",
     title: "Hungry Manhole (Hole.io City)",
     category: "Three.js 3D Engine",
