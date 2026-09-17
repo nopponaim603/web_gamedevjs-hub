@@ -49,15 +49,15 @@ tags:
 
 ---
 
-## ☕ Epic 34 — Chai Visual: Interactive CS & DSA Animated Engine (G058)
+## ☕ Epic 34 — Chai Visual: Curriculum Catalog & Foundational Interactive Engine (G058)
 > **Source:** [https://dsa.chaicode.com/](https://dsa.chaicode.com/) | **Details:** [US-G034-chai-visual](./user-stories/US-G034-chai-visual.md)
 
 | ID | User Story | Acceptance Criteria | Estimate | Status |
 |----|-----------|---------------------|----------|--------|
-| US-G034-00 | System Architecture & Visual Education Engine Spec | จัดทำ Spec สำหรับ Step-by-step Runner, Data Structures SVG/Canvas, Time/Space O(n) Dynamic Gauge | S | 📋 Backlog |
-| US-G034-01 | Next.js Visualizer Bundles & Sketch Assets Scraping | สกัด CSS Stylesheets, Chai Mascot, Webpack Chunks, สไตล์สมุดสเก็ตช์ สู่ `public/games/chai-visual/` | M | 📋 Backlog |
-| US-G034-02 | Step-by-Step Algorithm Runner & Pointer Simulation | ตัวเล่นแอนิเมชันก้าวต่อก้าว (Play/Pause/Step), ตัวชี้ Two Pointers L/R, แท็บสลับวิธีแก้ (Brute vs Optimal) | L | 📋 Backlog |
-| US-G034-03 | Interactive Complexity Matrix, Tracks & Hub Integration | Track Navigator (DSA, LLD, Networks, OS), ปรับแต่ง Input Array ได้เอง, เชื่อมต่อ Game Hub Card | M | 📋 Backlog |
+| US-G034-00 | Complete Curriculum Catalog & Topic Breakdown Spec | บันทึกสารบัญ 6 Tracks (18 DSA Patterns, 8 LLD, 31 Network, 37 OS, 34 DBMS, Aptitude) ลง GDD | S | 📋 Backlog |
+| US-G034-01 | Paper/Ink Theme, Sketch CSS System & Public Assets | สกัดโทนสี Paper & Ink, ขอบลายเส้น `sketch-border`, ฟอนต์ลายมือ, Chai Mascot สู่ `public/games/chai-visual/` | M | 📋 Backlog |
+| US-G034-02 | Foundational Interactive Player Prototype | ตัวเล่นแอนิเมชันทีละก้าว (Step-by-Step), ตัวชี้ Two Pointers L/R, สลับวิธีแก้ (Approach Leap) พร้อมเกจ Big-O | L | 📋 Backlog |
+| US-G034-03 | Curriculum Directory Viewer & Hub Integration | หน้าผังสารบัญรวม 6 Tracks, ป้ายแจ้งเตือนระบบสมาชิก (Auth/Paywall Disclaimer), เชื่อมต่อ Game Hub Card | M | 📋 Backlog |
 
 ---
 
