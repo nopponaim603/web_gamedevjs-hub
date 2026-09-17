@@ -1,8 +1,8 @@
 ---
 title: "Product Backlog — webJS Game Portfolio"
 project: "GameDevJS Hub (webJS)"
-version: "1.30.0"
-last_updated: "2026-08-12"
+version: "1.34.0"
+last_updated: "2026-09-17"
 owner: "Noppon / Dev Team"
 status: "Active"
 tags:
@@ -10,6 +10,54 @@ tags:
 ---
 # Product Backlog — webJS Game Portfolio
 
+
+---
+
+## 🧟 Epic 31 — DEAD END: Top-Down Zombie Survival Shooter Scraping (G055)
+> **Source:** [https://dead-end.replit.app/](https://dead-end.replit.app/) | **Details:** [US-G031-dead-end](./user-stories/US-G031-dead-end.md)
+
+| ID | User Story | Acceptance Criteria | Estimate | Status |
+|----|-----------|---------------------|----------|--------|
+| US-G031-00 | Game Design Document & 5-Wave Survival Spec | จัดทำ GDD ครอบคลุม 5 Wave loop, Stamina, อาวุธ M4/ลูกซอง, Spitter AI, Sector Threat Boss, Roguelike Perks | S | 📋 Backlog |
+| US-G031-01 | Asset, Vite Bundle & Audio SFX Scraping | สแครป HTML, Vite Bundles, Brand Logos, Web Audio SFX และจัดระเบียบลง `public/games/dead-end/` | M | 📋 Backlog |
+| US-G031-02 | Top-Down Combat Loop, Zombie Waves AI & Roguelike Perks | บังคับ 8 ทิศ + เมาส์เล็ง 360°, สลับปืน, ซอมบี้ AI 3 ชนิด, สุ่มเลือก Perk หลังจบเวฟ | L | 📋 Backlog |
+| US-G031-03 | Minimap HUD, Ammo Matrix, Mobile Touch & Hub Integration | Canvas Minimap แสดงศัตรู/กล่องเสบียง, Ammo HUD, จอยสติ๊กสัมผัสมือถือ, เชื่อม Game Hub Card | M | 📋 Backlog |
+
+---
+
+## ⚔️ Epic 32 — Stick & Steel: The Splinter Pit Physics Duel (G056)
+> **Source:** [https://genex.games/stick-steel](https://genex.games/stick-steel) | **Play:** [https://stick-steel.genex.technology/](https://stick-steel.genex.technology/) | **Details:** [US-G032-stick-steel](./user-stories/US-G032-stick-steel.md)
+
+| ID | User Story | Acceptance Criteria | Estimate | Status |
+|----|-----------|---------------------|----------|--------|
+| US-G032-00 | Game Design Document & Ragdoll Swordplay Spec | จัดทำ GDD วิเคราะห์ฟิสิกส์ 2D Stickman Ragdoll, ดาบสั้น/กระบอง/ดาบยาว, ระบบ Parry, Disarm, กฎตกบ่อหนาม | S | 📋 Backlog |
+| US-G032-01 | Hand-Drawn Assets, Patrick Hand Typography & Vite Bundle | ดาวน์โหลด Vite Bundles, ฟอนต์ PatrickHand-Regular.ttf, Sound SFX ปะทะดาบ สู่ `public/games/stick-steel/` | M | 📋 Backlog |
+| US-G032-02 | Splinter Pit Bridge Physics, Combat & Bot AI | สะพานแคบเหนือบ่อหนาม, การฟันดาบตามเมาส์, การปัดป้องเกิดสะเก็ดไฟ, Bot AI 3 ระดับฝีมือ | L | 📋 Backlog |
+| US-G032-03 | Practice Yard, Local/Online Controls & Hub Integration | โหมดซ้อมหุ่นฟาง, ดวล AI, ดวล 2 คนบนคีย์บอร์ดเดียวกัน, Mobile Gestures, เชื่อม Game Hub Card | M | 📋 Backlog |
+
+---
+
+## ✏️ Epic 33 — Doodle District: 3D Hand-Drawn Arena Shooter (G057)
+> **Source:** [https://doodleshooter.vercel.app/](https://doodleshooter.vercel.app/) | **Details:** [US-G033-doodle-district](./user-stories/US-G033-doodle-district.md)
+
+| ID | User Story | Acceptance Criteria | Estimate | Status |
+|----|-----------|---------------------|----------|--------|
+| US-G033-00 | Game Design Document & 3D Doodle Arena Spec | จัดทำ GDD วิเคราะห์เรนเดอร์ 3D Notebook Grid, วิถีกระสุน, การชน AABB/Raycast, โปรโตคอล PeerJS P2P | S | 📋 Backlog |
+| US-G033-01 | Three.js 0.170.0 Bundle, Doodle Textures & PeerJS Scraping | สกัด Three.js r170, PeerJS 1.5.4, ฟอนต์ Patrick Hand & Caveat, Textures สู่ `public/games/doodle-district/` | M | 📋 Backlog |
+| US-G033-02 | 3D Movement, Bullet Trajectory & Arena Collisions | บังคับมุมมองบุคคลที่หนึ่ง/สาม พร้อม Pointer Lock, ยิงกระสุนหมึกชนสิ่งกีดขวาง, Target Range จำลอง | L | 📋 Backlog |
+| US-G033-03 | PeerJS P2P Room Lobby, HUD Overlay & Hub Integration | ระบบสร้าง/แชร์รหัสห้อง WebRTC, HUD เป้าเล็งและหลอดเลือดลายเส้น, เชื่อมต่อ Game Hub Card | M | 📋 Backlog |
+
+---
+
+## ☕ Epic 34 — Chai Visual: Interactive CS & DSA Animated Engine (G058)
+> **Source:** [https://dsa.chaicode.com/](https://dsa.chaicode.com/) | **Details:** [US-G034-chai-visual](./user-stories/US-G034-chai-visual.md)
+
+| ID | User Story | Acceptance Criteria | Estimate | Status |
+|----|-----------|---------------------|----------|--------|
+| US-G034-00 | System Architecture & Visual Education Engine Spec | จัดทำ Spec สำหรับ Step-by-step Runner, Data Structures SVG/Canvas, Time/Space O(n) Dynamic Gauge | S | 📋 Backlog |
+| US-G034-01 | Next.js Visualizer Bundles & Sketch Assets Scraping | สกัด CSS Stylesheets, Chai Mascot, Webpack Chunks, สไตล์สมุดสเก็ตช์ สู่ `public/games/chai-visual/` | M | 📋 Backlog |
+| US-G034-02 | Step-by-Step Algorithm Runner & Pointer Simulation | ตัวเล่นแอนิเมชันก้าวต่อก้าว (Play/Pause/Step), ตัวชี้ Two Pointers L/R, แท็บสลับวิธีแก้ (Brute vs Optimal) | L | 📋 Backlog |
+| US-G034-03 | Interactive Complexity Matrix, Tracks & Hub Integration | Track Navigator (DSA, LLD, Networks, OS), ปรับแต่ง Input Array ได้เอง, เชื่อมต่อ Game Hub Card | M | 📋 Backlog |
 
 ---
 

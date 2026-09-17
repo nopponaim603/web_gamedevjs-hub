@@ -11,6 +11,18 @@ tags:
 # 📜 Documentation Changelog — webJS
 
 
+## [1.41.0] - 2026-09-17
+
+- **🎮 Agile User Stories & Scraping Specifications for 4 New Web Games (G055–G058)**:
+  - **สร้างเอกสาร User Stories รายเกม (Agile Epics 31–34)**:
+    - 🧟 **DEAD END — Last Night in the Neighborhood (`dead-end` - G055)**: [`docs/agile/user-stories/US-G031-dead-end.md`](./agile/user-stories/US-G031-dead-end.md)
+    - ⚔️ **Stick & Steel · The Splinter Pit (`stick-steel` - G056)**: [`docs/agile/user-stories/US-G032-stick-steel.md`](./agile/user-stories/US-G032-stick-steel.md)
+    - ✏️ **Doodle District 3D (`doodle-district` - G057)**: [`docs/agile/user-stories/US-G033-doodle-district.md`](./agile/user-stories/US-G033-doodle-district.md)
+    - ☕ **Chai Visual — Learn CS by Watching It Move (`chai-visual` - G058)**: [`docs/agile/user-stories/US-G034-chai-visual.md`](./agile/user-stories/US-G034-chai-visual.md)
+  - **จัดทำแผนงานรวมศูนย์ Epic Roadmap**: [`docs/agile/user-stories/EPIC-WEB-SCRATCH-G055-G058.md`](./agile/user-stories/EPIC-WEB-SCRATCH-G055-G058.md)
+  - **อัปเดต Product Backlog**: บันทึก Epics 31–34 ลงใน [`docs/agile/01-product-backlog.md`](./agile/01-product-backlog.md)
+  - **สร้างสคริปต์เตรียมงานดาวน์โหลด Assets**: [`scratch/scrape_new_games.js`](file:///c:/Users/noppon/sources/05_WEB/web_gamedevjs-hub/scratch/scrape_new_games.js)
+
 ## [1.40.0] - 2026-09-11
 
 - **🎮 Master Game Index & 100% Complete GDD Coverage for All 49 Games**:
