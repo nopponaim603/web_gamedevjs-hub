@@ -203,6 +203,8 @@ tags:
 - [04-retrospectives-backlog.md — Retrospectives Hub](./agile/04-retrospectives-backlog.md)
 - [05-report-backlog.md — QA & Test Reports Hub](./agile/05-report-backlog.md)
 - [Kanban-board.md — Kanban Board](./agile/Kanban-board.md)
+- [🌐 Epic Roadmap: Web Scraping Resources (G059–G061 & AIGameShare Hub)](./agile/user-stories/EPIC-WEB-SCRAPING-RESOURCES-G059-G061.md)
+- [🎮 Epic Roadmap: Web Game Scraping (G055–G058)](./agile/user-stories/EPIC-WEB-SCRATCH-G055-G058.md)
 
 ---
 

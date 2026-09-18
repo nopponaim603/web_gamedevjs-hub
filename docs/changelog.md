@@ -11,6 +11,18 @@ tags:
 # 📜 Documentation Changelog — webJS
 
 
+## [1.42.0] - 2026-09-18
+
+- **🌐 Web Scraping Resources Registration & Epics 35–37 Roadmap**:
+  - **บันทึกแหล่งข้อมูลเว็บไซต์สำหรับ Scrape เพิ่มเติม 4 รายการ**:
+    - 🌟 **AIGameShare Hub (`aigameshare`)**: คลังศูนย์รวมเกมที่สร้างด้วย Generative AI ชั้นนำ ([aigameshare.com](https://www.aigameshare.com/)) เพื่อเป็น Primary Ingestion Source
+    - 🌋 **Warlock (`warlock-zone` - G059)**: เกมแบทเทิลอารีนาพ่อมด 8 คนบนเกาะลาวา แรงบันดาลใจจากม็อด Warcraft III ([warlock-zone.fly.dev](https://warlock-zone.fly.dev/))
+    - 🏛️ **Louvre · A world in miniature (`louvre-miniature` - G060)**: โมเดล 3D จำลองย่อส่วนพื้นที่ 1 ตร.กม. รอบพิพิธภัณฑ์ลูฟร์ในปารีสพร้อมระบบแสงกลางวัน-กลางคืน ([3dscenes.qualityf2p.workers.dev/paris](https://3dscenes.qualityf2p.workers.dev/paris))
+    - 🧠 **Original Transformer vs DeepSeek (`transformer-deepseek` - G061)**: ซิมูเลชัน 3D Three.js เปรียบเทียบสถาปัตยกรรมโมเดล AI 2017 vs 2026 พร้อมโหมดทัวร์เสียงบรรยาย 1 นาที ([transformer-architecture.petergostev.chatgpt.site](https://transformer-architecture.petergostev.chatgpt.site/))
+  - **จัดทำเอกสารแผนงาน Epic Roadmap รวมศูนย์**: [`docs/agile/user-stories/EPIC-WEB-SCRAPING-RESOURCES-G059-G061.md`](./agile/user-stories/EPIC-WEB-SCRAPING-RESOURCES-G059-G061.md)
+  - **อัปเดต Product Backlog**: บันทึก Epics 35–37 และ AIGameShare ลงใน [`docs/agile/01-product-backlog.md`](./agile/01-product-backlog.md)
+  - **สร้างและทดสอบสคริปต์ Scraper / Inspector**: [`scratch/scrape_batch_resources.js`](file:///c:/Users/noppon/source/05_OTHER/web_gamedevjs-hub/scratch/scrape_batch_resources.js) ทดสอบการเชื่อมต่อสำเร็จ 200 OK ครบทั้ง 4 เว็บไซต์
+
 ## [1.41.0] - 2026-09-17
 
 - **🎮 Agile User Stories & Scraping Specifications for 4 New Web Games (G055–G058)**:

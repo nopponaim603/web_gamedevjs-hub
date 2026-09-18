@@ -1,8 +1,8 @@
 ---
 title: "Product Backlog — webJS Game Portfolio"
 project: "GameDevJS Hub (webJS)"
-version: "1.34.0"
-last_updated: "2026-09-17"
+version: "1.35.0"
+last_updated: "2026-09-18"
 owner: "Noppon / Dev Team"
 status: "Active"
 tags:
@@ -10,6 +10,50 @@ tags:
 ---
 # Product Backlog — webJS Game Portfolio
 
+
+---
+
+## 🌐 Epic 35 — Warlock: Lava Spell Arena Scraping & Bot Simulation (G059)
+> **Source:** [https://warlock-zone.fly.dev/](https://warlock-zone.fly.dev/) | **Epic Roadmap:** [EPIC-WEB-SCRAPING-RESOURCES-G059-G061.md](./user-stories/EPIC-WEB-SCRAPING-RESOURCES-G059-G061.md)
+
+| ID | User Story | Acceptance Criteria | Estimate | Status |
+|----|-----------|---------------------|----------|--------|
+| US-G035-00 | Game Design Document & Lava Arena Spec | จัดทำ GDD วิเคราะห์ฟิสิกส์แรงผลัก Knockback, ระบบสกิลเวทมนตร์, การบีบของเกาะลาวา และ AI Bots | S | 📋 Backlog |
+| US-G035-01 | Asset, Client Bundle & Audio Scraping | สแครป Client Bundle, กราฟิกเวทมนตร์, อนุภาคไฟ/ลาวา, เสียงเอฟเฟกต์ ลง `public/games/warlock/` | M | 📋 Backlog |
+| US-G035-02 | 8-Wizard Arena Combat & Knockback Momentum Physics | ระบบคำนวณเวกเตอร์แรงผลัก, วิถีกระสุนเวทมนตร์, ลาวา Damage Tick และการคัดออกผู้เล่นตกลาวา | L | 📋 Backlog |
+| US-G035-03 | Practice AI Bots, Glassmorphism Spell HUD & Hub Integration | ระบบบอทฝึกซ้อมออฟไลน์, HUD แสดงคูลดาวน์สกิล, เชื่อมโยงเข้าสู่ Next.js Hub iFrame Modal | M | 📋 Backlog |
+
+---
+
+## 🏛️ Epic 36 — Louvre · Miniature Paris 3D Diorama Showcase (G060)
+> **Source:** [https://3dscenes.qualityf2p.workers.dev/paris](https://3dscenes.qualityf2p.workers.dev/paris) | **Epic Roadmap:** [EPIC-WEB-SCRAPING-RESOURCES-G059-G061.md](./user-stories/EPIC-WEB-SCRAPING-RESOURCES-G059-G061.md)
+
+| ID | User Story | Acceptance Criteria | Estimate | Status |
+|----|-----------|---------------------|----------|--------|
+| US-G036-00 | 3D Diorama & Architectural Specification | วิเคราะห์สถาปัตยกรรมโมเดล 1 ตร.กม. รอบพิพิธภัณฑ์ลูฟร์, กล้อง Tilt-shift และระบบแสงเงา 24 ชม. | S | 📋 Backlog |
+| US-G036-01 | 3D Geometry, Shader & Daylight Asset Scraping | สกัดโมเดล 3D อาคารปารีส, Shaders, Baked Lighting และพื้นผิวลง `public/games/louvre-miniature/` | M | 📋 Backlog |
+| US-G036-02 | Orbit/Tilt Camera Controls & Daylight Cycle Engine | ระบบเลื่อน/หมุน/ซูมกล้องอิสระ, ปรับเวลาท้องฟ้า Dawn to Night พร้อมเงาและแสงไฟเมืองยามค่ำคืน | L | 📋 Backlog |
+| US-G036-03 | Architectural HUD Overlay & Hub Integration | แผงควบคุมเวลา/มุมมอง, แสดงชื่อจุดสำคัญ (Landmarks), เชื่อมโยงเข้าสู่ Hub Showcases | S | 📋 Backlog |
+
+---
+
+## 🧠 Epic 37 — Original Transformer vs DeepSeek 3D Spatial Visualizer (G061)
+> **Source:** [https://transformer-architecture.petergostev.chatgpt.site/](https://transformer-architecture.petergostev.chatgpt.site/) | **Epic Roadmap:** [EPIC-WEB-SCRAPING-RESOURCES-G059-G061.md](./user-stories/EPIC-WEB-SCRAPING-RESOURCES-G059-G061.md)
+
+| ID | User Story | Acceptance Criteria | Estimate | Status |
+|----|-----------|---------------------|----------|--------|
+| US-G037-00 | Educational Simulation & AI Architecture Spec | วิเคราะห์มิติเปรียบเทียบ Original Transformer 2017 (6+6) vs DeepSeek V4.1 Flash 2026 (20+20) | S | 📋 Backlog |
+| US-G037-01 | Three.js ESM Bundle & Visualizer Asset Scraping | ดึง `app.js`, `style.css`, Three.js modules ลง `public/games/transformer-deepseek/` แบบ Standalone | M | 📋 Backlog |
+| US-G037-02 | 3D Token Flow Simulation & Layer Architecture Renderer | เรนเดอร์ Attention Heads, Feed-Forward, Token Stream Animation, ปรับ Context 4K-128K | L | 📋 Backlog |
+| US-G037-03 | 1-Minute Story Tour, Speed Controls & Hub Integration | โหมดบรรยายอัตโนมัติ (Story Mode), สปีดแอนิเมชัน 0.4x/1x/2x, เชื่อมการ์ดในหมวดหมู่การศึกษา | S | 📋 Backlog |
+
+---
+
+## 🌟 Resource Portal — AIGameShare Catalog Scraping & Feeder Pipeline
+> **Source:** [https://www.aigameshare.com/](https://www.aigameshare.com/) | **Category:** Primary AI Games Ingestion Hub
+
+- **เป้าหมาย:** สแครปและจัดเก็บแคตตาล็อกเกมคุณภาพสูงที่สร้างโดย AI (เช่น Tidewell, DEEPER, Sunspindle, Glow Squad, SMITTEN)
+- **สถานะ:** 🔴 Registered in Target Queue (พร้อมสำหรับการทยอยดึงเกมรายตัว)
 
 ---
 
