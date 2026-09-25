@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 304 64" role="img"><title>Dead End — Survival Protocol</title><path fill="#C9EF75" fill-rule="evenodd" d="M7 6H36L58 24V40L36 58H7V6ZM19 18V46H32L46 35V29L32 18H19Z"/>
+  <path fill="#C9EF75" d="M24 24H39V29H24zM29 33H33V38H29zM29 42H33V46H29z"/>
+<path fill="#EEF2E4" fill-rule="evenodd" transform="translate(83 7)" d="M0 0H15L25 8V30L15 38H0V0ZM7 7V31H12L18 26V12L12 7H7Z"/>
+<path fill="#EEF2E4" fill-rule="evenodd" transform="translate(113 7)" d="M0 0H24V7H7V15H20V22H7V31H24V38H0V0Z"/>
+<path fill="#EEF2E4" fill-rule="evenodd" transform="translate(143 7)" d="M0 38L8 0H18L26 38H18L16.5 29H9.5L8 38H0ZM11 22H15L13 10L11 22Z"/>
+<path fill="#EEF2E4" fill-rule="evenodd" transform="translate(173 7)" d="M0 0H15L25 8V30L15 38H0V0ZM7 7V31H12L18 26V12L12 7H7Z"/>
+<path fill="#C9EF75" fill-rule="evenodd" transform="translate(212 7)" d="M0 0H24V7H7V15H20V22H7V31H24V38H0V0Z"/>
+<path fill="#C9EF75" fill-rule="evenodd" transform="translate(242 7)" d="M0 38V0H7L18 23V0H25V38H18L7 15V38H0Z"/>
+<path fill="#C9EF75" fill-rule="evenodd" transform="translate(272 7)" d="M0 0H15L25 8V30L15 38H0V0ZM7 7V31H12L18 26V12L12 7H7Z"/>
+<path d="M83 54H100" stroke="#C9EF75" stroke-width="2"/>
+<text x="108" y="57" fill="#A4B497" font-family="monospace" font-size="7.5" letter-spacing="2">SURVIVAL PROTOCOL</text></svg>

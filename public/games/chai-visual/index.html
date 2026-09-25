@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chai Visual — Learn CS by Watching It Move</title>
+  <meta name="description" content="Animated courses in DSA, low-level design, networking, operating systems and databases." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;600&family=Patrick+Hand&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #111a17;
+      --surface: #182520;
+      --surface-card: #1f302a;
+      --ink: #f6f4f0;
+      --mute: #8a968f;
+      --accent: #22c55e;
+      --accent-orange: #ff8b3d;
+      --accent-blue: #60a5fa;
+      --accent-red: #ef4444;
+      --line: #2a3d36;
+      --sketch: #d1d5db;
+    }
+    [data-theme="light"] {
+      --bg: #f8faf9;
+      --surface: #ffffff;
+      --surface-card: #f1f5f3;
+      --ink: #111827;
+      --mute: #6b7280;
+      --accent: #16a34a;
+      --accent-orange: #ea580c;
+      --accent-blue: #2563eb;
+      --accent-red: #dc2626;
+      --line: #e5e7eb;
+      --sketch: #374151;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Outfit', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+    }
+
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .brand-badge {
+      background: rgba(34, 197, 94, 0.15);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      font-weight: 600;
+    }
+    .theme-toggle {
+      background: var(--surface-card);
+      border: 1px solid var(--line);
+      color: var(--ink);
+      padding: 6px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .theme-toggle:hover { border-color: var(--accent); }
+
+    .main-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 20px;
+      width: 100%;
+    }
+
+    .hero-title {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .hero-sub {
+      color: var(--mute);
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 32px;
+      font-size: 1rem;
+    }
+
+    /* Sketch Player Card */
+    .sketch-card {
+      background: var(--surface);
+      border: 2px dashed var(--line);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      margin-bottom: 40px;
+      position: relative;
+    }
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      border-bottom: 1px dashed var(--line);
+      padding-bottom: 14px;
+    }
+    .problem-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--mute);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .dot-pulse {
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--accent);
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    /* Approach Tabs */
+    .approaches {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .approach-btn {
+      background: var(--surface-card);
+      border: 1px solid var(--line);
+      color: var(--mute);
+      font-family: 'Patrick Hand', cursive;
+      font-size: 1.1rem;
+      padding: 6px 16px;
+      border-radius: 9999px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .approach-btn.active {
+      background: rgba(34, 197, 94, 0.15);
+      border-color: var(--accent);
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* Complexity Stats */
+    .complexity-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      background: var(--surface-card);
+      padding: 16px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      border: 1px solid var(--line);
+    }
+    .comp-item small {
+      display: block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--mute);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .comp-item span {
+      font-family: 'Caveat', cursive;
+      font-size: 1.8rem;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    /* Visual Array Stage */
+    .stage-wrap {
+      padding: 40px 10px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 180px;
+      position: relative;
+    }
+    .array-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      position: relative;
+    }
+    .box {
+      width: 58px;
+      height: 58px;
+      border: 2px solid var(--line);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Caveat', cursive;
+      font-size: 2rem;
+      font-weight: 700;
+      background: var(--surface);
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .box.active-l {
+      border-color: var(--accent-orange);
+      box-shadow: 0 0 16px rgba(255, 139, 61, 0.35);
+      transform: translateY(-4px);
+    }
+    .box.active-r {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 16px rgba(96, 165, 250, 0.35);
+      transform: translateY(-4px);
+    }
+    .box.matched {
+      border-color: var(--accent);
+      background: rgba(34, 197, 94, 0.2);
+      color: var(--accent);
+      transform: scale(1.08);
+    }
+    .box .idx {
+      position: absolute;
+      top: -20px;
+      font-size: 0.75rem;
+      color: var(--mute);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Pointers */
+    .pointer {
+      position: absolute;
+      bottom: -32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-family: 'Patrick Hand', cursive;
+      font-size: 1.2rem;
+      font-weight: 700;
+      transition: left 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .pointer.l { color: var(--accent-orange); }
+    .pointer.r { color: var(--accent-blue); }
+    .pointer-arrow { font-size: 0.8rem; line-height: 1; }
+
+    /* Step Explanation */
+    .step-banner {
+      background: var(--surface-card);
+      border-left: 4px solid var(--accent);
+      padding: 14px 20px;
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.95rem;
+      margin-top: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .step-target {
+      color: var(--mute);
+      font-size: 0.85rem;
+    }
+
+    /* Controls */
+    .controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+    .ctrl-btn {
+      background: var(--surface-card);
+      border: 1px solid var(--line);
+      color: var(--ink);
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .ctrl-btn:hover { border-color: var(--accent); }
+    .ctrl-btn.primary {
+      background: var(--accent);
+      color: #000;
+      border-color: var(--accent);
+    }
+    .ctrl-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* Curriculum Grid */
+    .curriculum-section {
+      margin-top: 40px;
+    }
+    .sec-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .tracks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 18px;
+    }
+    .track-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 20px;
+      transition: all 0.2s;
+    }
+    .track-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .track-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .track-icon {
+      font-size: 1.5rem;
+    }
+    .track-badge {
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: var(--surface-card);
+      color: var(--mute);
+      border: 1px solid var(--line);
+    }
+    .track-badge.free { color: var(--accent); border-color: var(--accent); }
+    .track-card h3 { font-size: 1.15rem; margin-bottom: 6px; }
+    .track-card p { font-size: 0.85rem; color: var(--mute); margin-bottom: 12px; }
+    .track-topics {
+      list-style: none;
+      font-size: 0.8rem;
+      color: var(--sketch);
+    }
+    .track-topics li { margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+    .track-topics li::before { content: "•"; color: var(--accent); }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="#" class="brand">
+      <span>Chai <strong style="color:var(--accent)">Visual</strong></span>
+      <span class="brand-badge">CS Simulator</span>
+    </a>
+    <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()">🌓 Switch Theme</button>
+  </header>
+
+  <div class="main-container">
+    <h1 class="hero-title">Prepare by Seeing How It Actually Works</h1>
+    <p class="hero-sub">Algorithms, low-level design, networking and systems animated one honest step at a time.</p>
+
+    <!-- Interactive Sketch Player -->
+    <div class="sketch-card">
+      <div class="card-top">
+        <div class="problem-tag">
+          <span class="dot-pulse"></span>
+          <span>LIVE INTERACTIVE · TWO SUM II (TARGET 14)</span>
+        </div>
+        <div style="font-family:'JetBrains Mono'; font-size:0.85rem; color:var(--mute)">
+          Step <strong id="stepNum" style="color:var(--accent)">1</strong> / 4
+        </div>
+      </div>
+
+      <!-- Approach Leap -->
+      <div class="approaches">
+        <button class="approach-btn" onclick="setApproach('brute')">Brute Force O(n²)</button>
+        <button class="approach-btn active" onclick="setApproach('twoptr')">Sort + Two Pointers O(n)</button>
+        <button class="approach-btn" onclick="setApproach('hash')">Hash Map O(n)</button>
+      </div>
+
+      <!-- Complexity Gauges -->
+      <div class="complexity-bar">
+        <div class="comp-item">
+          <small>Time Complexity</small>
+          <span id="timeComp" style="color:var(--accent)">O(n)</span>
+        </div>
+        <div class="comp-item">
+          <small>Space Complexity</small>
+          <span id="spaceComp" style="color:var(--accent-blue)">O(1)</span>
+        </div>
+        <div class="comp-item">
+          <small>Work to Solve (n=1,000)</small>
+          <span id="workComp" style="color:var(--accent-orange)">~1,000 ops</span>
+        </div>
+      </div>
+
+      <!-- Stage -->
+      <div class="stage-wrap" id="stage">
+        <div class="array-row" id="arrayRow">
+          <!-- Boxes populated by JS -->
+        </div>
+        <div class="pointer l" id="pointerL">
+          <span class="pointer-arrow">▲</span>
+          <span>L</span>
+        </div>
+        <div class="pointer r" id="pointerR">
+          <span class="pointer-arrow">▲</span>
+          <span>R</span>
+        </div>
+      </div>
+
+      <!-- Step Explanation -->
+      <div class="step-banner">
+        <span id="expText">1 + 15 = 16 &gt; 14, sum is too large — move right pointer left.</span>
+        <span class="step-target">Target: 14</span>
+      </div>
+
+      <!-- Controls -->
+      <div class="controls-row">
+        <button class="ctrl-btn" id="prevBtn" onclick="prevStep()">⏮ Step Back</button>
+        <button class="ctrl-btn primary" id="playBtn" onclick="togglePlay()">▶ Play</button>
+        <button class="ctrl-btn" id="nextBtn" onclick="nextStep()">Step Next ⏭</button>
+        <button class="ctrl-btn" onclick="resetSteps()">↺ Reset</button>
+      </div>
+    </div>
+
+    <!-- Curriculum Tracks -->
+    <div class="curriculum-section">
+      <div class="sec-title">
+        <span>📚</span>
+        <h2>Curriculum & Topic Directory (6 Tracks)</h2>
+      </div>
+
+      <div class="tracks-grid">
+        <!-- Track 1 -->
+        <div class="track-card">
+          <div class="track-head">
+            <span class="track-icon">🧩</span>
+            <span class="track-badge free">Free Preview</span>
+          </div>
+          <h3>Track 1: DSA Visual</h3>
+          <p>18 Patterns · 184 Animated Problems</p>
+          <ul class="track-topics">
+            <li>Two Pointers & Sliding Window</li>
+            <li>Arrays & Prefix Sum Hashing</li>
+            <li>Linked Lists, Stacks & Queues</li>
+            <li>Binary Search, Heap & Trees</li>
+            <li>Graph Traversal & Dynamic Programming</li>
+          </ul>
+        </div>
+
+        <!-- Track 2 -->
+        <div class="track-card">
+          <div class="track-head">
+            <span class="track-icon">📐</span>
+            <span class="track-badge">8 Modules</span>
+          </div>
+          <h3>Track 2: LLD Visual</h3>
+          <p>Object-Oriented & Self-Drawing Class Diagrams</p>
+          <ul class="track-topics">
+            <li>SOLID Principles in Motion</li>
+            <li>Gang of Four (GoF) Design Patterns</li>
+            <li>System Design: Parking Lot & Splitwise</li>
+            <li>Elevator System & Cache Invalidation</li>
+          </ul>
+        </div>
+
+        <!-- Track 3 -->
+        <div class="track-card">
+          <div class="track-head">
+            <span class="track-icon">🌐</span>
+            <span class="track-badge">31 Chapters</span>
+          </div>
+          <h3>Track 3: Computer Networking</h3>
+          <p>From fetch() to bits on the wire and back</p>
+          <ul class="track-topics">
+            <li>OSI 7 Layers & Packet Encapsulation</li>
+            <li>TCP 3-Way Handshake & Congestion Control</li>
+            <li>DNS Resolution Flow & TLS 1.3 Key Exchange</li>
+            <li>HTTP/2 vs HTTP/3 QUIC Streams</li>
+          </ul>
+        </div>
+
+        <!-- Track 4 -->
+        <div class="track-card">
+          <div class="track-head">
+            <span class="track-icon">⚙️</span>
+            <span class="track-badge">37 Chapters</span>
+          </div>
+          <h3>Track 4: Operating Systems</h3>
+          <p>How the machine actually executes your code</p>
+          <ul class="track-topics">
+            <li>Processes vs Threads & Context Switching</li>
+            <li>CPU Scheduling (Round Robin, CFS)</li>
+            <li>Virtual Memory, Paging & Page Faults</li>
+            <li>Concurrency: Mutex, Semaphores & Deadlock</li>
+          </ul>
+        </div>
+
+        <!-- Track 5 -->
+        <div class="track-card">
+          <div class="track-head">
+            <span class="track-icon">🗄️</span>
+            <span class="track-badge">34 Chapters</span>
+          </div>
+          <h3>Track 5: Databases Visual</h3>
+          <p>From SQL Query to B+ Tree Index on Disk</p>
+          <ul class="track-topics">
+            <li>ER Diagrams to Relational Schema</li>
+            <li>B+ Tree Index Search & Splits</li>
+            <li>Query Optimization Plans (Cost Based)</li>
+            <li>ACID Transactions & Write-Ahead Logs (WAL)</li>
+          </ul>
+        </div>
+
+        <!-- Track 6 -->
+        <div class="track-card">
+          <div class="track-head">
+            <span class="track-icon">⏱️</span>
+            <span class="track-badge">8 Categories</span>
+          </div>
+          <h3>Track 6: Aptitude & Mocks</h3>
+          <p>Timed placement standard test suites</p>
+          <ul class="track-topics">
+            <li>Quantitative Problem Solving</li>
+            <li>Logical & Verbal Reasoning</li>
+            <li>Data Interpretation & Logic Puzzles</li>
+            <li>15-min and 30-min Speed Mock Exams</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const ARRAY = [1, 4, 6, 8, 11, 15];
+    const TARGET = 14;
+
+    const STEPS = [
+      { l: 0, r: 5, text: "1 + 15 = 16 > 14. Sum is too large — move right pointer R left." },
+      { l: 0, r: 4, text: "1 + 11 = 12 < 14. Sum is too small — move left pointer L right." },
+      { l: 1, r: 4, text: "4 + 11 = 15 > 14. Sum is too large — move right pointer R left." },
+      { l: 1, r: 3, text: "🎉 4 + 8 = 12 ... 6 + 8 = 14! MATCH FOUND at indices [2, 3]! Target 14 reached." }
+    ];
+
+    let currentStep = 0;
+    let isPlaying = false;
+    let playTimer = null;
+
+    function initArray() {
+      const row = document.getElementById('arrayRow');
+      row.innerHTML = '';
+      ARRAY.forEach((val, idx) => {
+        const box = document.createElement('div');
+        box.className = 'box';
+        box.id = `box-${idx}`;
+        box.innerHTML = `<span class="idx">${idx}</span>${val}`;
+        row.appendChild(box);
+      });
+      renderStep(0);
+    }
+
+    function renderStep(idx) {
+      currentStep = idx;
+      document.getElementById('stepNum').innerText = idx + 1;
+      const step = STEPS[idx];
+
+      // Update boxes
+      ARRAY.forEach((_, i) => {
+        const b = document.getElementById(`box-${i}`);
+        b.className = 'box';
+        if (i === step.l) b.classList.add('active-l');
+        if (i === step.r) b.classList.add('active-r');
+        if (idx === 3 && (i === 1 || i === 3)) { // 6 + 8
+          b.classList.add('matched');
+        }
+      });
+
+      // Update Pointers positions
+      const boxL = document.getElementById(`box-${step.l}`);
+      const boxR = document.getElementById(`box-${step.r}`);
+      const row = document.getElementById('arrayRow');
+      const rowRect = row.getBoundingClientRect();
+
+      if (boxL && boxR) {
+        const rectL = boxL.getBoundingClientRect();
+        const rectR = boxR.getBoundingClientRect();
+        const pL = document.getElementById('pointerL');
+        const pR = document.getElementById('pointerR');
+
+        pL.style.left = `${rectL.left - rowRect.left + 16}px`;
+        pR.style.left = `${rectR.left - rowRect.left + 16}px`;
+      }
+
+      document.getElementById('expText').innerText = step.text;
+      document.getElementById('prevBtn').disabled = idx === 0;
+      document.getElementById('nextBtn').disabled = idx === STEPS.length - 1;
+    }
+
+    function nextStep() {
+      if (currentStep < STEPS.length - 1) {
+        renderStep(currentStep + 1);
+      } else {
+        pause();
+      }
+    }
+
+    function prevStep() {
+      if (currentStep > 0) renderStep(currentStep - 1);
+    }
+
+    function resetSteps() {
+      pause();
+      renderStep(0);
+    }
+
+    function togglePlay() {
+      if (isPlaying) {
+        pause();
+      } else {
+        play();
+      }
+    }
+
+    function play() {
+      isPlaying = true;
+      document.getElementById('playBtn').innerText = '⏸ Pause';
+      if (currentStep === STEPS.length - 1) renderStep(0);
+      playTimer = setInterval(() => {
+        if (currentStep < STEPS.length - 1) {
+          nextStep();
+        } else {
+          pause();
+        }
+      }, 1600);
+    }
+
+    function pause() {
+      isPlaying = false;
+      document.getElementById('playBtn').innerText = '▶ Play';
+      if (playTimer) clearInterval(playTimer);
+    }
+
+    function setApproach(type) {
+      document.querySelectorAll('.approach-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const timeEl = document.getElementById('timeComp');
+      const spaceEl = document.getElementById('spaceComp');
+      const workEl = document.getElementById('workComp');
+
+      if (type === 'brute') {
+        timeEl.innerText = 'O(n²)';
+        timeEl.style.color = 'var(--accent-red)';
+        spaceEl.innerText = 'O(1)';
+        workEl.innerText = '~1,000,000 ops';
+        workEl.style.color = 'var(--accent-red)';
+      } else if (type === 'twoptr') {
+        timeEl.innerText = 'O(n)';
+        timeEl.style.color = 'var(--accent)';
+        spaceEl.innerText = 'O(1)';
+        workEl.innerText = '~1,000 ops';
+        workEl.style.color = 'var(--accent-orange)';
+      } else if (type === 'hash') {
+        timeEl.innerText = 'O(n)';
+        timeEl.style.color = 'var(--accent)';
+        spaceEl.innerText = 'O(n)';
+        workEl.innerText = '~1,000 ops';
+        workEl.style.color = 'var(--accent-orange)';
+      }
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const cur = html.getAttribute('data-theme');
+      html.setAttribute('data-theme', cur === 'dark' ? 'light' : 'dark');
+    }
+
+    window.addEventListener('load', () => {
+      initArray();
+      window.addEventListener('resize', () => renderStep(currentStep));
+    });
+  </script>
+</body>
+</html>
