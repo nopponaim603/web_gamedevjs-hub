@@ -11,6 +11,20 @@ tags:
 # 📜 Documentation Changelog — webJS
 
 
+## [1.43.0] - 2026-09-25
+
+- **🥊 Acquisition & Hub Integration: PUNCH CLOCK (G055) & INKWAVE: Turf Riot (G056)**:
+  - **จัดเก็บเกม PUNCH CLOCK — A Corporate Boxing Simulator (`punch-clock`)**:
+    - ดึงโค้ดและ Vendor Three.js ทั้งหมดจัดเก็บไว้ที่ `public/games/punch-clock/`
+    - รองรับบอสทั้ง 6 ชั้น (Kyle, Brenda, Chad, Derek, Margaret, Roland), Custom Post-Processing Grade Shader และเสียงสังเคราะห์ Procedural Web Audio API
+    - สร้างเอกสาร [docs/gdd/games/punch-clock/spec.md](file:///c:/Users/noppon/source/06-WEB/webJS/docs/gdd/games/punch-clock/spec.md)
+  - **จัดเก็บเกม INKWAVE: Turf Riot (`inkwave`)**:
+    - ดึงโค้ดโมดูล Three.js, Lightmaps (Tidewater Plaza, Kelpline Terminal) และ Web Audio Engine จัดเก็บไว้ที่ `public/games/inkwave/`
+    - รองรับระบบเกม 4v4 Turf-War ชิงพื้นที่, การแปลงร่างเป็นหมึกดำน้ำ/ปีนกำแพง, อาวุธ 4 คลาส และบอท AI อัจฉริยะ 7 ตัว
+    - สร้างเอกสาร [docs/gdd/games/inkwave/spec.md](file:///c:/Users/noppon/source/06-WEB/webJS/docs/gdd/games/inkwave/spec.md)
+  - **ลงทะเบียนเกมใน GameDevJS Hub**: เพิ่มทั้ง 2 เกมเข้าสู่หมวด **Three.js 3D Engine** ใน [`src/app/page.js`](file:///c:/Users/noppon/source/06-WEB/webJS/src/app/page.js)
+  - **อัปเดตเอกสารดัชนี Master Index**: อัปเดตตารางและจำนวนเกมรวมเป็น 51 เกมใน [`docs/gdd/games/index.md`](file:///c:/Users/noppon/source/06-WEB/webJS/docs/gdd/games/index.md)
+
 ## [1.42.0] - 2026-09-18
 
 - **🌐 Web Scraping Resources Registration & Epics 35–37 Roadmap**:

@@ -13,7 +13,7 @@ tags:
 
 # 🎮 Game Design Specifications Master Index
 
-เอกสารดัชนีรวมเกมทั้งหมดในโปรเจกต์ **GameDevJS Hub (webJS)** จำนวน **49 เกม** พร้อมรหัสเกม (Game ID Code), เอนจินที่ใช้, หมวดหมู่, และลิงก์ไปยังเอกสาร Game Specification ฉบับสมบูรณ์
+เอกสารดัชนีรวมเกมทั้งหมดในโปรเจกต์ **GameDevJS Hub (webJS)** จำนวน **51 เกม** พร้อมรหัสเกม (Game ID Code), เอนจินที่ใช้, หมวดหมู่, และลิงก์ไปยังเอกสาร Game Specification ฉบับสมบูรณ์
 
 ---
 
@@ -70,12 +70,14 @@ tags:
 | **G052** | `whistlevale` | 🚂 Whistlevale (A House of Little Worlds) | Three.js / Diorama 3D | Three.js 3D Engine | [📄 View Spec](./whistlevale/spec.md) |
 | **G053** | `mogura-tatakanai` | 🐾 Mogura Tatakanai (Pet the Mole 3D) | Three.js r128 / Web Audio | Three.js 3D Engine | [📄 View Spec](./mogura-tatakanai/spec.md) |
 | **G054** | `skate-dog` | 🛹 Skate Dog (3D Procedural Pup) | Three.js / Procedural 3D | Three.js 3D Engine | [📄 View Spec](./skate-dog/spec.md) |
+| **G055** | `punch-clock` | 🥊 PUNCH CLOCK (Corporate Boxing 3D) | Three.js / Procedural Web Audio | Three.js 3D Engine | [📄 View Spec](./punch-clock/spec.md) |
+| **G056** | `inkwave` | 🦑 INKWAVE: Turf Riot (4v4 Ink Shooter) | Three.js / Paint Shader / Web Audio | Three.js 3D Engine | [📄 View Spec](./inkwave/spec.md) |
 
 ---
 
 ## 🗂️ การจัดหมวดหมู่ตามเอนจิน (Engine Breakdown)
 
-### 1. Three.js / WebGL / WebGPU 3D Engine (21 Games)
+### 1. Three.js / WebGL / WebGPU 3D Engine (23 Games)
 - **[G018]** 🕳️ Hungry Manhole (Hole.io City) — [📄 Spec](./hole-io/spec.md)
 - **[G024]** 🍆 Wiggle Eggplant 3D — [📄 Spec](./eggplant-wiggle/spec.md)
 - **[G026]** 🏎️ Starter Kit Racing 3D — [📄 Spec](./starter-kit-racing/spec.md)
@@ -97,6 +99,8 @@ tags:
 - **[G052]** 🚂 Whistlevale (A House of Little Worlds) — [📄 Spec](./whistlevale/spec.md)
 - **[G053]** 🐾 Mogura Tatakanai (Pet the Mole 3D) — [📄 Spec](./mogura-tatakanai/spec.md)
 - **[G054]** 🛹 Skate Dog (3D Procedural Pup) — [📄 Spec](./skate-dog/spec.md)
+- **[G055]** 🥊 PUNCH CLOCK (Corporate Boxing 3D) — [📄 Spec](./punch-clock/spec.md)
+- **[G056]** 🦑 INKWAVE: Turf Riot (4v4 Ink Shooter) — [📄 Spec](./inkwave/spec.md)
 
 ### 2. Phaser 2D / PixiJS Engine (13 Games)
 - **[G004]** 🚀 Space Shooter — [📄 Spec](./space-shooter/spec.md)

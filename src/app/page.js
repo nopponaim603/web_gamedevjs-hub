@@ -168,6 +168,22 @@ const initialGames = [
 
   // 4. กลุ่ม Three.js / WebGPU 3D Engine
   {
+    id: "punch-clock",
+    title: "🥊 PUNCH CLOCK (Corporate Boxing 3D)",
+    category: "Three.js 3D Engine",
+    url: "/games/punch-clock/index.html",
+    image: "/games/punch-clock/og.jpg",
+    gradient: "linear-gradient(135deg, #EC4899 0%, #07050A 100%)"
+  },
+  {
+    id: "inkwave",
+    title: "🦑 INKWAVE: Turf Riot (4v4 Ink Shooter)",
+    category: "Three.js 3D Engine",
+    url: "/games/inkwave/index.html",
+    image: "/games/inkwave/thumbnail.jpg",
+    gradient: "linear-gradient(135deg, #FF8A14 0%, #2F5BFF 100%)"
+  },
+  {
     id: "mogura-tatakanai",
     title: "🐾 Mogura Tatakanai (Pet the Mole 3D)",
     category: "Three.js 3D Engine",
