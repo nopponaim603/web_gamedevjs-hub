@@ -11,6 +11,28 @@ tags:
 # 📜 Documentation Changelog — webJS
 
 
+## [1.44.0] - 2026-09-25
+
+- **🎮 Clearance of Active Agile User Stories (US-G031 to US-G034 / G057–G060)**:
+  - **🧟 DEAD END (`dead-end` - G057)**:
+    - สแครปและพอร์ตระบบเอาชีวิตรอด 5 เวฟ, ซอมบี้ AI 3 คลาส, ระบบ Perk แบบ Roguelike, มินิแมพเรดาร์แบบสด, และคลังแสง M4 / Shotgun
+    - แก้ไขบัก Vite asset preloading `./assets/...` สำหรับการรันแบบ Standalone ออฟไลน์ 100%
+    - จัดทำเอกสาร [docs/gdd/games/dead-end/spec.md](file:///c:/Users/noppon/source/06-WEB/webJS/docs/gdd/games/dead-end/spec.md) และทำเครื่องหมายจบ [US-G031-dead-end.md](file:///c:/Users/noppon/source/06-WEB/webJS/docs/agile/user-stories/US-G031-dead-end.md)
+  - **⚔️ Stick & Steel · The Splinter Pit (`stick-steel` - G058)**:
+    - สแครปและพอร์ตเกมฟิสิกส์ 2D Ragdoll ดวลดาบเหนือบ่อหนาม, ระบบดาบสั้น/กระบองหนาม/ดาบยาว, ระบบสะท้อนการฟัน (Parry) และการปลดอาวุธ (Disarm)
+    - บรรจุฟอนต์ PatrickHand-Regular.ttf, Sound SFX, และสร้าง Thumbnail คุณภาพสูง
+    - จัดทำเอกสาร [docs/gdd/games/stick-steel/spec.md](file:///c:/Users/noppon/source/06-WEB/webJS/docs/gdd/games/stick-steel/spec.md) และทำเครื่องหมายจบ [US-G032-stick-steel.md](file:///c:/Users/noppon/source/06-WEB/webJS/docs/agile/user-stories/US-G032-stick-steel.md)
+  - **✏️ Doodle District 3D (`doodle-district` - G059)**:
+    - สแครปและพอร์ตเกมยิงปืน 3D Three.js r170 ในโลกสมุดสเก็ตช์ลายเส้นมือวาด พร้อมระบบ WebRTC PeerJS มัลติเพลเยอร์
+    - จัดเก็บ Three.js ES Modules, สไตล์ชีท และสร้าง Thumbnail ลายเส้นสมุดโน้ต
+    - จัดทำเอกสาร [docs/gdd/games/doodle-district/spec.md](file:///c:/Users/noppon/source/06-WEB/webJS/docs/gdd/games/doodle-district/spec.md) และทำเครื่องหมายจบ [US-G033-doodle-district.md](file:///c:/Users/noppon/source/06-WEB/webJS/docs/agile/user-stories/US-G033-doodle-district.md)
+  - **☕ Chai Visual CS Simulator (`chai-visual` - G060)**:
+    - สร้าง Standalone Interactive Engine และสารบัญ 6 Tracks (18 DSA Patterns, 8 LLD, 31 Network, 37 OS, 34 DBMS, Aptitude)
+    - จำลองแอนิเมชันอัลกอริทึม Two Pointers (Target Sum 14), ตัวควบคุมทีละก้าว (Step Playhead), และตัววัด Approach Leap (Big-O & Operations Meter)
+    - จัดทำเอกสาร [docs/gdd/games/chai-visual/spec.md](file:///c:/Users/noppon/source/06-WEB/webJS/docs/gdd/games/chai-visual/spec.md) และทำเครื่องหมายจบ [US-G034-chai-visual.md](file:///c:/Users/noppon/source/06-WEB/webJS/docs/agile/user-stories/US-G034-chai-visual.md)
+  - **ลงทะเบียนเกมทั้งหมดใน Hub**: เพิ่มการ์ดทั้ง 4 เกมลงใน [`src/app/page.js`](file:///c:/Users/noppon/source/06-WEB/webJS/src/app/page.js) ทำให้คลังเกม GameDevJS Hub มีทั้งหมด 55 เกม
+  - **อัปเดตระบบ Agile & Backlog**: เคลียร์สถานะใน [`docs/agile/01-product-backlog.md`](file:///c:/Users/noppon/source/06-WEB/webJS/docs/agile/01-product-backlog.md), [`docs/agile/Kanban-board.md`](file:///c:/Users/noppon/source/06-WEB/webJS/docs/agile/Kanban-board.md), และ [`docs/gdd/games/index.md`](file:///c:/Users/noppon/source/06-WEB/webJS/docs/gdd/games/index.md) ครบ 100%
+
 ## [1.43.0] - 2026-09-25
 
 - **🥊 Acquisition & Hub Integration: PUNCH CLOCK (G055) & INKWAVE: Turf Riot (G056)**:

@@ -224,6 +224,38 @@ const initialGames = [
     gradient: "linear-gradient(135deg, #0EA5E9 0%, #F59E0B 100%)"
   },
   {
+    id: "dead-end",
+    title: "🧟 DEAD END (Zombie Survival Shooter)",
+    category: "ปริศนา / อาเขต",
+    url: "/games/dead-end/index.html",
+    image: "/games/dead-end/thumbnail.png",
+    gradient: "linear-gradient(135deg, #111A17 0%, #C9EF75 100%)"
+  },
+  {
+    id: "stick-steel",
+    title: "⚔️ Stick & Steel (The Splinter Pit)",
+    category: "ปริศนา / อาเขต",
+    url: "/games/stick-steel/index.html",
+    image: "/games/stick-steel/thumbnail.jpg",
+    gradient: "linear-gradient(135deg, #8B5CF6 0%, #D97706 100%)"
+  },
+  {
+    id: "doodle-district",
+    title: "✏️ Doodle District 3D (Notebook Shooter)",
+    category: "Three.js 3D Engine",
+    url: "/games/doodle-district/index.html",
+    image: "/games/doodle-district/thumbnail.jpg",
+    gradient: "linear-gradient(135deg, #3B82F6 0%, #EF4444 100%)"
+  },
+  {
+    id: "chai-visual",
+    title: "☕ Chai Visual (Interactive CS Simulator)",
+    category: "การศึกษา / ภาษาอังกฤษ",
+    url: "/games/chai-visual/index.html",
+    image: "/games/chai-visual/thumbnail.jpg",
+    gradient: "linear-gradient(135deg, #111A17 0%, #22C55E 100%)"
+  },
+  {
     id: "overprint-404",
     title: "🎯 404 OVERPRINT (Tactical Shooter)",
     category: "ปริศนา / อาเขต",

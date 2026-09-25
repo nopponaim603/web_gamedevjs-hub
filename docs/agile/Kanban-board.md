@@ -17,6 +17,10 @@ kanban-plugin: board
 
 ## ✅ DONE
 
+- [x] [US-G031](./user-stories/US-G031-dead-end.md): DEAD END — Top-Down Zombie Survival Shooter (G057)
+- [x] [US-G032](./user-stories/US-G032-stick-steel.md): Stick & Steel — The Splinter Pit Physics Ragdoll Duel (G058)
+- [x] [US-G033](./user-stories/US-G033-doodle-district.md): Doodle District — 3D Hand-Drawn Arena Shooter & PeerJS (G059)
+- [x] [US-G034](./user-stories/US-G034-chai-visual.md): Chai Visual — Curriculum Catalog & Algorithm Player Prototype (G060)
 - [x] Fix: 404 OVERPRINT Controls & WASD Walking Fix + run.ps1 Pre-flight Checks (v1.37.0)
 - [x] [US-G028-00](./user-stories/archive/US-G028-00.md): GODAWFUL — Game Design Document & Architecture Spec (G028)
 - [x] [US-G028-01](./user-stories/archive/US-G028-01.md): GODAWFUL — Asset & Vite Bundle Scraping (G028)

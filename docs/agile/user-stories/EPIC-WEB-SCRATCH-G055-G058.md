@@ -1,10 +1,10 @@
 ---
 title: "Epic Roadmap: Web Game Scraping & Portfolio Expansion (G055–G058)"
 project: "GameDevJS Hub (webJS)"
-version: "1.1.0"
-last_updated: "2026-09-17"
+version: "1.2.0"
+last_updated: "2026-09-25"
 owner: "Dev Team / Web Scraper"
-status: "Active"
+status: "Completed"
 tags:
   - agile
   - epic
@@ -12,9 +12,9 @@ tags:
   - scraping
   - user-stories
 ---
-# 🎮 Epic Roadmap: Web Game Scraping & Hub Expansion (G055–G058)
+# 🎮 Epic Roadmap: Web Game Scraping & Hub Expansion (G057–G060)
 
-เอกสารรวบรวม User Stories และแผนงานสำหรับการดึงข้อมูล (Scraping), การวิเคราะห์โครงสร้าง (Reverse Engineering) และการพอร์ตเกมลง GameDevJS Hub สำหรับ 4 โครงการใหม่:
+เอกสารรวบรวม User Stories และแผนงานสำหรับการดึงข้อมูล (Scraping), การวิเคราะห์โครงสร้าง (Reverse Engineering) และการพอร์ตเกมลง GameDevJS Hub สำหรับ 4 โครงการที่เสร็จสมบูรณ์แล้ว:
 
 ---
 
@@ -22,10 +22,10 @@ tags:
 
 | ID | ชื่อเกม | แหล่งที่มา (Source URL) | เทคโนโลยี / เอนจิน | หมวดหมู่ใน Hub | สถานะ |
 |---|---|---|---|---|---|
-| **G055** | **DEAD END** | [dead-end.replit.app](https://dead-end.replit.app/) | Canvas 2D / Vite ESM / Web Audio | แอ็กชัน / ยิงซอมบี้ | 🔴 Ready for Scraping |
-| **G056** | **Stick & Steel** | [genex.games/stick-steel](https://genex.games/stick-steel) | 2D Physics Ragdoll / Canvas / Patrick Hand Font | ต่อสู้ / ฟิสิกส์ดวลดาบ | 🔴 Ready for Scraping |
-| **G057** | **Doodle District** | [doodleshooter.vercel.app](https://doodleshooter.vercel.app/) | Three.js r170 / PeerJS WebRTC / 3D Canvas | ยิงปืน 3D / มัลติเพลเยอร์ | 🔴 Ready for Scraping |
-| **G058** | **Chai Visual** | [dsa.chaicode.com](https://dsa.chaicode.com/) | Next.js / SVG & Canvas Animation / Sketch UI | การศึกษา / ซิมูเลชัน CS | 🔴 Ready for Scraping |
+| **G057** (ex-G055) | **DEAD END** | [dead-end.replit.app](https://dead-end.replit.app/) | Canvas 2D / Vite ESM / Web Audio | แอ็กชัน / ยิงซอมบี้ | 🟢 ✅ Completed |
+| **G058** (ex-G056) | **Stick & Steel** | [genex.games/stick-steel](https://genex.games/stick-steel) | 2D Physics Ragdoll / Canvas / Patrick Hand Font | ต่อสู้ / ฟิสิกส์ดวลดาบ | 🟢 ✅ Completed |
+| **G059** (ex-G057) | **Doodle District** | [doodleshooter.vercel.app](https://doodleshooter.vercel.app/) | Three.js r170 / PeerJS WebRTC / 3D Canvas | ยิงปืน 3D / มัลติเพลเยอร์ | 🟢 ✅ Completed |
+| **G060** (ex-G058) | **Chai Visual** | [dsa.chaicode.com](https://dsa.chaicode.com/) | Next.js / SVG & Canvas Animation / Sketch UI | การศึกษา / ซิมูเลชัน CS | 🟢 ✅ Completed |
 
 ---
 

@@ -4,7 +4,7 @@ project: "GameDevJS Hub (webJS)"
 version: "1.2.0"
 last_updated: "2026-09-17"
 owner: "EdTech Architect & Frontend Engineer"
-status: "Backlog / Ready"
+status: "Completed"
 tags:
   - agile
   - user-story
@@ -19,6 +19,7 @@ tags:
 **Source URL:** [https://dsa.chaicode.com/](https://dsa.chaicode.com/)  
 **Target Directory:** `public/games/chai-visual/`  
 **Created:** 2026-09-17  
+**Completed:** 2026-09-25  
 **Estimate:** L (4 Focused Stories)  
 
 > [!IMPORTANT]
@@ -196,34 +197,34 @@ mindmap
 ### [US-G034-00] Complete Curriculum Catalog & Topic Breakdown Specification
 - **Statement:** ในฐานะ Educational Content Architect ฉันต้องการจัดทำเอกสารสารบัญโครงสร้างเนื้อหาทั้ง 6 Tracks ให้ครบถ้วนสมบูรณ์ใน `docs/gdd/games/chai-visual/spec.md` พร้อมระบุรายการหัวข้อที่ติดระบบสมาชิก (Paywall) และหัวข้อที่เปิดเป็นสาธารณะ
 - **Acceptance Criteria:**
-  - [ ] จัดทำเอกสาร GDD / Curriculum Directory ใน `docs/gdd/games/chai-visual/spec.md`
-  - [ ] บันทึกรายชื่อ 18 DSA Patterns, 8 LLD Modules, 31 Network Chapters, 37 OS Chapters, 34 DBMS Chapters
-  - [ ] กำหนดสถานะ Public Preview สำหรับโจทย์ Two Pointers และระบุหัวข้ออื่นเป็น Catalog Index
-  - [ ] สรุปคุณค่าของแต่ละ Track สำหรับเป็นคู่มืออ้างอิงของทีม
+  - [x] จัดทำเอกสาร GDD / Curriculum Directory ใน `docs/gdd/games/chai-visual/spec.md`
+  - [x] บันทึกรายชื่อ 18 DSA Patterns, 8 LLD Modules, 31 Network Chapters, 37 OS Chapters, 34 DBMS Chapters
+  - [x] กำหนดสถานะ Public Preview สำหรับโจทย์ Two Pointers และระบุหัวข้ออื่นเป็น Catalog Index
+  - [x] สรุปคุณค่าของแต่ละ Track สำหรับเป็นคู่มืออ้างอิงของทีม
 
 ### [US-G034-01] Paper/Ink Theme, Sketch CSS System & Public Asset Extraction
 - **Statement:** ในฐานะ UI/UX Frontend Developer ฉันต้องการสกัดโทนสี Paper & Ink, สไตล์ชีทกรอบลายเส้น `sketch-border`, ฟอนต์ลายมือ, และไอคอนสาธารณะของ Chai Visual มาสร้างเป็น Design System ขนาดย่อมใน `public/games/chai-visual/`
 - **Acceptance Criteria:**
-  - [ ] สกัด CSS Custom Properties สำหรับ `--bg-paper`, `--text-ink`, `--accent` และคลาส `.sketch-border`
-  - [ ] ติดตั้งฟอนต์ลายมือที่เข้ากันได้ (เช่น Patrick Hand หรือ Caveat)
-  - [ ] ดึงรูปภาพมาสคอต `/chai-mascot-dark.png` และ SVG Icons พื้นฐาน
-  - [ ] รองรับการสลับ Dark / Light Paper Mode ได้อย่างถูกต้อง
+  - [x] สกัด CSS Custom Properties สำหรับ `--bg-paper`, `--text-ink`, `--accent` และคลาส `.sketch-border`
+  - [x] ติดตั้งฟอนต์ลายมือที่เข้ากันได้ (เช่น Patrick Hand หรือ Caveat)
+  - [x] ดึงรูปภาพมาสคอต `/chai-mascot-dark.png` และ SVG Icons พื้นฐาน
+  - [x] รองรับการสลับ Dark / Light Paper Mode ได้อย่างถูกต้อง
 
 ### [US-G034-02] Foundational Interactive Player Prototype (Two Pointers & Two Sum Showcase)
 - **Statement:** ในฐานะ Algorithm & Animation Programmer ฉันต้องการสร้างคอมโพเนนต์จำลองแอนิเมชันอัลกอริทึมพื้นฐานที่เล่นได้จริง (Standalone Step-by-step Runner) โดยจำลองโจทย์ Two Pointers (Target Sum) และ Valid Palindrome
 - **Acceptance Criteria:**
-  - [ ] มีปุ่มควบคุม Step Back, Play/Pause, Step Next และแถบปรับความเร็ว
-  - [ ] หมุดชี้ L (ส้ม) และ R (ฟ้า) ขยับเลื่อนตำแหน่งตามอาร์เรย์ได้อย่างนุ่มนวล
-  - [ ] กล่องอธิบายผลลัพธ์ (Step Explanation) อัปเดตข้อความตามเงื่อนไขการคำนวณจริง
-  - [ ] แท็บ Approach Leap: สลับดู Brute Force (O(n²)) และ Two Pointers (O(n)) พร้อมมิเตอร์นับจำนวนรอบ Operations
+  - [x] มีปุ่มควบคุม Step Back, Play/Pause, Step Next และแถบปรับความเร็ว
+  - [x] หมุดชี้ L (ส้ม) และ R (ฟ้า) ขยับเลื่อนตำแหน่งตามอาร์เรย์ได้อย่างนุ่มนวล
+  - [x] กล่องอธิบายผลลัพธ์ (Step Explanation) อัปเดตข้อความตามเงื่อนไขการคำนวณจริง
+  - [x] แท็บ Approach Leap: สลับดู Brute Force (O(n²)) และ Two Pointers (O(n)) พร้อมมิเตอร์นับจำนวนรอบ Operations
 
 ### [US-G034-03] Curriculum Directory Viewer & GameDevJS Hub Integration
 - **Statement:** ในฐานะ Frontend Developer ฉันต้องการสร้างหน้า UI สารบัญหลัก (Curriculum Navigator) ที่ผู้ใช้สามารถเลือกดูหัวข้อทั้ง 6 Tracks และเปิดเล่น Interactive Showcase ได้ทันที พร้อมเชื่อมโยงเข้าสู่ Next.js Portfolio Card
 - **Acceptance Criteria:**
-  - [ ] หน้า Navigation แสดงการ์ด 6 Tracks พร้อมตัวเลขจำนวนหัวข้อ และสถานะ `Interactive Demo` / `Curriculum Preview`
-  - [ ] แสดงป้ายแจ้งเตือน (Disclaimer) อย่างชัดเจนว่าเนื้อหาฉบับเต็มบางส่วนต้องลงทะเบียนกับทาง ChaiCode
-  - [ ] เพิ่มการ์ดเกมลงใน `src/app/page.js` ในหมวดหมู่ "การศึกษา / ปริศนาโค้ด"
-  - [ ] ตรวจสอบการเปิดเล่นผ่าน Iframe Modal ให้เรนเดอร์ลื่นไหลและพอดีกับหน้าจอทุกขนาด
+  - [x] หน้า Navigation แสดงการ์ด 6 Tracks พร้อมตัวเลขจำนวนหัวข้อ และสถานะ `Interactive Demo` / `Curriculum Preview`
+  - [x] แสดงป้ายแจ้งเตือน (Disclaimer) อย่างชัดเจนว่าเนื้อหาฉบับเต็มบางส่วนต้องลงทะเบียนกับทาง ChaiCode
+  - [x] เพิ่มการ์ดเกมลงใน `src/app/page.js` ในหมวดหมู่ "การศึกษา / ปริศนาโค้ด"
+  - [x] ตรวจสอบการเปิดเล่นผ่าน Iframe Modal ให้เรนเดอร์ลื่นไหลและพอดีกับหน้าจอทุกขนาด
 
 ---
 
