@@ -78,8 +78,10 @@ tags:
 | G052 | `whistlevale` | 🚂 Whistlevale (A House of Little Worlds) | Three.js / Diorama 3D | `public/games/whistlevale/` | [📄 Spec](./gdd/games/whistlevale/spec.md) |
 | G053 | `mogura-tatakanai` | 🐾 Mogura Tatakanai (Pet the Mole 3D) | Three.js r128 / Web Audio | `public/games/mogura-tatakanai/` | [📄 Spec](./gdd/games/mogura-tatakanai/spec.md) |
 | G054 | `skate-dog` | 🛹 Skate Dog (3D Procedural Pup) | Three.js / Procedural 3D | `public/games/skate-dog/` | [📄 Spec](./gdd/games/skate-dog/spec.md) |
+| G061 | `webrtc-wordcloud` | ☁️ CloudWord (WebRTC Word Cloud & Quiz) | WebRTC / PeerJS / D3.js | `public/games/webrtc-wordcloud/` | [📄 Spec](./gdd/games/webrtc-wordcloud/spec.md) |
 
 ### 🎮 Active Released Game Specifications (`docs/gdd/games/`)
+- [☁️ CloudWord: WebRTC P2P Word Cloud & Quiz (G061)](./gdd/games/webrtc-wordcloud/spec.md)
 - [☸️ K8s Games: 3D Kubernetes Simulator (G047)](./gdd/games/k8sgames/spec.md)
 - [✏️ Scribble Jump: Vertical Doodler (G046)](./gdd/games/scribble-jump/spec.md)
 - [⚡ VOLTA: Lineman of the Storm (G045)](./gdd/games/volta/spec.md)

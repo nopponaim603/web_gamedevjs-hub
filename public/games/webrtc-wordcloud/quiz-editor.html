@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Editor | CloudWord</title>
+    <link rel="stylesheet" href="src/css/style.css">
+    <link rel="stylesheet" href="src/css/quiz-editor.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="editor-body">
+    <header>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <a href="index.html" class="icon-button" title="Back to CloudWord">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            </a>
+            <div class="logo">Quiz Editor</div>
+        </div>
+        <div class="editor-toolbar">
+            <span id="save-status" class="stat-label">Saved</span>
+            <button id="btn-import-md" class="secondary">Import .md</button>
+            <button id="btn-import-json" class="secondary">Import .json</button>
+            <button id="btn-export-md" class="secondary">Export .md</button>
+            <button id="btn-export-json" class="secondary">Export .json</button>
+            <input type="file" id="file-import-md" accept=".md" class="hidden">
+            <input type="file" id="file-import-json" accept=".json,application/json" class="hidden">
+        </div>
+    </header>
+
+    <main class="editor-main">
+        <aside class="editor-sidebar">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="title" style="margin-bottom: 0;">Quiz Sets</h2>
+                    <button id="btn-new-set" class="icon-button" title="New Quiz Set">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    </button>
+                </div>
+                <div id="quiz-set-list"></div>
+            </div>
+        </aside>
+
+        <section class="editor-content">
+            <div class="card editor-set-header">
+                <input type="text" id="set-name-input" placeholder="Quiz set name (e.g. Sprint 1 Review)" maxlength="100">
+                <div id="validation-summary" class="validation-summary"></div>
+            </div>
+            <div id="question-list" class="question-list"></div>
+            <button id="btn-add-question" class="primary add-question-btn">+ Add Question</button>
+        </section>
+
+        <aside class="editor-preview">
+            <div class="card">
+                <h2 class="title">Live Preview</h2>
+                <div id="preview-area"></div>
+            </div>
+        </aside>
+    </main>
+
+    <script src="src/js/quiz-editor.js" type="module"></script>
+</body>
+
+</html>

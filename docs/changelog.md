@@ -11,6 +11,15 @@ tags:
 # 📜 Documentation Changelog — webJS
 
 
+## [1.45.0] - 2026-10-09
+
+- **☁️ Hub Feature Integration: CloudWord (G061 - `webrtc-wordcloud`)**:
+  - ผนวกและติดตั้งระบบ **CloudWord: Collaborative P2P Word Cloud & Quiz** จากโฟลเดอร์ภายนอก `projects/webRTC_wordcloud` เข้าเป็นฟีเจอร์ทางการของ GameDevJS Hub ในโฟลเดอร์ [`public/games/webrtc-wordcloud/`](./../public/games/webrtc-wordcloud/)
+  - รองรับระบบ WebRTC DataChannel (P2P Mesh Network ผ่าน PeerJS) พร้อมโหมด Dynamic Word Cloud (D3.js Force Simulation) และ Interactive Quick Quiz Mode
+  - รองรับเครื่องมือ **Quiz Editor Tool** (`quiz-editor.html`) สำหรับสร้าง/แก้ไขและ Export ข้อสอบไฟล์ `.md`
+  - ลงทะเบียนการ์ดเกมลงในระบบหลัก [`src/app/page.js`](./../src/app/page.js)
+  - จัดทำเอกสารข้อกำหนดทางเทคนิคครบถ้วนใน [`docs/gdd/games/webrtc-wordcloud/spec.md`](./gdd/games/webrtc-wordcloud/spec.md) และปรับปรุง Master Index ใน [`docs/gdd/games/index.md`](./gdd/games/index.md) และ [`docs/index.md`](./index.md)
+
 ## [1.44.0] - 2026-09-25
 
 - **🎮 Clearance of Active Agile User Stories (US-G031 to US-G034 / G057–G060)**:

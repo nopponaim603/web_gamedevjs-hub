@@ -76,6 +76,7 @@ tags:
 | **G058** | `stick-steel` | ⚔️ Stick & Steel (The Splinter Pit) | 2D Physics Ragdoll / Canvas | ปริศนา / อาเขต | [📄 View Spec](./stick-steel/spec.md) |
 | **G059** | `doodle-district` | ✏️ Doodle District 3D (Notebook Shooter) | Three.js r170 / PeerJS WebRTC | Three.js 3D Engine | [📄 View Spec](./doodle-district/spec.md) |
 | **G060** | `chai-visual` | ☕ Chai Visual (Interactive CS Simulator) | Vanilla JS / CSS Custom Properties | การศึกษา / วิทยาการคอมพิวเตอร์ | [📄 View Spec](./chai-visual/spec.md) |
+| **G061** | `webrtc-wordcloud` | ☁️ CloudWord (WebRTC Word Cloud & Quiz) | WebRTC / PeerJS / D3.js | การศึกษา / มัลติเพลเยอร์ | [📄 View Spec](./webrtc-wordcloud/spec.md) |
 
 ---
 
@@ -127,7 +128,7 @@ tags:
 - **[G007]** 🏃 Kenney 3D Platformer — [📄 Spec](./3d-platformer/spec.md)
 - **[G023]** 🧋 BOBA PEARL DROP: 100% SUGAR — [📄 Spec](./boba-pearl-drop/spec.md)
 
-### 4. Vanilla JS / Canvas 2D / P2P Multiplayers (12 Games)
+### 4. Vanilla JS / Canvas 2D / P2P Multiplayers (13 Games)
 - **[G001]** 😀 Emoji Memory Match — [📄 Spec](./emoji-match/spec.md)
 - **[G002]** 🧊 2048 Cubes — [📄 Spec](./2048-cubes/spec.md)
 - **[G003]** 🀄 Mahjong Tile Match — [📄 Spec](./mahjong-tile-match/spec.md)
@@ -140,6 +141,7 @@ tags:
 - **[G031]** 📚 Oxford 3000 Vocab Master — [📄 Spec](./oxford-3000/spec.md)
 - **[G034]** ⚔️ Dynamic Pong Wars (Day vs Night) — [📄 Spec](./pong-wars/spec.md)
 - **[G051]** 🎯 404 OVERPRINT (Tactical Shooter) — [📄 Spec](./overprint-404/spec.md)
+- **[G061]** ☁️ CloudWord (WebRTC Word Cloud & Quiz) — [📄 Spec](./webrtc-wordcloud/spec.md)
 
 ---
 

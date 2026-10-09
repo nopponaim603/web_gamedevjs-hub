@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudWord | Collaborative P2P Word Cloud</title>
+    <link rel="stylesheet" href="src/css/style.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- External Libraries -->
+    <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+
+<body>
+    <div id="overlay">
+        <div class="hero-card card animate-fade-in">
+            <h1 class="logo hero-title">CloudWord</h1>
+            <p class="hero-subtitle">Real-time collaborative word clouds & quizzes powered by WebRTC.</p>
+            
+            <div id="mode-selection" class="mode-select-container">
+                <button id="mode-wordcloud" class="mode-btn active">☁️ Word Cloud</button>
+                <button id="mode-quiz" class="mode-btn">🧠 Quick Quiz</button>
+            </div>
+
+            <div class="action-buttons">
+                <input type="text" id="input-nickname" placeholder="Your nickname (optional)" maxlength="20">
+
+                <div id="quiz-setup-area" class="hidden" style="margin-bottom: 1rem;">
+                    <label for="quiz-file" class="file-label">
+                        <span>Upload Quiz (.md)</span>
+                        <input type="file" id="quiz-file" accept=".md" class="hidden">
+                    </label>
+                    <div id="quiz-file-name" class="stat-label" style="margin-top: 0.5rem;">No file selected</div>
+                </div>
+
+                <button id="btn-create">Create New Session</button>
+                <div style="margin: 0.5rem 0; color: var(--text-secondary); font-size: 0.875rem;">— OR —</div>
+                <div class="input-group">
+                    <input type="text" id="input-join-id" placeholder="Paste Host ID here...">
+                    <button id="btn-join" class="secondary">Join</button>
+                </div>
+            </div>
+            <div style="margin-top: 1rem;">
+                <a href="quiz-editor.html" style="font-size: 0.8rem; color: var(--accent-color); text-decoration: none;">✏️ Open Quiz Editor Tool</a>
+            </div>
+
+            <div class="card-footer" style="margin-top: 2rem; opacity: 0.5; font-size: 0.75rem;">
+                <div>v1.2.0</div>
+                <div style="margin-top: 0.25rem;">© 2026 Developed by noppon wongta</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="countdown-overlay" class="hidden">
+        <div class="countdown-timer">5</div>
+        <div class="countdown-text">Get Ready!</div>
+    </div>
+
+    <header>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <button id="btn-toggle-stats" class="icon-button" title="Show Stats">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+            <div class="logo">CloudWord</div>
+        </div>
+        <div class="status">
+            <span class="status-indicator" id="status-indicator"></span>
+            <span id="status-text">Disconnected</span>
+            <button id="btn-leave" class="danger hidden"
+                style="margin-left: 1rem; padding: 0.4rem 0.8rem; font-size: 0.75rem;">Leave</button>
+        </div>
+    </header>
+
+    <div id="stats-panel" class="side-panel">
+        <div class="panel-header">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <div class="title-hex hex-frame">📊</div>
+                <h2 class="title" style="margin-bottom: 0;">Session Details</h2>
+            </div>
+            <button id="btn-close-stats" class="icon-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+        </div>
+        
+        <div class="panel-content">
+            <div id="cloud-stats">
+                <div class="card">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                        <div class="title-hex hex-frame">👥</div>
+                        <h2 class="title" style="margin-bottom: 0;">Connected Peers</h2>
+                    </div>
+                    <div id="peer-list">
+                        <div style="padding: 0.25rem 0;">(Just you)</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                        <div class="title-hex hex-frame">📝</div>
+                        <h2 class="title" style="margin-bottom: 0;">All Words List</h2>
+                    </div>
+                    <div id="all-words-list" style="display: flex; flex-direction: column; gap: 0.5rem; max-height: 400px; overflow-y: auto; font-size: 0.875rem;">
+                        <p class="stat-label">No words yet</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz stats remain here as they are mode-specific -->
+            <div id="quiz-stats" class="hidden">
+                <div class="card">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                        <div class="title-hex hex-frame">🏆</div>
+                        <h2 class="title" style="margin-bottom: 0;">Leaderboard</h2>
+                    </div>
+                    <div id="quiz-leaderboard" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <p class="stat-label">No scores yet</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <div class="sidebar">
+            <div class="card" id="session-info">
+                <div class="card-header">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <div class="title-hex hex-frame">🔗</div>
+                        <h2 class="title" style="margin-bottom: 0;">Share Session</h2>
+                    </div>
+                    <button id="btn-toggle-share" class="icon-button" title="Toggle Share Info">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                </div>
+                <div id="share-content" class="collapsible-content">
+                    <div id="qrcode-container">
+                        <div class="qrcode-frame">
+                            <div id="qrcode"></div>
+                        </div>
+                        <p class="stat-label">Scan to join or click link to copy</p>
+                        <div id="join-url-display" class="join-link">Loading...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="cloud-sidebar-stats">
+                <div class="card">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                        <div class="title-hex hex-frame">📊</div>
+                        <h2 class="title" style="margin-bottom: 0;">Top 5 Words</h2>
+                    </div>
+                    <div id="top-words-list" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <p class="stat-label">No data yet</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="session-stats-sidebar">
+                <div class="card">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                        <div class="title-hex hex-frame">📈</div>
+                        <h2 class="title" style="margin-bottom: 0;">Session Stats</h2>
+                    </div>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <div class="stat-value" id="count-peers">0</div>
+                            <div class="stat-label">Players</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="count-words-or-points">0</div>
+                            <div class="stat-label" id="label-words-or-points">Unique Words</div>
+                        </div>
+                    </div>
+                    <button id="btn-export" class="secondary hidden" style="width: 100%; margin-top: 1rem;">🖼️ Export PNG</button>
+                </div>
+            </div>
+
+            <div id="settings-card" class="card hidden" style="margin-top: 1rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                    <div class="title-hex hex-frame">⚙️</div>
+                    <h2 class="title" style="margin-bottom: 0;">Settings</h2>
+                </div>
+                <div class="setting-item">
+                    <label for="theme-select" class="stat-label" style="display: block; margin-bottom: 0.5rem;">Visual Theme</label>
+                    <select id="theme-select" class="theme-select">
+                        <option value="light">☁️ CAMT Light</option>
+                        <option value="dark">🌙 Dark (Neon)</option>
+                        <option value="pastel">🌸 Pastel</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div id="host-quiz-controls" class="card hidden" style="margin-top: 1rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                    <div class="title-hex hex-frame">🎮</div>
+                    <h2 class="title" style="margin-bottom: 0;">Quiz Control</h2>
+                </div>
+                <button id="btn-start-quiz" class="primary" style="width: 100%;">Start Quiz</button>
+                <button id="btn-next-question" class="secondary hidden" style="width: 100%; margin-top: 0.5rem;">Next Question</button>
+                <button id="btn-end-quiz" class="danger hidden" style="width: 100%; margin-top: 0.5rem;">End Quiz</button>
+            </div>
+
+            <footer class="app-footer">
+                <div class="version">v1.2.0</div>
+                <div class="copyright">© 2026 Developed by noppon wongta</div>
+            </footer>
+        </div>
+
+        <section id="cloud-container" class="cloud-container">
+            <!-- Word Cloud View -->
+            <div id="word-cloud-view" class="full-view">
+                <div class="topic-section" id="topic-section" style="display: none;">
+                    <div class="topic-display" id="topic-display"></div>
+                    <input type="text" id="topic-input" class="topic-input hidden" placeholder="Set discussion topic..." maxlength="150">
+                    <button id="btn-edit-topic" class="icon-button hidden topic-edit-btn" title="Edit Topic">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                    </button>
+                </div>
+                <svg id="word-cloud-svg" style="width: 100%; height: 100%;"></svg>
+            </div>
+
+            <!-- Quiz View -->
+            <div id="quiz-view" class="full-view hidden">
+                <div id="quiz-question-area" class="quiz-card">
+                    <div class="quiz-timer" id="quiz-question-timer">20</div>
+                    <h2 id="quiz-question-text" class="quiz-question">Waiting for host to start...</h2>
+                    <div id="quiz-options" class="quiz-options-grid">
+                        <!-- Options will be injected here -->
+                    </div>
+                </div>
+                <div id="quiz-result-area" class="quiz-card hidden">
+                    <h2 class="quiz-question">Question Results</h2>
+                    <div id="quiz-stats-display" class="results-stats">
+                        <!-- Result stats per option -->
+                    </div>
+                    <div id="quiz-correct-answer" class="correct-banner"> Correct Answer: ... </div>
+                    <button id="btn-client-end-quiz" class="secondary hidden" style="width: 100%; margin-top: 2rem;">Exit to Cloud</button>
+                </div>
+            </div>
+
+            <!-- Presence Avatars Walking Strip -->
+            <div id="presence-strip" class="presence-strip"></div>
+        </section>
+    </main>
+
+    <!-- Word Cloud Input -->
+    <div class="mobile-input-bar" id="input-section">
+        <div id="reaction-bar" class="reaction-bar hidden">
+            <button class="reaction-btn" data-emoji="❤️">❤️</button>
+            <button class="reaction-btn" data-emoji="🔥">🔥</button>
+            <button class="reaction-btn" data-emoji="👏">👏</button>
+            <button class="reaction-btn" data-emoji="😂">😂</button>
+        </div>
+        <div class="input-container">
+            <input type="text" id="input-word" placeholder="Type a word..." maxlength="20">
+            <button id="btn-send">Send</button>
+        </div>
+    </div>
+
+    <div id="reaction-container" class="reaction-container"></div>
+
+    <!-- Quiz Input (Answer Buttons for Participants) -->
+    <div class="mobile-input-bar hidden" id="quiz-input-section">
+        <div id="quiz-participant-options" class="quiz-answer-buttons">
+            <!-- Buttons A, B, C, D will be injected here -->
+        </div>
+    </div>
+
+    <!-- Custom Context Menu for Host Moderation -->
+    <div id="context-menu" class="context-menu hidden">
+        <ul>
+            <li id="menu-delete-word">🗑️ Delete Word</li>
+        </ul>
+    </div>
+
+    <script src="src/js/app.js" type="module"></script>
+</body>
+
+</html>

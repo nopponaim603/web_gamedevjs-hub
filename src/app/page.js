@@ -132,6 +132,14 @@ const initialGames = [
     gradient: "linear-gradient(135deg, #6366F1 0%, #EC4899 100%)"
   },
   {
+    id: "webrtc-wordcloud",
+    title: "☁️ CloudWord (WebRTC P2P Word Cloud & Quiz)",
+    category: "กระดาน / มัลติเพลเยอร์",
+    url: "/games/webrtc-wordcloud/index.html",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=400&fit=crop",
+    gradient: "linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%)"
+  },
+  {
     id: "tile-swap",
     title: "Tile Swap",
     category: "ปริศนา / สลับไทล์",
