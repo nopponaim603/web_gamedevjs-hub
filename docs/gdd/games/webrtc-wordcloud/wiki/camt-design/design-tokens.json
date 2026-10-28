@@ -1,0 +1,132 @@
+{
+  "$schema": "internal/camt-design-tokens",
+  "meta": {
+    "collected": "2026-06-13",
+    "sources": {
+      "brand_pdf": "guideline CAMT logo.pdf (CAMT Brand Identity Guidelines, 15 pages)",
+      "website_global_kit": "https://www.camt.cmu.ac.th/wp-content/uploads/elementor/css/post-9.css",
+      "website_homepage": "https://www.camt.cmu.ac.th/wp-content/uploads/elementor/css/post-35.css"
+    }
+  },
+  "brand": {
+    "concept": { "shape": "hexagon", "identityColor": "copper" },
+    "colors": {
+      "copper": { "hex": "#B8775D", "source": "pdf p.8 (logo 2-tone)" },
+      "brown": { "hex": "#594A41", "source": "pdf p.8 (logo 2-tone)" },
+      "copperGradient": {
+        "pantone": "876 C",
+        "cmykDark": [25, 75, 80, 35],
+        "cmykHighlight": [0, 25, 40, 0],
+        "source": "pdf p.7"
+      },
+      "brownPrint": { "pantone": "7519 C", "cmyk": [55, 60, 65, 40], "source": "pdf p.7" },
+      "orangePrint": { "pantone": "144 C", "cmyk": [0, 50, 100, 0], "source": "pdf p.7" }
+    },
+    "font": { "print": "Quark", "source": "pdf p.9" },
+    "logo": {
+      "preferredLayout": "vertical",
+      "minSizeMm": { "vertical": 15, "horizontal": 25 },
+      "clearSpaceUnit": "height of letter 'A' in logotype",
+      "preferredBackground": "white",
+      "assets": {
+        "svg": "https://www.camt.cmu.ac.th/wp-content/uploads/2024/08/logo-camt.svg",
+        "svgWhite": "https://www.camt.cmu.ac.th/wp-content/uploads/2024/08/logo-camt-white.svg"
+      }
+    }
+  },
+  "website": {
+    "colors": {
+      "primaryText": "#282828",
+      "secondaryText": "#54595F",
+      "mutedText": "#7A7A7A",
+      "accent": "#F48E2E",
+      "accentDeep": "#E86230",
+      "accentLight": "#FF7C4B",
+      "headlineBrown": "#533527",
+      "tabActiveCopper": "#A67763",
+      "sectionCream": "#F0F0E9",
+      "divider": "#F5F5F5",
+      "border": "#E4E4E4",
+      "beige": "#CDC1B1",
+      "cardGreenDark": "#2F4B3C",
+      "cardGreenText": "#0B332D",
+      "ctaNavy": "#06063A",
+      "darkHeading": "#0E0E0E",
+      "shadow15": "#00000026",
+      "pageTransition": "#FFBC7D"
+    },
+    "typography": {
+      "fontFamilies": {
+        "base": "aktiv-grotesk-thai",
+        "thaiBody": "thonglor",
+        "kitDefaults": ["Roboto", "Roboto Slab"]
+      },
+      "baseLineHeight": 1.5,
+      "headingLineHeight": "1.3em",
+      "headingWeight": 500,
+      "headings": {
+        "h1": { "desktop": 56, "tablet": 50, "mobile": 42 },
+        "h2": { "desktop": 48, "tablet": 42, "mobile": 36 },
+        "h3": { "desktop": 40, "tablet": 34, "mobile": 30 },
+        "h4": { "desktop": 32, "tablet": 26, "mobile": 24 },
+        "h5": { "desktop": 24, "tablet": 18, "mobile": 16 },
+        "h6": { "desktop": 16, "tablet": 14, "mobile": 14 }
+      },
+      "display": {
+        "xl": { "desktop": 100, "tablet": 80, "mobile": 68, "weight": 500 },
+        "l": { "desktop": 88, "tablet": 72, "mobile": 60, "weight": 500 },
+        "m": { "desktop": 72, "tablet": 64, "mobile": 54, "weight": 500 }
+      },
+      "bodyPresets": {
+        "thonglorL": { "desktop": 24, "tablet": 20, "mobile": 18 },
+        "thonglorM": { "desktop": 20, "tablet": 16, "mobile": 14 }
+      }
+    },
+    "layout": {
+      "containerMaxWidth": 1312,
+      "wideSectionWidth": 1392,
+      "breakpoints": { "tablet": 1024, "mobile": 767 },
+      "widgetSpacing": 20,
+      "sectionPaddingY": { "desktop": 64, "mobile": 24 },
+      "cardPadding": [24, 28, 32, 35],
+      "gridGaps": [8, 16, 28, 32]
+    },
+    "components": {
+      "card": { "borderRadius": 16 },
+      "buttonSolid": {
+        "background": "#F48E2E", "color": "#FFFFFF",
+        "borderRadius": 4, "padding": "16px 24px", "fontWeight": 500
+      },
+      "buttonPillOutline": {
+        "borderWidth": 1, "borderColor": "#06063A", "borderRadius": 25,
+        "padding": "8px 24px", "fontSize": 18, "fontWeight": 600
+      },
+      "tabPill": {
+        "borderRadius": 50, "fontSize": 18, "fontWeight": 500,
+        "color": "#533527", "activeBackground": "#A67763", "activeColor": "#FFFFFF",
+        "padding": "12px 25px"
+      },
+      "sliderArrow": { "size": 48, "iconSize": 24, "background": "var(accent)" },
+      "paginationDot": { "size": 8 },
+      "modal": { "width": 768, "boxShadow": "2px 8px 23px 3px rgba(0,0,0,0.2)" }
+    }
+  },
+  "proposed_web_angemus": {
+    "note": "mapping ที่เสนอสำหรับ globals.css — ดูเหตุผลใน 03-application-guideline.md",
+    "light": {
+      "--background": "#FAFAF7",
+      "--background-alt": "#F0F0E9",
+      "--foreground": "#282828",
+      "--muted": "#7A7A7A",
+      "--primary": "#B8775D",
+      "--primary-hover": "#A67763",
+      "--secondary": "#594A41",
+      "--heading": "#533527",
+      "--accent": "#F48E2E",
+      "--accent-deep": "#E86230",
+      "--card-bg": "#FFFFFF",
+      "--border-color": "#E4E4E4",
+      "--divider": "#F5F5F5"
+    }
+  }
+}

@@ -95,3 +95,23 @@ public/games/webrtc-wordcloud/
 - **Launcher URL**: `/games/webrtc-wordcloud/index.html`
 - **Modal Mode**: Standalone Fullscreen / Responsive Iframe
 - **Category in Hub**: มัลติเพลเยอร์ / การศึกษา (WebRTC P2P)
+
+---
+
+## 5. Detailed Architecture & Agile Documentation
+
+เอกสารการออกแบบและ Agile จากโปรเจกต์เดิมที่ได้รับการควบรวม:
+- **[Project Index (สารบัญหลัก)](index.md)**
+- **Software Architecture:**
+  - [00-Concept & Architecture](software/00-concept.md)
+  - [01-System Design](software/01-system-design.md)
+  - [02-Class Diagram](software/02-class-diagram.md)
+  - [03-Data Schema](software/03-data-schema.md)
+  - [04-UI/UX & Visual Design](software/04-ui-ux-design.md)
+  - [05-Interactive Mechanics](software/05-interactive-mechanics.md)
+- **Agile Management:**
+  - [01-Product Backlog](agile/01-product-backlog.md)
+  - [02-Sprint Planning](agile/02-sprint-planning.md)
+- **Wiki & Changelog:**
+  - [Project Wiki](wiki/wiki.md)
+  - [Documentation Changelog](changelog.md)
