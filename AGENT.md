@@ -92,6 +92,6 @@ webJS/
 
 ## 🚀 Execution & Verification Commands
 
-- **Run Dev Server & Open Browser (PowerShell)**: `.\start-web.ps1` หรือ `.\run.ps1`
+- **Run Dev Server & Open Browser (PowerShell)**: `pwsh -File scripts/start-web.ps1` หรือ `pwsh -File scripts/run.ps1`
 - **Run Dev Server (NPM)**: `npm run dev` (เปิดใช้งานที่ `http://localhost:3000`)
 - **Check PWA Audit**: เปิด Chrome DevTools > Lighthouse > Select PWA Check

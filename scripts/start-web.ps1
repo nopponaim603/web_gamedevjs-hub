@@ -1,9 +1,9 @@
-﻿# ===================================================
+# ===================================================
 # PowerShell Script สำหรับรัน Next.js GameDevJS Hub
 # ตรวจสอบสภาพแวดล้อมอัตโนมัติ (Node, npm, dependencies, port)
 # ===================================================
 
-$ProjectRoot = $PSScriptRoot
+$ProjectRoot = Split-Path $PSScriptRoot -Parent
 Set-Location $ProjectRoot
 
 Write-Host "==================================================" -ForegroundColor Cyan

@@ -8,6 +8,8 @@ param (
     [switch]$Login
 )
 
+Set-Location (Split-Path $PSScriptRoot -Parent)
+
 Write-Host "==================================================" -ForegroundColor Cyan
 Write-Host " 🚀 ระบบจัดการการ Deploy Next.js ไปยัง Vercel" -ForegroundColor Green
 Write-Host "==================================================" -ForegroundColor Cyan
@@ -34,7 +36,7 @@ else {
     Write-Host " [2] Production (นำขึ้นจริง)" -ForegroundColor Green
     Write-Host " [L] Login (เข้าสู่ระบบ / รีเฟรช Token Vercel)" -ForegroundColor Magenta
     Write-Host " [Q] ยกเลิก" -ForegroundColor Gray
-    
+
     $choice = Read-Host "เลือกตัวเลือก (1/2/L/Q)"
 
     switch ($choice.ToUpper()) {

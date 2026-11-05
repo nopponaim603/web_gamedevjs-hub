@@ -3,6 +3,9 @@
 # Shell Script สำหรับ Deploy ไปยัง Vercel (Linux / macOS / Git Bash)
 # ===================================================
 
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR/.." || exit 1
+
 echo "=================================================="
 echo " 🚀 ระบบจัดการการ Deploy Next.js ไปยัง Vercel"
 echo "=================================================="

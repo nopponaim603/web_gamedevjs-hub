@@ -47,8 +47,11 @@ webJS/
 │   ├── software/               # System Architecture & Diagrams
 │   ├── agile/                  # Backlog, Sprint Plans, Reports
 │   └── wiki/                   # Knowledge Hub & Guidelines
-├── start-web.ps1               # สคริปต์ PowerShell สำหรับรันและเปิดเว็บอัตโนมัติ
-├── run.ps1                     # สคริปต์ทางลัดสำหรับ start-web.ps1
+├── scripts/                    # สคริปต์รันและ Deploy โปรเจค
+│   ├── start-web.ps1           # ตรวจสอบสภาพแวดล้อมและเปิดเว็บ
+│   ├── run.ps1                 # ทางลัดเรียก start-web.ps1
+│   ├── deploy.ps1              # Deploy บน Windows / PowerShell
+│   └── deploy.sh               # Deploy บน Linux / macOS / Git Bash
 ├── vercel.json                 # การตั้งค่า Deployment บน Vercel
 ├── AGENT.md                    # คู่มือสเปคโปรเจคสำหรับ AI Agent
 └── package.json                # NPM configuration & dependencies
@@ -74,12 +77,12 @@ npm install
 ### 2. การเปิดรันโปรเจค (Running the Project)
 
 #### 🟢 วิธีที่ 1: ใช้ PowerShell Script (แนะนำบน Windows 🚀)
-คลิกขวาเปิด PowerShell ในโฟลเดอร์โปรเจค แล้วพิมพ์:
+เรียกจากโฟลเดอร์โปรเจค:
 
 ```powershell
-.\start-web.ps1
+.\scripts\start-web.ps1
 # หรือ
-.\run.ps1
+.\scripts\run.ps1
 ```
 *สคริปต์จะสตาร์ท Next.js Dev Server และเปิดเบราว์เซอร์ไปที่ `http://localhost:3000` โดยอัตโนมัติ*
 
@@ -94,6 +97,16 @@ npm run dev
 ## ☁️ การ Deploy บน Vercel
 
 โปรเจคนี้ได้รับการตั้งค่า `vercel.json` สำหรับ **Vercel** เรียบร้อยแล้ว สามารถนำเข้าโปรเจคบน [Vercel Dashboard](https://vercel.com/new) ได้ทันที โดย Vercel จะตรวจจับ Next.js Framework และตั้งค่าการ Build ให้โดยอัตโนมัติ
+
+สคริปต์ Deploy อยู่ใน `scripts/`:
+
+```powershell
+.\scripts\deploy.ps1
+```
+
+```bash
+./scripts/deploy.sh
+```
 
 ---
 

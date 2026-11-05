@@ -1,5 +1,5 @@
-﻿# ===================================================
+# ===================================================
 # Alias Script สำหรับรัน GameDevJS Hub (start-web.ps1)
 # ===================================================
 
-& "$PSScriptRoot\start-web.ps1" @args
+& (Join-Path $PSScriptRoot "start-web.ps1") @args
