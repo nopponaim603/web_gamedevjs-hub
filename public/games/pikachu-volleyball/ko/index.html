@@ -47,4 +47,15 @@
         });
 
         wb.register();
-      }</script></body></html>
+      }</script><script>
+window.addEventListener('DOMContentLoaded', () => {
+  const tryStart = setInterval(() => {
+    const playBtn = document.getElementById('close-about-btn');
+    if (playBtn) {
+      playBtn.click();
+      clearInterval(tryStart);
+    }
+  }, 100);
+  setTimeout(() => clearInterval(tryStart), 5000);
+});
+</script></body></html>

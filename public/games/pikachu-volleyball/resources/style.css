@@ -544,3 +544,24 @@ input.toggle-switch:checked + label::before {
   left: var(--toggle-ball-left);
   content: '\263E';
 }
+
+/* GameDevJS Hub Adaptation: focus directly on the game view */
+html, body {
+  background-color: #0f172a !important;
+  overflow: hidden;
+}
+#flex-container {
+  height: 100vh !important;
+  max-height: 100vh !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 0 !important;
+}
+#game-canvas-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.if-embedded-in-other-website {
+  display: none !important;
+}
