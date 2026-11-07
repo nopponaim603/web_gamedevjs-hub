@@ -11,6 +11,17 @@ tags:
 # 📜 Documentation Changelog — webJS
 
 
+## [1.46.0] - 2026-11-07
+
+- **⚡ Classic Retro Game Integration: Pikachu Volleyball (`pikachu-volleyball`)**:
+  - ผนวกและติดตั้งเกมในตำนาน **Pikachu Volleyball (対戦ぴかちゅ～ ﾋﾞｰﾁﾊﾞﾚｰ編 - 1997)** ซึ่งถูก Reverse-engineer และพอร์ตมาเป็น Web / PixiJS โดย Kyutae Lee ([gorisanson/pikachu-volleyball](https://github.com/gorisanson/pikachu-volleyball))
+  - ติดตั้งไฟล์ Build Assets, BGM, SFX และ Spritesheets ลงใน `public/games/pikachu-volleyball/`
+  - รองรับโหมดเล่นคนเดียว (สู้กับ AI), โหมดฝึกซ้อม (Practice mode), 2 ผู้เล่นในเครื่องเดียวกัน และรองรับคีย์บอร์ด / โหมดการแสดงผลทั้ง Light/Dark
+  - ลงทะเบียนการ์ดเกมลงในระบบหลัก [`src/app/page.js`](./../src/app/page.js)
+  - อัปเดตเวอร์ชัน Hub เป็น `v1.46.0` (Build #1343) ใน [`public/build.json`](./../public/build.json)
+
+
+
 ## [1.45.0] - 2026-10-09
 
 - **☁️ Hub Feature Integration: CloudWord (G061 - `webrtc-wordcloud`)**:

@@ -440,6 +440,14 @@ const initialGames = [
     gradient: "linear-gradient(135deg, #142525 0%, #D9B878 100%)"
   },
   {
+    id: "pikachu-volleyball",
+    title: "⚡ Pikachu Volleyball (対戦ぴかちゅ～)",
+    category: "ปริศนา / อาเขต",
+    url: "/games/pikachu-volleyball/en/index.html",
+    image: "/games/pikachu-volleyball/thumbnail.png",
+    gradient: "linear-gradient(135deg, #F59E0B 0%, #EF4444 100%)"
+  },
+  {
     id: "rubik-graph",
     title: "🧩 Rubik's Graph Theory (Cayley State Space)",
     category: "Three.js 3D Engine",
