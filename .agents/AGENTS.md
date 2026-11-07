@@ -1,6 +1,6 @@
-# 🤖 AGENT.md — Workspace Customizations Root Guidance
+# 🤖 AGENTS.md — Workspace Customizations Root Guidance
 
-See primary workspace guidance at [AGENT.md](../AGENT.md).
+See primary workspace guidance at [AGENTS.md](../AGENTS.md).
 
 ## 🧩 Central Agent Skills & Workflows (.agents/skills)
 โฟลเดอร์ `.agents/` เป็นศูนย์กลางการควบคุมพฤติกรรม ทักษะ (Skills) และแนวทางการพัฒนาสำหรับทุก AI Agent (Antigravity, Gemini, Claude, Cursor, Codex ฯลฯ)
