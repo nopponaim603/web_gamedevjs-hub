@@ -68,6 +68,7 @@ webJS/
   - **Babylon.js**: Real-time 3D WebGL Rendering, PBR Materials, Lighting, Physics & Camera
 - **Framework Dev Server**: Next.js (`npm run dev` / `next dev`)
 - **Hosting / CI/CD**: Vercel Ready (`vercel.json`)
+- **Universal Agent Hub**: `.agents/` (Playbooks, Skills, Principles จาก Poteto/Pstack และ Game Dev Skills สำหรับทุก AI Agent)
 
 ---
 
