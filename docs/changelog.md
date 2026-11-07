@@ -11,6 +11,19 @@ tags:
 # 📜 Documentation Changelog — webJS
 
 
+## [1.47.0] - 2026-11-07
+
+- **🏗️ Web Architecture Overhaul (Poteto Mode & Clean Software Design)**:
+  - ดำเนินการ Refactor โครงสร้างระบบหลักของเว็บตามหลักการ **Poteto Mode (PStack Architecture Principles)**:
+    - **Model the Domain**: แยก Master Game Catalog และชุดข้อมูล Categories ออกเป็นโมดูล [`src/data/games.js`](../src/data/games.js)
+    - **Boundary Discipline**: ดึง Reactive Search & Filtering State ออกไปจัดการผ่าน Custom Hook [`src/hooks/useGameCatalog.js`](../src/hooks/useGameCatalog.js)
+    - **Minimize Reader Load**: ยุบ JSX ซ้ำซ้อนของแต่ละกลุ่ม Engine และหมวดหมู่ ออกเป็น Reusable Component [`src/components/CategorySection.jsx`](../src/components/CategorySection.jsx) ส่งผลให้ [`src/app/page.js`](../src/app/page.js) ลดลงจาก 677 บรรทัดเหลือ ~170 บรรทัด
+    - **Prove It Works**: ยืนยันการคอมไพล์และ Static Export ผ่าน `npm run build` สมบูรณ์ 100%
+  - อัปเดตเอกสารสถาปัตยกรรมซอฟต์แวร์ตามมาตรฐาน `game-doc-manager`:
+    - [`docs/software/01-system-design.md`](./software/01-system-design.md): ปรับแผนผัง Subsystem และ Architecture ให้เป็น Next.js App Router + Multi-Engine
+    - [`docs/software/02-class-diagram.md`](./software/02-class-diagram.md): ปรับ Sequence Diagram และ Class Diagram สอดคล้องกับ Domain Model และ Component Hooks
+    - [`docs/software/03-data-schema.md`](./software/03-data-schema.md): กำหนด Data Schema สำหรับ `GameItem`, `categories` และ `useGameCatalog`
+
 ## [1.46.0] - 2026-11-07
 
 - **⚡ Classic Retro Game Integration: Pikachu Volleyball (`pikachu-volleyball`)**:

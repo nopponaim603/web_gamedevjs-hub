@@ -1,76 +1,97 @@
 ---
-title: "Software System Design — webJS Game Portfolio"
+title: "Software System Design — GameDevJS Hub"
 project: "GameDevJS Hub (webJS)"
-version: "1.1.0"
-last_updated: "2026-07-28"
+version: "1.47.0"
+last_updated: "2026-11-07"
 owner: "Noppon / Dev Team"
 status: "Active"
 tags:
   - software
+  - architecture
+  - nextjs
 ---
-# Software System Design — webJS Game Portfolio
-
+# Software System Design — GameDevJS Hub
 
 ---
 
 ## 1. System Architecture Overview
 
-โปรเจค `webJS` ถูกออกแบบให้เป็น **Single Page Portfolio App (SPA-style)** ที่ทำหน้าที่เป็น Container หลักในการจัดการ ค้นหา กรอง และโหลดมินิเกมแยกแต่ละไดเรกทอรีผ่าน HTML5 Iframe Modal Architecture พร้อมระบบจัดการข้อมูลส่วนกลาง (Global Storage Controller) สำหรับรับและบันทึกคะแนนสูงสุด (High Score) แบบเรียลไทม์
+`web_gamedevjs-hub` (GameDevJS Hub) ถูกพัฒนาขึ้นบนสถาปัตยกรรม **Next.js (App Router)** พร้อมความสามารถ **Progressive Web App (PWA)** รองรับการรันแบบ Standalone Offline และมีระบบ **Multi-Engine Game Launcher** ที่รองรับทั้ง HTML5 Canvas, Phaser 3, Babylon.js และ Three.js/WebGPU
+
+โครงสร้างของระบบถูกปรับปรุงตามหลักการของ **Poteto Mode (PStack Architecture Principles)**:
+- **Model the Domain**: แยกชุดข้อมูล Master Game Catalog และประเภทหมวดหมู่ไว้ที่ [`src/data/games.js`](../../src/data/games.js)
+- **Boundary Discipline**: ควบคุม State การค้นหา การกรอง และการเปิดเล่นเกมผ่าน Custom Hook [`src/hooks/useGameCatalog.js`](../../src/hooks/useGameCatalog.js)
+- **Minimize Reader Load**: สกัด Section แสดงผลการ์ดเกมแต่ละหมวดหมู่ออกเป็น Reusable Component [`src/components/CategorySection.jsx`](../../src/components/CategorySection.jsx) ส่งผลให้หน้าหลัก [`src/app/page.js`](../../src/app/page.js) กระชับและชัดเจน
 
 ---
 
-## 2. Core Subsystems
+## 2. Core Subsystems & Architecture
 
 ```mermaid
-graph LR
-    subgraph ClientHostLayer["Client Host Layer"]
-        UI["DOM View / CSS Grid"]
-        Controller["script.js Controller"]
-        Storage["LocalStorage & HighScore Manager"]
+graph TD
+    subgraph ViewLayer["View & Presentation Layer (Next.js App Router)"]
+        Layout["src/app/layout.js (PWA Meta & Shell)"]
+        Page["src/app/page.js (Main Dashboard)"]
+        Header["src/components/Header.jsx (Search Bar & Brand)"]
+        Section["src/components/CategorySection.jsx (Engine/Category Grids)"]
+        Card["src/components/GameCard.jsx (Preview & Launch Trigger)"]
+        Modal["src/components/GameModal.jsx (Iframe Launcher Modal)"]
+        PWA["src/components/PWAInstallButton.jsx"]
     end
 
-    subgraph GamesLayer["Games Layer (Iframe Containers)"]
-        G1["Emoji Match Module"]
-        G2["2048 Cubes Module"]
-        G3["Tile Match Module"]
-        G4["Phaser / Babylon Modules"]
+    subgraph LogicLayer["Domain Logic & State Layer"]
+        Hook["src/hooks/useGameCatalog.js (Catalog & Filter State)"]
     end
 
-    subgraph WebServerLayer["Web Server Layer"]
-        Server["server.js - Node.js HTTP Server"]
+    subgraph DataLayer["Domain Data Layer"]
+        Data["src/data/games.js (Master Game Registry & Categories)"]
     end
 
-    UI <--> Controller
-    Controller <--> Storage
-    G1 -- postMessage Event --> Controller
-    G2 -- postMessage Event --> Controller
-    G3 -- postMessage Event --> Controller
-    G4 -- postMessage Event --> Controller
-    Controller -->|Loads via Iframe Modal| G1
-    Controller -->|Loads via Iframe Modal| G2
-    Controller -->|Loads via Iframe Modal| G3
-    Controller -->|Loads via Iframe Modal| G4
-    Server -->|Serves Static Files| UI
+    subgraph EngineLayer["Multi-Engine & Static Games Layer"]
+        Games["public/games/* (Standalone HTML/Canvas/Engine Bundles)"]
+        Engines["engines/ (Engine Adapters: Base, Phaser, Babylon)"]
+    end
+
+    Layout --> Page
+    Page --> Header
+    Page --> Hook
+    Page --> Section
+    Page --> Modal
+    Page --> PWA
+    Section --> Card
+    Hook --> Data
+    Modal --> Games
+    Modal -.-> Engines
 ```
 
 ---
 
 ## 3. Subsystem Breakdown
 
-### 3.1 Portfolio Controller (`script.js`)
-- **Card Grid Rendering**: สร้าง HTML Elements สำหรับการ์ดเกมจากโครงสร้างข้อมูล `gamesData` ([US-01-01](../agile/user-stories/US-01-01-portfolio-cards.md))
-- **Filtering & Search System**: กรองรายการเกมตาม Category หรือคำค้นหาใน Search Bar แบบ Real-Time ([US-01-03](../agile/user-stories/US-01-03-search-filter.md))
-- **Modal Manager**: จัดการเปิด/ปิด Iframe Modal พร้อมส่ง Keyboard Events (`Space`, `F`, `Esc`) ([US-01-02](../agile/user-stories/US-01-02-modal-loader.md))
-- **Cross-Iframe Event Listener**: ดักรับ `message` events จากมินิเกมผ่าน `window.addEventListener('message', ...)` เพื่อรับค่าคะแนน
+### 3.1 Domain Data Model (`src/data/games.js`)
+- รวบรวมรายชื่อเกม สังกัดหมวดหมู่ URL รูปภาพหน้าปก และสี Gradient ประจำเกม
+- รองรับการจัดกลุ่มตามประเภทเทคโนโลยี:
+  - `ปริศนา / ฝึกสมอง / ฟิสิกส์` (HTML5 Canvas & Vanilla JS)
+  - `กระดาน / วางกลยุทธ์`
+  - `Phaser 2D Engine` (Phaser 3)
+  - `Babylon.js 3D Engine` (Babylon.js WebGL)
+  - `Three.js & WebGPU 3D Engine` (Three.js, WebGL 2, WGSL Shaders)
 
-### 3.2 High Score & LocalStorage Manager Subsystem
-- **Score Persistence Manager**: บันทึกและดึงคะแนนสูงสุดของแต่ละเกมผ่าน Browser `localStorage` ([US-03-01](../agile/01-product-backlog.md))
-- **High Score Validation**: ตรวจสอบว่าคะแนนใหม่สูงกว่าคะแนนเดิมหรือไม่ หากสูงกว่า จะทำการอัปเดตลง storage และแสดง Badge สรุปสถิติบนการ์ดเกม
+### 3.2 Catalog State Controller (`src/hooks/useGameCatalog.js`)
+- จัดการ Reactive State: `searchKeyword`, `selectedCategory`, และ `activeGame`
+- ประมวลผล Filtering แบบ Real-time ผ่าน `useMemo` เพื่อประสิทธิภาพในการ Render
 
-### 3.3 Native HTTP Server (`server.js`) ([US-03-02](../agile/01-product-backlog.md))
-- **Zero-Dependency Native Server**: พัฒนาด้วย Node.js Built-in Modules (`http`, `fs`, `path`, `url`) โดยไม่ต้องติดตั้ง npm packages ภายนอก
-- **MIME Type Handling**: รองรับการส่งไฟล์ `.html`, `.css`, `.js`, `.json`, `.png`, `.jpg`, `.svg`, `.wasm`
-- **Automatic Port Fallback**: หาก Port `5500` ไม่ว่าง ระบบจะสลับไปใช้ Port ถัดไปโดยอัตโนมัติ
+### 3.3 Modular Section Component (`src/components/CategorySection.jsx`)
+- Component สำหรับ Render ส่วนแสดงผลเกมของแต่ละหมวดหมู่ มีการคำนวณจำนวนเกมและ Badge สีเฉพาะของแต่ละ Engine อัตโนมัติ
+
+### 3.4 Game Modal Launcher (`src/components/GameModal.jsx`)
+- Sandbox Container ทำหน้าที่รันเกมผ่าน HTML5 Iframe Isolation
+- ควบคุมการเปิด/ปิด Fullscreen, รองรับคีย์ลัด (ESC เพื่อปิด), และป้องกัน Event Leaks ออกมายังหน้าหลัก
+
+### 3.5 Progressive Web App (PWA) Layer
+- `public/sw.js`: Service Worker สำหรับ Offline Caching
+- `public/manifest.json`: กำหนด App Name, Icons, Display Mode (Standalone)
+- `src/components/PWAInstallButton.jsx`: จัดการ Event `beforeinstallprompt`
 
 ---
 
@@ -79,3 +100,4 @@ graph LR
 - Class Diagrams: [Class Diagram & Data Flow](./02-class-diagram.md)
 - Data Schema: [Data Schema & Persistence](./03-data-schema.md)
 - Product Backlog: [Product Backlog](../agile/01-product-backlog.md)
+- Master Index: [Documentation Master Index](../index.md)

@@ -1,118 +1,112 @@
 ---
-title: "Software Class Diagram & Flow — webJS Game Portfolio"
+title: "Software Class Diagram & Flow — GameDevJS Hub"
 project: "GameDevJS Hub (webJS)"
-version: "1.1.0"
-last_updated: "2026-07-28"
+version: "1.47.0"
+last_updated: "2026-11-07"
 owner: "Noppon / Dev Team"
 status: "Active"
 tags:
   - software
+  - architecture
+  - uml
 ---
-# Software Class Diagram & Flow — webJS Game Portfolio
-
+# Software Class Diagram & Flow — GameDevJS Hub
 
 ---
 
-## 1. Portfolio Data Flow & High Score Sequence Diagram
+## 1. Hub Interaction Sequence Diagram
 
 ```mermaid
 sequenceDiagram
     autonumber
     actor Player
-    participant UI as "Portfolio UI (index.html)"
-    participant JS as "PortfolioApp Controller (script.js)"
-    participant Modal as "Modal Iframe Component"
-    participant Game as "Target Game (e.g. tile-match)"
-    participant Storage as "HighScoreManager (LocalStorage)"
+    participant Page as "src/app/page.js"
+    participant Hook as "useGameCatalog Hook"
+    participant Section as "CategorySection.jsx"
+    participant Modal as "GameModal.jsx"
+    participant TargetGame as "Target Game (public/games/*)"
 
-    Player->>UI: Opens Portfolio Site
-    UI->>JS: Init Portfolio (load gamesData & highScores)
-    JS->>Storage: getHighScores()
-    Storage-->>JS: Return stored scores JSON
-    JS->>UI: Render Game Cards Grid with HighScore Badges
-    
-    Player->>UI: Click "Play" on Game Card
-    UI->>JS: openGameModal(gameId)
-    JS->>Modal: Create/Show Iframe Modal with Game URL
-    Modal->>Game: Load game index.html & game.js
-    Game-->>Modal: Game Initialized
-    
-    Player->>Game: Plays Game & Reaches High Score
-    Game->>JS: window.parent.postMessage({ type: 'WEBJS_HIGH_SCORE', gameId, score }, '*')
-    JS->>Storage: saveHighScore(gameId, score)
-    Storage->>Storage: Compare & Save to localStorage
-    Storage-->>JS: High Score Updated (isNewRecord: true)
-    JS->>UI: Update High Score Badge on Portfolio Card
-    
-    Player->>UI: Press ESC / Click Close
-    UI->>JS: closeGameModal()
-    JS->>Modal: Hide & Unload Iframe
+    Player->>Page: เปิดหน้าเว็บ Hub
+    Page->>Hook: เรียกใช้งาน useGameCatalog()
+    Hook-->>Page: ส่งคืน { games, filteredGames, activeGame, filter state }
+    Page->>Section: Render หมวดหมู่เกมผ่าน CategorySection
+    Section-->>Player: แสดงผลการ์ดเกมตามหมวดหมู่ (Phaser, Babylon, Three.js, etc.)
+
+    Player->>Section: คลิกปุ่ม "Play" บน GameCard
+    Section->>Hook: setActiveGame(game)
+    Hook-->>Page: trigger re-render with activeGame
+    Page->>Modal: Render GameModal(activeGame)
+    Modal->>TargetGame: โหลด iframe URL ของเกมที่เลือก
+    TargetGame-->>Modal: Game loaded & ready
+
+    Player->>Modal: เล่นเกมเสร็จ / กด ESC / คลิกปิด
+    Modal->>Hook: setActiveGame(null)
+    Hook-->>Page: ปิด Modal และเคลียร์ iframe sandbox
 ```
 
 ---
 
-## 2. Component Class Diagram
+## 2. Component & Architecture Class Diagram
 
 ```mermaid
 classDiagram
-    class GameDataModel {
+    class GameItem {
         +String id
         +String title
         +String category
         +String url
-        +String aspectRatio
         +String image
         +String gradient
-        +Number highScore
+        +String aspectRatio
     }
 
-    class PortfolioApp {
-        -Array~GameDataModel~ gamesData
-        -HTMLElement container
-        -HTMLElement modalContainer
-        -HighScoreManager highScoreManager
-        -AudioEngine audioEngine
-        +init()
-        +renderCards(games)
-        +filterByCategory(category)
-        +searchGames(keyword)
-        +openGameModal(gameId)
-        +closeGameModal()
-        +setupKeyboardShortcuts()
-        +listenForGameMessages()
+    class UseGameCatalogHook {
+        +Array~GameItem~ games
+        +Array~GameItem~ filteredGames
+        +String searchKeyword
+        +String selectedCategory
+        +GameItem activeGame
+        +setSearchKeyword(keyword)
+        +setSelectedCategory(category)
+        +setActiveGame(game)
     }
 
-    class HighScoreManager {
-        -String storageKey
-        +getHighScore(gameId) Number
-        +saveHighScore(gameId, score) Boolean
-        +getAllHighScores() Object
-        +clearHighScores()
+    class HomePage {
+        +render()
     }
 
-    class AudioEngine {
-        -AudioContext audioCtx
-        +playSynthSFX(type)
-        +toggleMute()
+    class CategorySectionComponent {
+        +String title
+        +String icon
+        +Array~GameItem~ games
+        +Function filterFn
+        +String badgeColor
+        +Function onPlay
+        +render()
     }
 
-    class GameInstance {
-        +String gameId
-        +Number score
-        +initGame()
-        +update()
-        +sendScoreToParent(score)
+    class GameCardComponent {
+        +GameItem game
+        +Function onPlay
+        +render()
     }
 
-    PortfolioApp "1" o-- "*" GameDataModel : manages
-    PortfolioApp "1" o-- "1" HighScoreManager : uses
-    PortfolioApp "1" o-- "1" AudioEngine : uses
-    PortfolioApp ..> GameInstance : launches & receives postMessage
+    class GameModalComponent {
+        +GameItem game
+        +Function onClose
+        +render()
+    }
+
+    HomePage --> UseGameCatalogHook : uses
+    HomePage --> CategorySectionComponent : renders
+    CategorySectionComponent --> GameCardComponent : renders
+    HomePage --> GameModalComponent : opens on activeGame
+    UseGameCatalogHook --> GameItem : manages
 ```
 
 ---
 
 ## Related Documents
-- System Design: [Subsystem Breakdown](./01-system-design.md)
-- Data Schema: [Data Structures & Persistence](./03-data-schema.md)
-- Backlog: [Product Backlog](../agile/01-product-backlog.md)
+- System Design: [Software System Design](./01-system-design.md)
+- Data Schema: [Data Schema & Persistence](./03-data-schema.md)
+- Master Index: [Documentation Master Index](../index.md)

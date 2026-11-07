@@ -1,70 +1,88 @@
 ---
-title: "Data Schema & Persistence — webJS Game Portfolio"
+title: "Data Schema & Persistence — GameDevJS Hub"
 project: "GameDevJS Hub (webJS)"
-version: "1.1.0"
-last_updated: "2026-07-28"
+version: "1.47.0"
+last_updated: "2026-11-07"
 owner: "Noppon / Dev Team"
 status: "Active"
 tags:
   - software
+  - schema
+  - types
 ---
-# Data Schema & Persistence — webJS Game Portfolio
-
+# Data Schema & Persistence — GameDevJS Hub
 
 ---
 
-## 1. Portfolio Game Registry Data Schema (`script.js`)
+## 1. Game Catalog Domain Schema (`src/data/games.js`)
+
+ข้อมูลเกมทั้งหมดของ Hub ถูกกำหนดโครงสร้างตามโมเดล Domain ต่อไปนี้:
 
 ```typescript
-interface GameItem {
-    id: string | number;         // รหัสประจำเกม (e.g. "emoji-match", "2048-cubes", "tile-match")
-    title: string;               // ชื่อเกม
-    category: string;            // หมวดหมู่เกม (e.g. "ปริศนา / ฝึกสมอง", "ปริศนา / ฟิสิกส์")
-    url?: string;                // เส้นทางไฟล์ HTML ของเกม (e.g. "emoji-match/index.html")
-    aspectRatio?: string;        // อัตราส่วนหน้าจอของ Modal Iframe (e.g. "390 / 480", "1 / 1.5")
-    image: string;               // URL รูปภาพปกการ์ดเกม
-    gradient: string;            // CSS Gradient background
-    highScore?: number;          // คะแนนสูงสุดที่ดึงมาจาก LocalStorage
+export interface GameItem {
+    id: string;               // รหัสประจำเกม (e.g. "pong-wars", "ocean-frenzy", "cyber-sphere")
+    title: string;            // ชื่อเกมสำหรับแสดงผล (e.g. "⚔️ Dynamic Pong Wars")
+    category: string;         // หมวดหมู่และ Engine (e.g. "ปริศนา / ฟิสิกส์", "Phaser 2D Engine", "Three.js 3D Engine")
+    url: string;              // พาธไปยังไฟล์เกมใน public/games/ (e.g. "/games/pong-wars/index.html")
+    image: string;            // ภาพหน้าปก Thumbnail (Local path หรือ Unsplash URL)
+    gradient: string;         // รหัส CSS Linear Gradient สำหรับ Background Styling
+    aspectRatio?: string;     // อัตราส่วนหน้าจอของ Modal Container (optional)
+}
+```
+
+### 1.1 Category Master List
+```javascript
+export const categories = [
+  "ทั้งหมด",
+  "ปริศนา",
+  "กระดาน",
+  "Phaser 2D",
+  "Babylon 3D",
+  "Three.js 3D"
+];
+```
+
+---
+
+## 2. Hook State Schema (`src/hooks/useGameCatalog.js`)
+
+```typescript
+interface GameCatalogState {
+    games: GameItem[];
+    filteredGames: GameItem[];
+    searchKeyword: string;
+    setSearchKeyword: (keyword: string) => void;
+    selectedCategory: string;
+    setSelectedCategory: (category: string) => void;
+    activeGame: GameItem | null;
+    setActiveGame: (game: GameItem | null) => void;
 }
 ```
 
 ---
 
-## 2. Cross-Iframe Message Payload Schema (`window.postMessage`)
-
-เมื่อมินิเกมทำงานเสร็จสิ้นหรือทำคะแนนใหม่ มินิเกมจะส่ง Payload ในรูปแบบต่อไปนี้ไปยัง Host Window (`script.js`):
-
-```typescript
-interface HighScoreMessagePayload {
-    type: 'WEBJS_HIGH_SCORE_UPDATE';  // Identifies postMessage event type
-    gameId: string;                    // รหัสประจำเกม (e.g. "emoji-match")
-    score: number;                     // คะแนนล่าสุดที่ทำได้ในเกม
-    timestamp?: number;                // UNIX timestamp
-}
-```
-
----
-
-## 3. LocalStorage Persistence Schema
-
-ระบบบันทึกคะแนนและตั้งค่าของผู้ใช้จะบันทึกลงใน Browser `localStorage` ภายใต้ Key หลัก `webjs_highscores` และ `webjs_settings`:
+## 3. PWA Web App Manifest Schema (`public/manifest.json`)
 
 ```json
 {
-  "webjs_settings": {
-    "theme": "dark",
-    "soundMuted": false,
-    "recentPlayed": ["tile-match", "emoji-match", "2048-cubes"]
-  },
-  "webjs_highscores": {
-    "emoji-match": 1420,
-    "2048-cubes": 8192,
-    "tile-match": 3500,
-    "space-shooter": 12500,
-    "cyber-sphere": 4800,
-    "match3": 9600,
-    "3d-platformer": 520
-  }
+  "name": "GameDevJS Hub — HTML5 & Multi-Engine Games",
+  "short_name": "GameDevJS",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0e17",
+  "theme_color": "#00F2FE",
+  "icons": [
+    {
+      "src": "/assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }
 ```
 
@@ -73,4 +91,4 @@ interface HighScoreMessagePayload {
 ## Related Documents
 - System Design: [Software System Design](./01-system-design.md)
 - Class Diagram: [Class Diagram & Data Flow](./02-class-diagram.md)
-- Product Backlog: [Product Backlog](../agile/01-product-backlog.md)
+- Master Index: [Documentation Master Index](../index.md)
